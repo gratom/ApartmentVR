@@ -8,7 +8,7 @@ using UnityEngine;
 public static class JSONInterpritator 
 {
 
-    public static AbstractObjectConstructable GetStringValueByID(App appData, AbstractObjectConstructable AOC, int ItemID)
+    public static AbstractObjectConstructable<TypeElement> GetStringValueByID<TypeElement>(App appData, AbstractObjectConstructable<TypeElement> AOC, int ItemID) where TypeElement : struct, System.IConvertible 
     {
         for (int i = 0; i < AOC.ComponentsDataList.Count; i++) // для каждого элемента в объекте
         {

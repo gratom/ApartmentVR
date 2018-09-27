@@ -16,6 +16,14 @@ public enum SceneChangebleObjectTypes
 public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleObjectTypes>
 {
 
+    public int ID { get; private set; }
+    public string ChangebleObjectName { get; private set; }
+    public string ChangebleObjectType { get; private set; }
+    public string RealGudHubURL { get; private set; }
+    public string URLName { get; private set; }
+
+    private AssetBundle AssetBundleInstance;
+
     #region public override functions
 
     public override void InitDictionary()

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class AbstractObjectConstructableComponentData <TypeElement> where TypeElement : class
+public class AbstractObjectConstructableComponentData<TypeElement> where TypeElement : struct, System.IConvertible
 {
     public TypeElement valueType;
     public int IdField;
     public string StringValue;
 }
 
-public abstract class AbstractObjectConstructable <TypeElement> : MonoBehaviour where TypeElement : class
+public abstract class AbstractObjectConstructable <TypeElement> : MonoBehaviour where TypeElement : struct, System.IConvertible
 {
 
     protected delegate void InitFunctions(int num);
@@ -37,7 +37,7 @@ public abstract class AbstractObjectConstructable <TypeElement> : MonoBehaviour 
     {
         for (int i = 0; i < ComponentsDataList.Count; i++)
         {
-            if (ComponentsDataList[i].valueType == VType)
+            if (ComponentsDataList[i].valueType.Equals(VType))
             {
                 return ComponentsDataList[i];
             }

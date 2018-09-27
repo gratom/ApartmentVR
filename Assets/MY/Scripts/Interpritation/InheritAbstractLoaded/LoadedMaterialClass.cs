@@ -10,7 +10,7 @@ public enum LoadedMaterialClassTypes
     ForItemsWithID
 }
 
-public class LoadedMaterialClass : AbstractObjectConstructable <LoadedMaterialClassTypes>
+public class LoadedMaterialClass : AbstractObjectConstructable <LoadedMaterialClassTypes>, IAssetBundleLoadeble
 {
 
     public int ID { get; private set; }
@@ -55,23 +55,35 @@ public class LoadedMaterialClass : AbstractObjectConstructable <LoadedMaterialCl
 
     private void LoadAssetBundleFromURL(int num)
     {
-
+        StartLoadAssetBundle();
     }
 
     private void InitName(int num)
     {
-
+        LoadedMaterialName = ComponentsDataList[num].StringValue;
     }
 
     private void InitID(int num)
     {
-
+        try
+        {
+            ID = int.Parse(ComponentsDataList[num].StringValue);
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(this.ToString() + e);
+        }
     }
 
     private void InitListOfItemsFor(int num)
     {
-
+        //TO DO: сделать парсинг для определения принадлежности
     }
 
     #endregion
+
+    public void StartLoadAssetBundle()
+    {
+
+    }
 }

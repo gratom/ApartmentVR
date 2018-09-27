@@ -13,7 +13,7 @@ public enum SceneChangebleObjectTypes
 /// <summary>
 /// Class for changeble object on scene.
 /// </summary>
-public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleObjectTypes>
+public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleObjectTypes>, IAssetBundleLoadeble
 {
 
     public int ID { get; private set; }
@@ -58,24 +58,36 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
 
     private void LoadAssetBundleFromURL(int num)
     {
-
+        StartLoadAssetBundle();
     }
 
     private void InitName(int num)
     {
-
+        ChangebleObjectName = ComponentsDataList[num].StringValue;
     }
 
     private void InitID(int num)
     {
-
+        try
+        {
+            ID = int.Parse(ComponentsDataList[num].StringValue);
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(this.ToString() + e);
+        }
     }
 
     private void InitTypeObject(int num)
     {
-
+        ChangebleObjectType = ComponentsDataList[num].StringValue;
     }
 
     #endregion
+
+    public void StartLoadAssetBundle()
+    {
+        throw new System.NotImplementedException();
+    }
 
 }

@@ -40,6 +40,12 @@ public class AssetBundleLoaderManager : MonoBehaviour
     public AssetBundleLoaderSetting Setting;
 
     #region Unity functions
+
+    void Awake()
+    {
+        Initialize();
+    }
+
     #endregion
 
     #region public functions
@@ -52,6 +58,15 @@ public class AssetBundleLoaderManager : MonoBehaviour
     #endregion
 
     #region private functions
+
+    private void Initialize()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
     #endregion
 
 }

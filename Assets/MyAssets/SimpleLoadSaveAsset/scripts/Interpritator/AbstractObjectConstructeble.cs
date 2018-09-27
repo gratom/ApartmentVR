@@ -3,25 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class AbstractObjectConstructableComponentData
+public class AbstractObjectConstructableComponentData <TypeElement> where TypeElement : class
 {
-    public enum ValueType
-    {
-        type1,
-        type2,
-        type3,
-        type4
-    }    
-    public ValueType valueType;
+    public TypeElement valueType;
     public int IdField;
     public string StringValue;
 }
 
-public abstract class AbstractObjectConstructable : MonoBehaviour
+public abstract class AbstractObjectConstructable <TypeElement> : MonoBehaviour where TypeElement : class
 {
 
-    public List<AbstractObjectConstructableComponentData> ComponentsDataList;
+    protected delegate void InitFunctions(int num);
+    protected static Dictionary<TypeElement, InitFunctions> FunctionsDictionary;
 
+    public List<AbstractObjectConstructableComponentData<TypeElement>> ComponentsDataList;
+
+    /// <summary>
+    /// The Initializing functions. Make the initialization by data from ComponentsDataList.
+    /// </summary>
     public abstract void InitConstruct();
+
+    /// <summary>
+    /// Use this BEFORE initializating. This function make the inner cohesion in class instance 
+    /// </summary>
+    public abstract void InitDictionary();
+
+    /// <summary>
+    /// Get the AbstractObjectConstructableComponentData class by type of data in this class
+    /// </summary>
+    /// <param name="VType">Type of data in this class</param>
+    /// <returns>The AbstractObjectConstructableComponentData class instance</returns>
+    public AbstractObjectConstructableComponentData<TypeElement> GetDataByType(TypeElement VType)
+    {
+        for (int i = 0; i < ComponentsDataList.Count; i++)
+        {
+            if (ComponentsDataList[i].valueType == VType)
+            {
+                return ComponentsDataList[i];
+            }
+        }
+        return null;
+    }
 
 }

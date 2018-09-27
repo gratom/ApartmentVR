@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestOverrideObj : AbstractObjectConstructable {
-
-    public override void InitConstruct()
-    {
-        
-    }
-
+public class TestOverrideObj
+{
+   
 }

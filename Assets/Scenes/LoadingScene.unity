@@ -997,6 +997,9 @@ MonoBehaviour:
       LocalStorageString: 
     Key: 7T6VDBItNhXymNla7A5iVSv4Cn%2F71gfam2PDIgzVn7B4wQ8FhWGa4dhfSsWt327fUu6XQHmrPjEi%0AmDSyxeQJI%2FRRYGjkU77b%2F7tz3twFxRc%3D
     AccessToken: 
+  AssetBundleLoaderSettingInstance:
+    DataStoragePath: LoadedAssetBundles/
+    MaxCountOfLoadingTread: 10
   SceneLoadAfterLoading: TestMenuScene
 --- !u!1 &2085452252
 GameObject:

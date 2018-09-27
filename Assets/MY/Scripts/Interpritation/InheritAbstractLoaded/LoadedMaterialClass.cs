@@ -13,6 +13,14 @@ public enum LoadedMaterialClassTypes
 public class LoadedMaterialClass : AbstractObjectConstructable <LoadedMaterialClassTypes>
 {
 
+    public int ID { get; private set; }
+    public string LoadedMaterialName { get; private set; }
+    public List<string> ListOfItemsFor  { get; private set; }
+    public string RealGudHubURL { get; private set; }
+    public string URLName { get; private set; }
+
+    private AssetBundle AssetBundleInstance; 
+
     #region public override functions
 
     public override void InitDictionary()

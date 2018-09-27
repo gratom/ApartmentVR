@@ -10,7 +10,9 @@ public class Loader : MonoBehaviour
     /// </summary>
     public static Loader Instance { get; private set; }
 
-    public AppDataLoader AppDataLoaderInstance; 
+    public AppDataLoader AppDataLoaderInstance;
+
+    public AssetBundleLoaderSetting AssetBundleLoaderSettingInstance;
 
     public string SceneLoadAfterLoading;
 
@@ -39,6 +41,7 @@ public class Loader : MonoBehaviour
         LoadingVisualizer.Instance.counter++;
         GameObject managersMainGameObject = new GameObject("Managers");
         DontDestroyOnLoad(managersMainGameObject);
+
         yield return new WaitForSeconds(0.1f);
         GameObject JSONManagerGameObject = new GameObject("JSONManagerGameObject");
         JSONManagerGameObject.transform.parent = managersMainGameObject.transform;
@@ -62,6 +65,12 @@ public class Loader : MonoBehaviour
             JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[i].requestsModule.AddDelegate(RequestsModule.RequestEvents.AppDataOK, AppDataLoaded);
             JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[i].requestsModule.AddDelegate(RequestsModule.RequestEvents.AppDataFailed, ErrorEvent);
         }
+
+        //create loader assetBundle
+        GameObject AssetBundleLoaderManager = new GameObject("AssetBundleLoaderManager");
+        AssetBundleLoaderManager.transform.parent = managersMainGameObject.transform;
+        AssetBundleLoaderManager.AddComponent<AssetBundleLoaderManager>();
+        AssetBundleLoaderManager.GetComponent<AssetBundleLoaderManager>().Setting = AssetBundleLoaderSettingInstance;
 
         while (!JSONMainManager.Instance.IsReady)
         {

@@ -5,12 +5,14 @@ using UnityEngine;
 public class SceneLoaderManager : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+    {
 		
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+    {
 		
 	}
 }

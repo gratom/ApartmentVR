@@ -67,7 +67,7 @@ public class AppSetting
 }
 
 /// <summary>
-/// Setting class for 
+/// Setting class for JSONMainManager
 /// </summary>
 [System.Serializable]
 public class AppDataLoader

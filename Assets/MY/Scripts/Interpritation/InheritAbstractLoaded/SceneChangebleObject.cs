@@ -21,6 +21,7 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     public string ChangebleObjectType { get; private set; }
     public string RealGudHubURL { get; private set; }
     public string URLName { get; private set; }
+    public GameObject AssetGameObject;
 
     private AssetBundle AssetBundleInstance;
 
@@ -87,7 +88,12 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
 
     public void StartLoadAssetBundle()
     {
-        throw new System.NotImplementedException();
+        string path = Application.dataPath;
+        path = path.Substring(0, path.LastIndexOf('/'));
+        path += AssetBundleLoaderManager.Instance.Setting.DataStoragePath;
+        AssetBundleInstance = AssetBundle.LoadFromFile(path + URLName);
+        AssetGameObject = Instantiate((GameObject)AssetBundleInstance.LoadAsset(AssetBundleInstance.GetAllAssetNames()[0]), this.transform);
+        AssetGameObject.transform.localPosition = new Vector3(0, 0, 0);
     }
 
 }

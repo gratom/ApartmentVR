@@ -10,6 +10,7 @@ public class AbstractObjectConstructableComponentData<TypeElement> where TypeEle
     public string StringValue;
 }
 
+[System.Serializable]
 public abstract class AbstractObjectConstructable <TypeElement> : MonoBehaviour where TypeElement : struct, System.IConvertible
 {
 

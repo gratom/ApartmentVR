@@ -10,12 +10,13 @@ public enum LoadedMaterialClassTypes
     ForItemsWithID
 }
 
+[SerializeField]
 public class LoadedMaterialClass : AbstractObjectConstructable <LoadedMaterialClassTypes>, IAssetBundleLoadeble
 {
 
     public int ID { get; private set; }
     public string LoadedMaterialName { get; private set; }
-    public List<string> ListOfItemsFor  { get; private set; }
+    public string[] ListOfItemsFor  { get; private set; }
     public string RealGudHubURL { get; private set; }
     public string URLName { get; private set; }
 
@@ -55,6 +56,8 @@ public class LoadedMaterialClass : AbstractObjectConstructable <LoadedMaterialCl
 
     private void LoadAssetBundleFromURL(int num)
     {
+        RealGudHubURL = ComponentsDataList[num].StringValue;
+        URLName = RealGudHubURL.Substring(RealGudHubURL.LastIndexOf('/'));
         StartLoadAssetBundle();
     }
 
@@ -77,13 +80,21 @@ public class LoadedMaterialClass : AbstractObjectConstructable <LoadedMaterialCl
 
     private void InitListOfItemsFor(int num)
     {
-        //TO DO: сделать парсинг для определения принадлежности
+        ListOfItemsFor = ComponentsDataList[num].StringValue.Split(',');
     }
 
     #endregion
 
     public void StartLoadAssetBundle()
     {
-
+        string path = Application.dataPath;
+        path = path.Substring(0, path.LastIndexOf('/'));
+        path += AssetBundleLoaderManager.Instance.Setting.DataStoragePath;
+        AssetBundleInstance = AssetBundle.LoadFromFile(path + URLName);
+        if (this.gameObject.GetComponent<MeshRenderer>() == null)
+        {
+            this.gameObject.AddComponent<MeshRenderer>();
+        }
+        this.gameObject.GetComponent<MeshRenderer>().material = (Material)AssetBundleInstance.LoadAsset(AssetBundleInstance.GetAllAssetNames()[0]);
     }
 }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class 
+/// </summary>
 public enum SceneChangebleObjectTypes
 {
     id,
@@ -11,8 +14,15 @@ public enum SceneChangebleObjectTypes
 }
 
 /// <summary>
+/// Serializeble class for start setting
+/// </summary>
+[System.Serializable]
+public class SettingForFieldsInSceneChangebleObject : AbstractObjectConstructableComponentData<SceneChangebleObjectTypes> { }
+
+/// <summary>
 /// Class for changeble object on scene.
 /// </summary>
+[System.Serializable]
 public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleObjectTypes>, IAssetBundleLoadeble
 {
 
@@ -21,21 +31,32 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     public string ChangebleObjectType { get; private set; }
     public string RealGudHubURL { get; private set; }
     public string URLName { get; private set; }
-    public GameObject AssetGameObject;
 
+    [SerializeField]
+    private List<SettingForFieldsInSceneChangebleObject> settingFieldList;
+
+    private GameObject AssetGameObject;
     private AssetBundle AssetBundleInstance;
 
     #region public override functions
 
+    /// <summary>
+    /// Use this BEFORE initializating. This function make the inner cohesion in class instance 
+    /// </summary>
     public override void InitDictionary()
     {
         FunctionsDictionary = new Dictionary<SceneChangebleObjectTypes, InitFunctions>();
         FunctionsDictionary.Add(SceneChangebleObjectTypes.id, InitID);
         FunctionsDictionary.Add(SceneChangebleObjectTypes.nameObject, InitName);
         FunctionsDictionary.Add(SceneChangebleObjectTypes.AssetBundleURL, LoadAssetBundleFromURL);
-        FunctionsDictionary.Add(SceneChangebleObjectTypes.typeObject, InitTypeObject); 
+        FunctionsDictionary.Add(SceneChangebleObjectTypes.typeObject, InitTypeObject);
+
+        SettingListFieldToRealFields();
     }
 
+    /// <summary>
+    /// The Initializing functions. Make the initialization by data from ComponentsDataList.
+    /// </summary>
     public override void InitConstruct()
     {
         if (FunctionsDictionary != null)
@@ -53,9 +74,27 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         }
     }
 
+    /// <summary>
+    /// Change GameObject material to current material
+    /// </summary>
+    /// <param name="material">the material to be changed</param>
+    public void ChangeMaterialTo(Material material)
+    {
+        AssetGameObject.GetComponent<MeshRenderer>().material = material;
+    }
+
     #endregion
 
     #region private functions
+
+    private void SettingListFieldToRealFields()
+    {
+        ComponentsDataList = new List<AbstractObjectConstructableComponentData<SceneChangebleObjectTypes>>();
+        for (int i = 0; i < settingFieldList.Count; i++)
+        {
+            ComponentsDataList.Add(settingFieldList[i]);
+        }
+    }
 
     private void LoadAssetBundleFromURL(int num)
     {

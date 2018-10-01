@@ -10,8 +10,17 @@ public enum LoadedMaterialClassTypes
     ForItemsWithID
 }
 
-[SerializeField]
-public class LoadedMaterialClass : AbstractObjectConstructable <LoadedMaterialClassTypes>, IAssetBundleLoadeble
+/// <summary>
+/// Serializeble class for start setting
+/// </summary>
+[System.Serializable]
+public class SettingForFieldsInLoadedMaterial : AbstractObjectConstructableComponentData<LoadedMaterialClassTypes> { }
+
+/// <summary>
+/// Class for dynamic loaded materials
+/// </summary>
+[System.Serializable]
+public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTypes>, IAssetBundleLoadeble
 {
 
     public int ID { get; private set; }
@@ -20,10 +29,16 @@ public class LoadedMaterialClass : AbstractObjectConstructable <LoadedMaterialCl
     public string RealGudHubURL { get; private set; }
     public string URLName { get; private set; }
 
+    [SerializeField]
+    private List<SettingForFieldsInLoadedMaterial> settingFieldList;
+
     private AssetBundle AssetBundleInstance; 
 
     #region public override functions
 
+    /// <summary>
+    /// Use this BEFORE initializating. This function make the inner cohesion in class instance 
+    /// </summary>
     public override void InitDictionary()
     {
         FunctionsDictionary = new Dictionary<LoadedMaterialClassTypes, InitFunctions>();
@@ -33,6 +48,9 @@ public class LoadedMaterialClass : AbstractObjectConstructable <LoadedMaterialCl
         FunctionsDictionary.Add(LoadedMaterialClassTypes.ForItemsWithID, InitListOfItemsFor); 
     }
 
+    /// <summary>
+    /// The Initializing functions. Make the initialization by data from ComponentsDataList.
+    /// </summary>
     public override void InitConstruct()
     {
         if (FunctionsDictionary != null)
@@ -53,6 +71,15 @@ public class LoadedMaterialClass : AbstractObjectConstructable <LoadedMaterialCl
     #endregion
 
     #region private functions
+
+    private void SettingListFieldToRealFields()
+    {
+        ComponentsDataList = new List<AbstractObjectConstructableComponentData<LoadedMaterialClassTypes>>();
+        for (int i = 0; i < settingFieldList.Count; i++)
+        {
+            ComponentsDataList.Add(settingFieldList[i]);
+        }
+    }
 
     private void LoadAssetBundleFromURL(int num)
     {

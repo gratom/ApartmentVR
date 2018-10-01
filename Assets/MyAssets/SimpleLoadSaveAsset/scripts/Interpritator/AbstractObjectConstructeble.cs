@@ -17,6 +17,7 @@ public abstract class AbstractObjectConstructable <TypeElement> : MonoBehaviour 
     protected delegate void InitFunctions(int num);
     protected static Dictionary<TypeElement, InitFunctions> FunctionsDictionary;
 
+    [SerializeField]
     public List<AbstractObjectConstructableComponentData<TypeElement>> ComponentsDataList;
 
     /// <summary>

@@ -67,7 +67,7 @@ public class AppSetting
 }
 
 /// <summary>
-/// Setting class for 
+/// Setting class for JSONMainManager
 /// </summary>
 [System.Serializable]
 public class AppDataLoader
@@ -178,7 +178,7 @@ public class JSONMainManager : MonoBehaviour
     /// <param name="EmptyList">the empty list, that will be filled</param>
     /// <param name="AppID">App ID, from which information is taken</param>
     /// <returns></returns>
-    public List<AbstractObjectConstructable> FillDataToList(List<AbstractObjectConstructable> EmptyList, int AppID)
+    public List<AbstractObjectConstructable<TypeElement>> FillDataToList<TypeElement>(List<AbstractObjectConstructable<TypeElement>> EmptyList, int AppID) where TypeElement : struct, System.IConvertible
     {
         App app = AppDataLoaderInstance.GetAppDataByID(AppID);
         if (app != null)

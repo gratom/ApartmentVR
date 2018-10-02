@@ -11,6 +11,8 @@ public interface IClickable
 
 public class MenuObject : MonoBehaviour
 {
+    public delegate void OnClickDelegate();
+
     public enum TypeOfObject
     {
         firstLine,
@@ -18,9 +20,8 @@ public class MenuObject : MonoBehaviour
     }
 
     public TypeOfObject typeOfObject;
-
-    public AbstractObjectConstructable ItemInstance;
-
+    public OnClickDelegate onClick;
+    public MonoBehaviour ItemInstance;
 }
 
 public class MenuManager : MonoBehaviour 
@@ -38,7 +39,8 @@ public class MenuManager : MonoBehaviour
 
     void ClickedOnClickable(IClickable clickableObject)
     {
-        clickableObject.GetListOfMenuObject();
+        List<MenuObject> temp = clickableObject.GetListOfMenuObject();
+        
     }
 
     #endregion

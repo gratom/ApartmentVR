@@ -10,6 +10,8 @@ public class Loader : MonoBehaviour
     /// </summary>
     public static Loader Instance { get; private set; }
 
+    public delegate int del(int i, int k);
+
     public AppDataLoader AppDataLoaderInstance;
 
     public AssetBundleLoaderSetting AssetBundleLoaderSettingInstance;

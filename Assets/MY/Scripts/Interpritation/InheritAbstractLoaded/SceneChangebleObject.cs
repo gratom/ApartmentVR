@@ -23,7 +23,7 @@ public class SettingForFieldsInSceneChangebleObject : AbstractObjectConstructabl
 /// Class for changeble object on scene.
 /// </summary>
 [System.Serializable]
-public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleObjectTypes>, IAssetBundleLoadeble
+public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleObjectTypes>, IAssetBundleLoadeble, IClickable
 {
 
     public int ID { get; private set; }
@@ -48,7 +48,7 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         FunctionsDictionary = new Dictionary<SceneChangebleObjectTypes, InitFunctions>();
         FunctionsDictionary.Add(SceneChangebleObjectTypes.id, InitID);
         FunctionsDictionary.Add(SceneChangebleObjectTypes.nameObject, InitName);
-        FunctionsDictionary.Add(SceneChangebleObjectTypes.AssetBundleURL, LoadAssetBundleFromURL);
+        FunctionsDictionary.Add(SceneChangebleObjectTypes.AssetBundleURL, InitURL);
         FunctionsDictionary.Add(SceneChangebleObjectTypes.typeObject, InitTypeObject);
 
         SettingListFieldToRealFields();
@@ -96,10 +96,11 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         }
     }
 
-    private void LoadAssetBundleFromURL(int num)
+    private void InitURL(int num)
     {
-        StartLoadAssetBundle();
-    }
+        RealGudHubURL = ComponentsDataList[num].StringValue;
+        URLName = RealGudHubURL.Substring(0, RealGudHubURL.LastIndexOf('/'));        
+    }    
 
     private void InitName(int num)
     {
@@ -123,6 +124,11 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         ChangebleObjectType = ComponentsDataList[num].StringValue;
     }
 
+    private void LoadAssetBundleFromURL() // сейчас можно не использовать, а потом, когда будет написан нормальный регулятор загрузок, чтобы не было просаживания FPS, нужно будет использовать эту функцию
+    {
+        StartLoadAssetBundle();
+    }
+
     #endregion
 
     public void StartLoadAssetBundle()
@@ -135,4 +141,19 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         AssetGameObject.transform.localPosition = new Vector3(0, 0, 0);
     }
 
+    public List<MenuObject> GetListOfMenuObject()
+    {
+        List<MenuObject> returnedList = new List<MenuObject>();
+
+        App tempApp = JSONMainManager.Instance.AppDataLoaderInstance.GetAppDataByID(0);
+
+        //add the other item, like this item...
+        for (int i = 0; i < tempApp.items_list.Count; i++)
+        {
+
+        }
+
+        //add the textures
+        return returnedList;
+    }
 }

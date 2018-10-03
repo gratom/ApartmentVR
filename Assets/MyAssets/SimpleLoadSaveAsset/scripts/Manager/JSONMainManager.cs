@@ -136,7 +136,7 @@ public class JSONMainManager : MonoBehaviour
     /// <summary>
     /// Singleton
     /// </summary>
-    public static JSONMainManager Instance;
+    public static JSONMainManager Instance { get; private set; }
 
     /// <summary>
     /// Request module for public access to events

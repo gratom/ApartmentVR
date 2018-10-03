@@ -25,14 +25,19 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
 
     public int ID { get; private set; }
     public string LoadedMaterialName { get; private set; }
-    public string[] ListOfItemsFor  { get; private set; }
+    public int[] ListOfItemsFor  { get; private set; }
     public string RealGudHubURL { get; private set; }
     public string URLName { get; private set; }
 
     [SerializeField]
     private List<SettingForFieldsInLoadedMaterial> settingFieldList;
 
-    private AssetBundle AssetBundleInstance; 
+    private AssetBundle AssetBundleInstance;
+
+    void Awake()
+    {
+        //Test1();
+    }
 
     #region public override functions
 
@@ -85,7 +90,6 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
     {
         RealGudHubURL = ComponentsDataList[num].StringValue;
         URLName = RealGudHubURL.Substring(RealGudHubURL.LastIndexOf('/'));
-        StartLoadAssetBundle();
     }
 
     private void InitName(int num)
@@ -107,10 +111,16 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
 
     private void InitListOfItemsFor(int num)
     {
-        ListOfItemsFor = ComponentsDataList[num].StringValue.Split(',');
+        string[] temp = ComponentsDataList[num].StringValue.Split(',');
+        for (int i = 0; i < ListOfItemsFor.Length; i++)
+        {
+            ListOfItemsFor[i] = int.Parse(temp[i].Substring(temp[i].IndexOf('.') + 1));
+        }
     }
 
     #endregion
+
+    #region interfaces
 
     public void StartLoadAssetBundle()
     {
@@ -124,4 +134,21 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
         }
         this.gameObject.GetComponent<MeshRenderer>().material = (Material)AssetBundleInstance.LoadAsset(AssetBundleInstance.GetAllAssetNames()[0]);
     }
+
+    #endregion
+
+    #region tests
+
+#if UNITY_EDITOR
+
+    private void Test1()
+    {
+        string temp = "1234.1234";
+        Debug.Log(temp.Substring(temp.IndexOf('.') + 1));
+    }
+
+#endif
+
+    #endregion
+
 }

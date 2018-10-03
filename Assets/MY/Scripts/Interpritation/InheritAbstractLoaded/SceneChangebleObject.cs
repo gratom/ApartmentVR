@@ -99,7 +99,7 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     private void InitURL(int num)
     {
         RealGudHubURL = ComponentsDataList[num].StringValue;
-        URLName = RealGudHubURL.Substring(0, RealGudHubURL.LastIndexOf('/'));        
+        URLName = RealGudHubURL.Substring(RealGudHubURL.LastIndexOf('/'));        
     }    
 
     private void InitName(int num)
@@ -129,8 +129,18 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         StartLoadAssetBundle();
     }
 
+    private void OnClickOnMenu(MonoBehaviour itemInstance)
+    {
+
+    }
+
     #endregion
 
+    #region interfaces
+
+    /// <summary>
+    /// Load assetbandle right now
+    /// </summary>
     public void StartLoadAssetBundle()
     {
         string path = Application.dataPath;
@@ -141,19 +151,25 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         AssetGameObject.transform.localPosition = new Vector3(0, 0, 0);
     }
 
+    /// <summary>
+    /// Get the object for show in menu, on click event
+    /// </summary>
+    /// <returns>the list of menu objects</returns>
     public List<MenuObject> GetListOfMenuObject()
     {
         List<MenuObject> returnedList = new List<MenuObject>();
 
-        App tempApp = JSONMainManager.Instance.AppDataLoaderInstance.GetAppDataByID(0);
+        List<SceneChangebleObject> temp = SceneLoaderManager.Instance.GetItemsLikeThat(this);
 
         //add the other item, like this item...
-        for (int i = 0; i < tempApp.items_list.Count; i++)
+        for (int i = 0; i < temp.Count; i++)
         {
-
+            returnedList.Add(new MenuObject(MenuObject.TypeOfObject.firstLine, returnedList[i], OnClickOnMenu));
         }
 
         //add the textures
         return returnedList;
     }
+
+    #endregion
 }

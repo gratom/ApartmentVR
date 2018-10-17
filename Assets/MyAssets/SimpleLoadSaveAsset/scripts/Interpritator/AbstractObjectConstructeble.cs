@@ -14,8 +14,10 @@ public class AbstractObjectConstructableComponentData<TypeElement> where TypeEle
 public abstract class AbstractObjectConstructable <TypeElement> : MonoBehaviour where TypeElement : struct, System.IConvertible
 {
 
+    public int ID;
+
     protected delegate void InitFunctions(int num);
-    protected static Dictionary<TypeElement, InitFunctions> FunctionsDictionary;
+    protected Dictionary<TypeElement, InitFunctions> FunctionsDictionary;
 
     [SerializeField]
     public List<AbstractObjectConstructableComponentData<TypeElement>> ComponentsDataList;

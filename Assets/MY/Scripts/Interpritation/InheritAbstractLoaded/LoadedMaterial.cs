@@ -4,7 +4,6 @@ using UnityEngine;
 
 public enum LoadedMaterialClassTypes
 {
-    id,
     nameMaterial,
     AssetBundleURL,
     ForItemsWithID
@@ -20,10 +19,8 @@ public class SettingForFieldsInLoadedMaterial : AbstractObjectConstructableCompo
 /// Class for dynamic loaded materials
 /// </summary>
 [System.Serializable]
-public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTypes>, IAssetBundleLoadeble
+public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTypes>, IAssetBundleLoadeble, IMenuClickable
 {
-
-    public int ID { get; private set; }
     public string LoadedMaterialName { get; private set; }
     public int[] ListOfItemsFor  { get; private set; }
     public string RealGudHubURL { get; private set; }
@@ -34,10 +31,14 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
 
     private AssetBundle AssetBundleInstance;
 
+    #region Unity functions
+
     void Awake()
     {
         //Test1();
     }
+
+    #endregion
 
     #region public override functions
 
@@ -47,10 +48,11 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
     public override void InitDictionary()
     {
         FunctionsDictionary = new Dictionary<LoadedMaterialClassTypes, InitFunctions>();
-        FunctionsDictionary.Add(LoadedMaterialClassTypes.id, InitID);
         FunctionsDictionary.Add(LoadedMaterialClassTypes.nameMaterial, InitName);
-        FunctionsDictionary.Add(LoadedMaterialClassTypes.AssetBundleURL, LoadAssetBundleFromURL);
-        FunctionsDictionary.Add(LoadedMaterialClassTypes.ForItemsWithID, InitListOfItemsFor); 
+        FunctionsDictionary.Add(LoadedMaterialClassTypes.AssetBundleURL, InitURL);
+        FunctionsDictionary.Add(LoadedMaterialClassTypes.ForItemsWithID, InitListOfItemsFor);
+
+        SettingListFieldToRealFields();
     }
 
     /// <summary>
@@ -86,10 +88,17 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
         }
     }
 
-    private void LoadAssetBundleFromURL(int num)
+    private void InitURL(int num)
     {
-        RealGudHubURL = ComponentsDataList[num].StringValue;
-        URLName = RealGudHubURL.Substring(RealGudHubURL.LastIndexOf('/'));
+        try
+        {
+            URLName = ComponentsDataList[num].StringValue;
+            RealGudHubURL = JSONMainManager.Instance.GetRealFileURLById(URLName);
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
     }
 
     private void InitName(int num)
@@ -97,21 +106,10 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
         LoadedMaterialName = ComponentsDataList[num].StringValue;
     }
 
-    private void InitID(int num)
-    {
-        try
-        {
-            ID = int.Parse(ComponentsDataList[num].StringValue);
-        }
-        catch (System.Exception e)
-        {
-            Debug.Log(this.ToString() + e);
-        }
-    }
-
     private void InitListOfItemsFor(int num)
     {
         string[] temp = ComponentsDataList[num].StringValue.Split(',');
+        ListOfItemsFor = new int[temp.Length];
         for (int i = 0; i < ListOfItemsFor.Length; i++)
         {
             ListOfItemsFor[i] = int.Parse(temp[i].Substring(temp[i].IndexOf('.') + 1));
@@ -124,15 +122,64 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
 
     public void StartLoadAssetBundle()
     {
-        string path = Application.dataPath;
-        path = path.Substring(0, path.LastIndexOf('/'));
-        path += AssetBundleLoaderManager.Instance.Setting.DataStoragePath;
-        AssetBundleInstance = AssetBundle.LoadFromFile(path + URLName);
-        if (this.gameObject.GetComponent<MeshRenderer>() == null)
+        if (AssetBundleInstance == null)
         {
-            this.gameObject.AddComponent<MeshRenderer>();
+            AssetBundleLoaderManager.Instance.AddToLoadeble(this);
+        }        
+        BundleShow();
+    }
+
+    void IAssetBundleLoadeble.BundleReady()
+    {
+        if (AssetBundleInstance == null)
+        {
+            string path = AssetBundleLoaderManager.Instance.AppPath;
+            AssetBundleInstance = AssetBundle.LoadFromFile(path + URLName);
+            if (this.gameObject.GetComponent<MeshRenderer>() == null)
+            {
+                this.gameObject.AddComponent<MeshRenderer>();
+            }
+            this.gameObject.GetComponent<MeshRenderer>().material = (Material)AssetBundleInstance.LoadAsset(AssetBundleInstance.GetAllAssetNames()[0]);
         }
-        this.gameObject.GetComponent<MeshRenderer>().material = (Material)AssetBundleInstance.LoadAsset(AssetBundleInstance.GetAllAssetNames()[0]);
+        BundleShow();
+    }
+
+    public void BundleHide()
+    {
+        if (this.gameObject.GetComponent<MeshRenderer>() != null)
+        {
+            this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        }
+    }
+
+    public void BundleShow()
+    {
+        if (this.gameObject.GetComponent<MeshRenderer>() != null)
+        {
+            this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+        }
+    }
+
+    public string GetURLName()
+    {
+        return URLName;
+    }
+
+    public string GetRealURL()
+    {
+        return RealGudHubURL;
+    }
+
+    public void onMenuClick(MonoBehaviour itemInstance)
+    {
+        try
+        {
+            ((SceneChangebleObject)MenuManager.Instance.objectSelected).ChangeMaterialTo(itemInstance.GetComponent<MeshRenderer>().material);
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
     }
 
     #endregion
@@ -150,5 +197,5 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
 #endif
 
     #endregion
-
+   
 }

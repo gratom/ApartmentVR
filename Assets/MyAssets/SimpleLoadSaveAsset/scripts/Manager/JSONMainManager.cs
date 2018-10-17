@@ -30,6 +30,9 @@ public class AppSetting
     [HideInInspector]
     public string LocalStorageString;
 
+    [HideInInspector]
+    public bool IsReady = false;
+
     /// <summary>
     /// Is local storage exist
     /// </summary>
@@ -178,17 +181,36 @@ public class JSONMainManager : MonoBehaviour
     /// <param name="EmptyList">the empty list, that will be filled</param>
     /// <param name="AppID">App ID, from which information is taken</param>
     /// <returns></returns>
-    public List<AbstractObjectConstructable<TypeElement>> FillDataToList<TypeElement>(List<AbstractObjectConstructable<TypeElement>> EmptyList, int AppID) where TypeElement : struct, System.IConvertible
+    public void FillDataToList<TypeElement>(List<AbstractObjectConstructable<TypeElement>> EmptyList, int AppID) where TypeElement : struct, System.IConvertible
     {
         App app = AppDataLoaderInstance.GetAppDataByID(AppID);
         if (app != null)
         {
             for (int i = 0; i < EmptyList.Count; i++)
-            {
+            {               
                 EmptyList[i] = JSONInterpritator.GetStringValueByID(app, EmptyList[i], i);
             }            
         }
-        return EmptyList;
+    }
+
+    /// <summary>
+    /// Getting the real URL of file by file ID in AppData
+    /// </summary>
+    /// <param name="URLID">The file ID</param>
+    /// <returns>The URL of file</returns>
+    public string GetRealFileURLById(string URLID)
+    {
+        for (int i = 0; i < AppDataLoaderInstance.ListOfAppsSetting.Count; i++)
+        {
+            for (int j = 0; j < AppDataLoaderInstance.ListOfAppsSetting[i].AppData.file_list.Count; j++)
+            {
+                if (AppDataLoaderInstance.ListOfAppsSetting[i].AppData.file_list[j].file_id.ToString() == URLID)
+                {
+                    return AppDataLoaderInstance.ListOfAppsSetting[i].AppData.file_list[j].url;
+                }
+            }
+        }
+        return "";
     }
 
     #endregion
@@ -265,7 +287,7 @@ public class JSONMainManager : MonoBehaviour
             {
                 if (tS.apps_list[i].app_id == AppDataLoaderInstance.ListOfAppsSetting[j].AppID)
                 {
-                    //if (tS.apps_list[i].last_update == JSONModule.StringToAppData(LocalStorageString).last_update)
+                    //if (tS.apps_list[j].last_update == JSONModule.StringToAppData(LocalStorageString).last_update)
                     //{
                     //    IsOutdated = false;
                     //}
@@ -291,9 +313,24 @@ public class JSONMainManager : MonoBehaviour
                 AppDataLoaderInstance.ListOfAppsSetting[i].AppData = AppData;
                 //save to local
                 SaverLoaderModule.SaveMyDataTo(AppDataLoaderInstance.ListOfAppsSetting[i].FileName, Responce);
+                //that element is ready
+                AppDataLoaderInstance.ListOfAppsSetting[i].IsReady = true;
+                IsReady = IsGlobalReady();
                 return;
             }
         }
+    }
+
+    private bool IsGlobalReady()
+    {
+        for (int i = 0; i < AppDataLoaderInstance.ListOfAppsSetting.Count; i++)
+        {
+            if (!AppDataLoaderInstance.ListOfAppsSetting[i].IsReady)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     #endregion

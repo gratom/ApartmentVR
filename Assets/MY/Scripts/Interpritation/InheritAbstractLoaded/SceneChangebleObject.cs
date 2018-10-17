@@ -7,7 +7,6 @@ using UnityEngine;
 /// </summary>
 public enum SceneChangebleObjectTypes
 {
-    id,
     nameObject,
     typeObject,
     AssetBundleURL
@@ -23,10 +22,8 @@ public class SettingForFieldsInSceneChangebleObject : AbstractObjectConstructabl
 /// Class for changeble object on scene.
 /// </summary>
 [System.Serializable]
-public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleObjectTypes>, IAssetBundleLoadeble, IClickable
+public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleObjectTypes>, IAssetBundleLoadeble, IClickable, IMenuClickable
 {
-
-    public int ID { get; private set; }
     public string ChangebleObjectName { get; private set; }
     public string ChangebleObjectType { get; private set; }
     public string RealGudHubURL { get; private set; }
@@ -46,7 +43,6 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     public override void InitDictionary()
     {
         FunctionsDictionary = new Dictionary<SceneChangebleObjectTypes, InitFunctions>();
-        FunctionsDictionary.Add(SceneChangebleObjectTypes.id, InitID);
         FunctionsDictionary.Add(SceneChangebleObjectTypes.nameObject, InitName);
         FunctionsDictionary.Add(SceneChangebleObjectTypes.AssetBundleURL, InitURL);
         FunctionsDictionary.Add(SceneChangebleObjectTypes.typeObject, InitTypeObject);
@@ -92,31 +88,29 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         ComponentsDataList = new List<AbstractObjectConstructableComponentData<SceneChangebleObjectTypes>>();
         for (int i = 0; i < settingFieldList.Count; i++)
         {
-            ComponentsDataList.Add(settingFieldList[i]);
+            ComponentsDataList.Add(new AbstractObjectConstructableComponentData<SceneChangebleObjectTypes>());
+            ComponentsDataList[i].IdField = settingFieldList[i].IdField;
+            ComponentsDataList[i].valueType = settingFieldList[i].valueType;
         }
     }
 
     private void InitURL(int num)
     {
-        RealGudHubURL = ComponentsDataList[num].StringValue;
-        URLName = RealGudHubURL.Substring(RealGudHubURL.LastIndexOf('/'));        
-    }    
+        try
+        {
+            URLName = ComponentsDataList[num].StringValue;
+            RealGudHubURL = JSONMainManager.Instance.GetRealFileURLById(URLName);
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+    }
+
 
     private void InitName(int num)
     {
         ChangebleObjectName = ComponentsDataList[num].StringValue;
-    }
-
-    private void InitID(int num)
-    {
-        try
-        {
-            ID = int.Parse(ComponentsDataList[num].StringValue);
-        }
-        catch (System.Exception e)
-        {
-            Debug.Log(this.ToString() + e);
-        }
     }
 
     private void InitTypeObject(int num)
@@ -129,11 +123,6 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         StartLoadAssetBundle();
     }
 
-    private void OnClickOnMenu(MonoBehaviour itemInstance)
-    {
-
-    }
-
     #endregion
 
     #region interfaces
@@ -143,12 +132,58 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     /// </summary>
     public void StartLoadAssetBundle()
     {
-        string path = Application.dataPath;
-        path = path.Substring(0, path.LastIndexOf('/'));
-        path += AssetBundleLoaderManager.Instance.Setting.DataStoragePath;
-        AssetBundleInstance = AssetBundle.LoadFromFile(path + URLName);
-        AssetGameObject = Instantiate((GameObject)AssetBundleInstance.LoadAsset(AssetBundleInstance.GetAllAssetNames()[0]), this.transform);
-        AssetGameObject.transform.localPosition = new Vector3(0, 0, 0);
+        if (AssetBundleInstance == null)
+        {
+            AssetBundleLoaderManager.Instance.AddToLoadeble(this);
+        }
+        BundleShow();
+    }
+
+    void IAssetBundleLoadeble.BundleReady()
+    {
+        if (AssetBundleInstance == null)
+        {
+            string path = AssetBundleLoaderManager.Instance.AppPath;
+            //Debug.Log(name + ";" + ChangebleObjectName + ";urlname=" + URLName + ";" + ComponentsDataList[2].StringValue);
+            AssetBundleInstance = AssetBundle.LoadFromFile(path + URLName);
+            AssetGameObject = Instantiate((GameObject)AssetBundleInstance.LoadAsset(AssetBundleInstance.GetAllAssetNames()[0]), this.transform);
+            AssetGameObject.transform.localPosition = new Vector3(0, 0, 0);
+        }
+        BundleShow();
+    }
+
+    public void BundleHide()
+    {
+        if (AssetGameObject != null)
+        {
+            AssetGameObject.SetActive(false);
+        }
+    }
+
+    public void BundleShow()
+    {
+        if (AssetGameObject != null)
+        {
+            AssetGameObject.SetActive(true);
+        }
+    }
+
+    public string GetURLName()
+    {
+        return URLName;
+    }
+
+    public string GetRealURL()
+    {
+        return RealGudHubURL;
+    }
+
+    public void onMenuClick(MonoBehaviour itemInstance)
+    {
+        Vector3 tempPos = ((SceneChangebleObject)MenuManager.Instance.objectSelected).transform.position;
+        MenuManager.Instance.ClickedOnClickable((SceneChangebleObject)itemInstance);
+        ((SceneChangebleObject)itemInstance).transform.position = tempPos;
+        ((SceneChangebleObject)itemInstance).BundleShow();
     }
 
     /// <summary>
@@ -157,19 +192,34 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     /// <returns>the list of menu objects</returns>
     public List<MenuObject> GetListOfMenuObject()
     {
-        List<MenuObject> returnedList = new List<MenuObject>();
-
-        List<SceneChangebleObject> temp = SceneLoaderManager.Instance.GetItemsLikeThat(this);
+        List<MenuObject> returnedList = new List<MenuObject>();       
 
         //add the other item, like this item...
-        for (int i = 0; i < temp.Count; i++)
+        List<SceneChangebleObject> tempSceneObjectChangeble = SceneLoaderManager.Instance.GetItemsLikeThat(this);
+        for (int i = 0; i < tempSceneObjectChangeble.Count; i++)
         {
-            returnedList.Add(new MenuObject(MenuObject.TypeOfObject.firstLine, returnedList[i], OnClickOnMenu));
+            if (tempSceneObjectChangeble[i] != this)
+            {
+                GameObject gameObjectMenuObject = new GameObject("MemuElementObject" + i.ToString());
+                MenuObject menuObject = gameObjectMenuObject.AddComponent<MenuObject>();
+                menuObject.SetMenuObject(MenuObject.TypeOfObject.firstLine, tempSceneObjectChangeble[i]);
+                returnedList.Add(menuObject);
+            }
         }
 
         //add the textures
+        List<LoadedMaterial> tempLoadedMeterial = SceneLoaderManager.Instance.GetMaterialsForThat(this);
+        for (int i = 0; i < tempLoadedMeterial.Count; i++)
+        {
+            GameObject gameObjectMenuObject = new GameObject("MemuElementMaterial" + i.ToString());
+            MenuObject menuObject = gameObjectMenuObject.AddComponent<MenuObject>();
+            menuObject.SetMenuObject(MenuObject.TypeOfObject.secondLine, tempLoadedMeterial[i]);
+            returnedList.Add(menuObject);
+        }
+
         return returnedList;
     }
 
     #endregion
+
 }

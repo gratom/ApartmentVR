@@ -73,6 +73,7 @@ public class Loader : MonoBehaviour
         AssetBundleLoaderManager.transform.parent = managersMainGameObject.transform;
         AssetBundleLoaderManager.AddComponent<AssetBundleLoaderManager>();
         AssetBundleLoaderManager.GetComponent<AssetBundleLoaderManager>().Setting = AssetBundleLoaderSettingInstance;
+        AssetBundleLoaderManager.GetComponent<AssetBundleLoaderManager>().TryInit();
 
         while (!JSONMainManager.Instance.IsReady)
         {

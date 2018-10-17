@@ -12,6 +12,7 @@ public static class JSONInterpritator
     {
         for (int i = 0; i < AOC.ComponentsDataList.Count; i++) // для каждого элемента в объекте
         {
+            AOC.ID = appData.items_list[ItemID].item_id;
             for (int j = 0; j < appData.items_list[ItemID].fields.Count; j++) // перебор всех полей
             {
                 if (AOC.ComponentsDataList[i].IdField == appData.items_list[ItemID].fields[j].field_id)

@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e091576ac89a53f44a0252423e79436e, type: 3}
+  m_Name: __actions_default
+  m_EditorClassIdentifier: 
+  allActions:
+  - {fileID: 11400000, guid: f088c0e244f934d48bb3962a1be2cfdb, type: 2}
+  - {fileID: 11400000, guid: 38e10838528546846951302330818531, type: 2}
+  - {fileID: 11400000, guid: 8e53257fa8e76d84c8735c42a3578a7f, type: 2}
+  - {fileID: 11400000, guid: cfe14f3a1ef5e3342b12b7ebd8d317d6, type: 2}
+  - {fileID: 11400000, guid: 04f6c46232ae7f242a5cb74e6999cf5a, type: 2}
+  - {fileID: 11400000, guid: dcf62fc1ef5da2b4090421018f27fddd, type: 2}
+  - {fileID: 11400000, guid: 658d4a6fa649d6f46b164afbbbdd6cb9, type: 2}
+  - {fileID: 11400000, guid: cb3fbfe510e709d438260b794248fa18, type: 2}
+  - {fileID: 11400000, guid: 81b16f00de7788a4f90014a67e15775f, type: 2}
+  nonVisualInActions:
+  - {fileID: 11400000, guid: f088c0e244f934d48bb3962a1be2cfdb, type: 2}
+  - {fileID: 11400000, guid: 38e10838528546846951302330818531, type: 2}
+  - {fileID: 11400000, guid: 8e53257fa8e76d84c8735c42a3578a7f, type: 2}
+  - {fileID: 11400000, guid: cfe14f3a1ef5e3342b12b7ebd8d317d6, type: 2}
+  - {fileID: 11400000, guid: cb3fbfe510e709d438260b794248fa18, type: 2}
+  visualActions:
+  - {fileID: 11400000, guid: 04f6c46232ae7f242a5cb74e6999cf5a, type: 2}
+  - {fileID: 11400000, guid: dcf62fc1ef5da2b4090421018f27fddd, type: 2}
+  - {fileID: 11400000, guid: 658d4a6fa649d6f46b164afbbbdd6cb9, type: 2}
+  poseActions:
+  - {fileID: 11400000, guid: 04f6c46232ae7f242a5cb74e6999cf5a, type: 2}
+  - {fileID: 11400000, guid: dcf62fc1ef5da2b4090421018f27fddd, type: 2}
+  - {fileID: 11400000, guid: 658d4a6fa649d6f46b164afbbbdd6cb9, type: 2}
+  skeletonActions:
+  - {fileID: 11400000, guid: dcf62fc1ef5da2b4090421018f27fddd, type: 2}
+  - {fileID: 11400000, guid: 658d4a6fa649d6f46b164afbbbdd6cb9, type: 2}
+  outActionArray:
+  - {fileID: 11400000, guid: 81b16f00de7788a4f90014a67e15775f, type: 2}
+  fullPath: /actions/default
+  usage: single
+  inActions: {fileID: 11400000, guid: 0523a68424ff3864794971d64c9b558c, type: 2}
+  outActions: {fileID: 11400000, guid: cbfef8754928c1d41aabea0ff357c76c, type: 2}

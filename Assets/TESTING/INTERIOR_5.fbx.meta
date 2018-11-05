@@ -1,0 +1,1486 @@
+fileFormatVersion: 2
+guid: 18460195b6fac63428f98f4976316ec2
+timeCreated: 1540280996
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: ' oven_range01_box'
+    100002: ' oven_range01_burner'
+    100004: ' oven_range01_grill'
+    100006: ' oven_range01_handles'
+    100008: 01498-MARIONI-283286-bim84f0e7ef0012
+    100010: '3D View: View 1'
+    100012: Appliance_Washer-Dryer_Stacked 27" x 30" [2506986]
+    100014: Basic Wall EXT_2x6_1HR_Unfinished-Gyp 2 [2266544]
+    100016: Basic Wall EXT_2x6_Unfinished-Gyp [2265450]
+    100018: Basic Wall EXT_2x6_Unfinished-Gyp [2266244]
+    100020: Basic Wall EXT_2x6_Unfinished-Gyp [2266424]
+    100022: Basic Wall IF__Denshield-Tile [2380401]
+    100024: Basic Wall IF__Denshield-Tile [2380403]
+    100026: Basic Wall IF__Denshield-Tile [2380404]
+    100028: Basic Wall IF__Denshield-Tile [2381235]
+    100030: Basic Wall IF__Denshield-Tile [2381237]
+    100032: Basic Wall IF__Denshield-Tile [2381238]
+    100034: Basic Wall IF_Denshield [2380715]
+    100036: Basic Wall IF_Denshield [2380730]
+    100038: Basic Wall IF_Denshield [2380735]
+    100040: Basic Wall IF_Denshield [2380843]
+    100042: Basic Wall IF_Gyp_Smooth [2380716]
+    100044: Basic Wall IF_Gyp_Smooth [2380731]
+    100046: Basic Wall IF_Gyp_Smooth [2380736]
+    100048: Basic Wall IF_Gyp_Smooth [2380844]
+    100050: Basic Wall IF_Gyp_Smooth [2381136]
+    100052: Basic Wall IF_Gyp_Smooth [2381144]
+    100054: Basic Wall IF_Gyp_Smooth [2381149]
+    100056: Basic Wall IF_Gyp_Smooth [2381154]
+    100058: Basic Wall INT_2x4_Gyp-Gyp [2265819]
+    100060: Basic Wall INT_2x4_Gyp-Gyp [2265971]
+    100062: Basic Wall INT_2x4_Gyp-Gyp [2266664]
+    100064: Basic Wall INT_2x4_Gyp-Gyp [2266718]
+    100066: Basic Wall INT_2x4_Gyp-Gyp [2266862]
+    100068: Basic Wall INT_2x4_Gyp-Gyp [2267054]
+    100070: Basic Wall INT_2x4_Gyp-Gyp [2267334]
+    100072: Basic Wall INT_2x4_Gyp-Unfinished [2265701]
+    100074: Basic Wall INT_2x4_Gyp-Unfinished [2267217]
+    100076: Basic Wall INT_2x4_Unfinished [2268456]
+    100078: Basic Wall INT_2x4_Unfinished [2268588]
+    100080: Basic Wall INT_2x4_Unfinished [2269299]
+    100082: Basic Wall INT_2x4_Unfinished [2269404]
+    100084: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2265453]
+    100086: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2268860]
+    100088: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2265451]
+    100090: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2268783]
+    100092: Basic Wall INT_2x6_2HR_Gyp-Gyp [2268688]
+    100094: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2268894]
+    100096: Basic Wall INT_2x6_Gyp-Gyp [2267611]
+    100098: Basic Wall INT_2x6_Gyp-Gyp [2267703]
+    100100: Basic Wall INT_2x6_Gyp-Gyp [2267953]
+    100102: Basic Wall INT_2x6_Gyp-Gyp [2268278]
+    100104: Basic Wall INT_2x6_Gyp-Unfinished [2267565]
+    100106: Basic Wall INT__2X4_Denshield-Tile-Denshield-Tile [2271474]
+    100108: bath_plintus
+    100110: Bathroom Bath
+    100112: bathroom partition element
+    100114: bathroom partition handle
+    100116: bathroom partition pipe
+    100118: bowl
+    100120: bowl2
+    100122: Casework_Base Casework_Base [2517011]
+    100124: Casework_Base Casework_Base [2517011]001
+    100126: Casework_Base Casework_Base [2517288]
+    100128: Casework_Base Casework_Base [2517289]
+    100130: Casework_Base Casework_Base [2517290]
+    100132: Casework_Base Casework_Base [2517291]
+    100134: Casework_Base Casework_Base [2517438]
+    100136: Casework_Base Casework_Base [2517439]
+    100138: Casework_Base Casework_Base [2517440]
+    100140: Casework_Base Casework_Base [2517441]
+    100142: Casework_Base Casework_Base [2517556]
+    100144: Casework_Base Casework_Base [2517882]
+    100146: Casework_Base Casework_Base [2518893]
+    100148: Casework_Base Casework_Base [2519156]
+    100150: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519537]
+    100152: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519538]
+    100154: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519539]
+    100156: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519540]
+    100158: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520204]
+    100160: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521266]
+    100162: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521267]
+    100164: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521268]
+    100166: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521269]
+    100168: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521589]
+    100170: Casework_Base-Quarter Round Casework_Base-Quarter Round [2525284]
+    100172: Casework_Shelving Base Shelving [2384508]
+    100174: Casework_Shelving Base Shelving [2384608]
+    100176: Casework_Shelving Base Shelving [2384687]
+    100178: Casework_Shelving Base Shelving [2384809]
+    100180: Casework_Shelving Base Shelving [2384902]
+    100182: Casework_Tile Base Casework_Tile Base [2382748]
+    100184: Casework_Tile Base Casework_Tile Base [2382817]
+    100186: Casework_Tile Base Casework_Tile Base [2382817]001
+    100188: Casework_Tile Base Casework_Tile Base [2382984]
+    100190: ceiling
+    100192: countertop
+    100194: dishwasher
+    100196: DISHWASHER_BOX_1
+    100198: DISHWASHER_DOR_1
+    100200: DISHWASHER_DOWN_PANEL_1
+    100202: DISHWASHER_DOWN_PANEL_LOGO
+    100204: DISHWASHER_FRONTPANEL_1
+    100206: door handle_004
+    100208: DOR_HANDEL
+    100210: element plumbing (drains)
+    100212: element plumbing (drains)003
+    100214: element plumbing (drains)004
+    100216: element plumbing (drains)2
+    100218: FABUWOOD Galaxy
+    100220: Floor EF_Fiberglass [2384985]
+    100222: Floor IF_Carpet [2270680]
+    100224: Floor IF_Carpet [2270951]
+    100226: Floor IF_Hardwood [2269449]
+    100228: Floor IF_Shower Tile [2271330]
+    100230: Floor IF_Tile [2271265]
+    100232: Floor IF_Tile [2271297]
+    100234: Fridge01_GE
+    100236: Fridge01_GE_GSE25GSHSS_body
+    100238: Fridge01_GE_GSE25GSHSS_body2
+    100240: Fridge01_GE_GSE25GSHSS_display
+    100242: Fridge01_GE_GSE25GSHSS_grid
+    100244: GGG
+    100246: glas_LIGHT2
+    100248: Glass Bedrooms Bathrooms
+    100250: //RootNode
+    100252: jalousie
+    100254: Kitchen door handles
+    100256: kitchen_dors
+    100258: KITCHEN_METAL_ELEMENT_ plumbing
+    100260: KITCHEN_PLINTUS
+    100262: kitchen_sink
+    100264: KITCHEN_WINDIWS 2
+    100266: KITCHEN_WINDIWS001
+    100268: KITCHEN_WINDIWS002
+    100270: kitchen_wood_1
+    100272: kitchen_wood_2
+    100274: light metal
+    100276: LIGHT_ELEMENT_LAMP
+    100278: LIGHT_ELEMENT_PLAFON002
+    100280: Lighting_INT_Bath Fan Lighting_INT_Bath Fan [2524844]
+    100282: Lighting_INT_Flush Mount Lighting_INT_Flush Mount [2505254]
+    100284: Lighting_INT_Flush Mount Lighting_INT_Flush Mount [2505369]
+    100286: Lighting_INT_Flush Mount Lighting_INT_Flush Mount [2507114]
+    100288: Line006
+    100290: Line009
+    100292: logo
+    100294: Mech_Water Heater WH_AST-40-6 [2540291]
+    100296: Metal handles of the bathroom
+    100298: Metal handles of the bathroom 1
+    100300: metal partition in the bathroom
+    100302: Microwave
+    100304: Microwave03_GE_corpus
+    100306: Microwave03_GE_corpus_2
+    100308: Microwave03_GE_filter
+    100310: Microwave03_GE_glas
+    100312: Microwave03_GE_logo
+    100314: Microwave03_GE_panel_1
+    100316: Microwave03_GE_panel_2
+    100318: MIROR
+    100320: Object002
+    100322: Object005
+    100324: Object015
+    100326: Object030
+    100328: Object032
+    100330: Object033
+    100332: Object034
+    100334: Object035
+    100336: Object036
+    100338: Object037
+    100340: Object038
+    100342: Object039
+    100344: Object040
+    100346: oven_range01
+    100348: oven_range01_display
+    100350: oven_range01_door
+    100352: oven_range01_front_panel
+    100354: oven_range01_hole
+    100356: Plane002
+    100358: Plane005
+    100360: Plane007
+    100362: plumbing element (shifter)
+    100364: plumbing element (shifter)001
+    100366: Rectangle002
+    100368: room_fan
+    100370: ShowerPull_Cardinal_C-Standard 6" [2383215]
+    100372: ShowerPull_Cardinal_TowelBar ShowerPull_Cardinal_TowelBar [2383702]001
+    100374: Sphere002
+    100376: The drain of water
+    100378: TILLE
+    100380: Walln_kitchen
+    100382: washbasin 1
+    100384: washbasin 1 1
+    100386: WINDOW&DOR
+    100388: WOOD_MIROR
+    400000: ' oven_range01_box'
+    400002: ' oven_range01_burner'
+    400004: ' oven_range01_grill'
+    400006: ' oven_range01_handles'
+    400008: 01498-MARIONI-283286-bim84f0e7ef0012
+    400010: '3D View: View 1'
+    400012: Appliance_Washer-Dryer_Stacked 27" x 30" [2506986]
+    400014: Basic Wall EXT_2x6_1HR_Unfinished-Gyp 2 [2266544]
+    400016: Basic Wall EXT_2x6_Unfinished-Gyp [2265450]
+    400018: Basic Wall EXT_2x6_Unfinished-Gyp [2266244]
+    400020: Basic Wall EXT_2x6_Unfinished-Gyp [2266424]
+    400022: Basic Wall IF__Denshield-Tile [2380401]
+    400024: Basic Wall IF__Denshield-Tile [2380403]
+    400026: Basic Wall IF__Denshield-Tile [2380404]
+    400028: Basic Wall IF__Denshield-Tile [2381235]
+    400030: Basic Wall IF__Denshield-Tile [2381237]
+    400032: Basic Wall IF__Denshield-Tile [2381238]
+    400034: Basic Wall IF_Denshield [2380715]
+    400036: Basic Wall IF_Denshield [2380730]
+    400038: Basic Wall IF_Denshield [2380735]
+    400040: Basic Wall IF_Denshield [2380843]
+    400042: Basic Wall IF_Gyp_Smooth [2380716]
+    400044: Basic Wall IF_Gyp_Smooth [2380731]
+    400046: Basic Wall IF_Gyp_Smooth [2380736]
+    400048: Basic Wall IF_Gyp_Smooth [2380844]
+    400050: Basic Wall IF_Gyp_Smooth [2381136]
+    400052: Basic Wall IF_Gyp_Smooth [2381144]
+    400054: Basic Wall IF_Gyp_Smooth [2381149]
+    400056: Basic Wall IF_Gyp_Smooth [2381154]
+    400058: Basic Wall INT_2x4_Gyp-Gyp [2265819]
+    400060: Basic Wall INT_2x4_Gyp-Gyp [2265971]
+    400062: Basic Wall INT_2x4_Gyp-Gyp [2266664]
+    400064: Basic Wall INT_2x4_Gyp-Gyp [2266718]
+    400066: Basic Wall INT_2x4_Gyp-Gyp [2266862]
+    400068: Basic Wall INT_2x4_Gyp-Gyp [2267054]
+    400070: Basic Wall INT_2x4_Gyp-Gyp [2267334]
+    400072: Basic Wall INT_2x4_Gyp-Unfinished [2265701]
+    400074: Basic Wall INT_2x4_Gyp-Unfinished [2267217]
+    400076: Basic Wall INT_2x4_Unfinished [2268456]
+    400078: Basic Wall INT_2x4_Unfinished [2268588]
+    400080: Basic Wall INT_2x4_Unfinished [2269299]
+    400082: Basic Wall INT_2x4_Unfinished [2269404]
+    400084: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2265453]
+    400086: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2268860]
+    400088: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2265451]
+    400090: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2268783]
+    400092: Basic Wall INT_2x6_2HR_Gyp-Gyp [2268688]
+    400094: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2268894]
+    400096: Basic Wall INT_2x6_Gyp-Gyp [2267611]
+    400098: Basic Wall INT_2x6_Gyp-Gyp [2267703]
+    400100: Basic Wall INT_2x6_Gyp-Gyp [2267953]
+    400102: Basic Wall INT_2x6_Gyp-Gyp [2268278]
+    400104: Basic Wall INT_2x6_Gyp-Unfinished [2267565]
+    400106: Basic Wall INT__2X4_Denshield-Tile-Denshield-Tile [2271474]
+    400108: bath_plintus
+    400110: Bathroom Bath
+    400112: bathroom partition element
+    400114: bathroom partition handle
+    400116: bathroom partition pipe
+    400118: bowl
+    400120: bowl2
+    400122: Casework_Base Casework_Base [2517011]
+    400124: Casework_Base Casework_Base [2517011]001
+    400126: Casework_Base Casework_Base [2517288]
+    400128: Casework_Base Casework_Base [2517289]
+    400130: Casework_Base Casework_Base [2517290]
+    400132: Casework_Base Casework_Base [2517291]
+    400134: Casework_Base Casework_Base [2517438]
+    400136: Casework_Base Casework_Base [2517439]
+    400138: Casework_Base Casework_Base [2517440]
+    400140: Casework_Base Casework_Base [2517441]
+    400142: Casework_Base Casework_Base [2517556]
+    400144: Casework_Base Casework_Base [2517882]
+    400146: Casework_Base Casework_Base [2518893]
+    400148: Casework_Base Casework_Base [2519156]
+    400150: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519537]
+    400152: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519538]
+    400154: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519539]
+    400156: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519540]
+    400158: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520204]
+    400160: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521266]
+    400162: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521267]
+    400164: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521268]
+    400166: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521269]
+    400168: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521589]
+    400170: Casework_Base-Quarter Round Casework_Base-Quarter Round [2525284]
+    400172: Casework_Shelving Base Shelving [2384508]
+    400174: Casework_Shelving Base Shelving [2384608]
+    400176: Casework_Shelving Base Shelving [2384687]
+    400178: Casework_Shelving Base Shelving [2384809]
+    400180: Casework_Shelving Base Shelving [2384902]
+    400182: Casework_Tile Base Casework_Tile Base [2382748]
+    400184: Casework_Tile Base Casework_Tile Base [2382817]
+    400186: Casework_Tile Base Casework_Tile Base [2382817]001
+    400188: Casework_Tile Base Casework_Tile Base [2382984]
+    400190: ceiling
+    400192: countertop
+    400194: dishwasher
+    400196: DISHWASHER_BOX_1
+    400198: DISHWASHER_DOR_1
+    400200: DISHWASHER_DOWN_PANEL_1
+    400202: DISHWASHER_DOWN_PANEL_LOGO
+    400204: DISHWASHER_FRONTPANEL_1
+    400206: door handle_004
+    400208: DOR_HANDEL
+    400210: element plumbing (drains)
+    400212: element plumbing (drains)003
+    400214: element plumbing (drains)004
+    400216: element plumbing (drains)2
+    400218: FABUWOOD Galaxy
+    400220: Floor EF_Fiberglass [2384985]
+    400222: Floor IF_Carpet [2270680]
+    400224: Floor IF_Carpet [2270951]
+    400226: Floor IF_Hardwood [2269449]
+    400228: Floor IF_Shower Tile [2271330]
+    400230: Floor IF_Tile [2271265]
+    400232: Floor IF_Tile [2271297]
+    400234: Fridge01_GE
+    400236: Fridge01_GE_GSE25GSHSS_body
+    400238: Fridge01_GE_GSE25GSHSS_body2
+    400240: Fridge01_GE_GSE25GSHSS_display
+    400242: Fridge01_GE_GSE25GSHSS_grid
+    400244: GGG
+    400246: glas_LIGHT2
+    400248: Glass Bedrooms Bathrooms
+    400250: //RootNode
+    400252: jalousie
+    400254: Kitchen door handles
+    400256: kitchen_dors
+    400258: KITCHEN_METAL_ELEMENT_ plumbing
+    400260: KITCHEN_PLINTUS
+    400262: kitchen_sink
+    400264: KITCHEN_WINDIWS 2
+    400266: KITCHEN_WINDIWS001
+    400268: KITCHEN_WINDIWS002
+    400270: kitchen_wood_1
+    400272: kitchen_wood_2
+    400274: light metal
+    400276: LIGHT_ELEMENT_LAMP
+    400278: LIGHT_ELEMENT_PLAFON002
+    400280: Lighting_INT_Bath Fan Lighting_INT_Bath Fan [2524844]
+    400282: Lighting_INT_Flush Mount Lighting_INT_Flush Mount [2505254]
+    400284: Lighting_INT_Flush Mount Lighting_INT_Flush Mount [2505369]
+    400286: Lighting_INT_Flush Mount Lighting_INT_Flush Mount [2507114]
+    400288: Line006
+    400290: Line009
+    400292: logo
+    400294: Mech_Water Heater WH_AST-40-6 [2540291]
+    400296: Metal handles of the bathroom
+    400298: Metal handles of the bathroom 1
+    400300: metal partition in the bathroom
+    400302: Microwave
+    400304: Microwave03_GE_corpus
+    400306: Microwave03_GE_corpus_2
+    400308: Microwave03_GE_filter
+    400310: Microwave03_GE_glas
+    400312: Microwave03_GE_logo
+    400314: Microwave03_GE_panel_1
+    400316: Microwave03_GE_panel_2
+    400318: MIROR
+    400320: Object002
+    400322: Object005
+    400324: Object015
+    400326: Object030
+    400328: Object032
+    400330: Object033
+    400332: Object034
+    400334: Object035
+    400336: Object036
+    400338: Object037
+    400340: Object038
+    400342: Object039
+    400344: Object040
+    400346: oven_range01
+    400348: oven_range01_display
+    400350: oven_range01_door
+    400352: oven_range01_front_panel
+    400354: oven_range01_hole
+    400356: Plane002
+    400358: Plane005
+    400360: Plane007
+    400362: plumbing element (shifter)
+    400364: plumbing element (shifter)001
+    400366: Rectangle002
+    400368: room_fan
+    400370: ShowerPull_Cardinal_C-Standard 6" [2383215]
+    400372: ShowerPull_Cardinal_TowelBar ShowerPull_Cardinal_TowelBar [2383702]001
+    400374: Sphere002
+    400376: The drain of water
+    400378: TILLE
+    400380: Walln_kitchen
+    400382: washbasin 1
+    400384: washbasin 1 1
+    400386: WINDOW&DOR
+    400388: WOOD_MIROR
+    2300000: ' oven_range01_box'
+    2300002: ' oven_range01_burner'
+    2300004: ' oven_range01_grill'
+    2300006: ' oven_range01_handles'
+    2300008: 01498-MARIONI-283286-bim84f0e7ef0012
+    2300010: Appliance_Washer-Dryer_Stacked 27" x 30" [2506986]
+    2300012: Basic Wall EXT_2x6_1HR_Unfinished-Gyp 2 [2266544]
+    2300014: Basic Wall EXT_2x6_Unfinished-Gyp [2265450]
+    2300016: Basic Wall EXT_2x6_Unfinished-Gyp [2266244]
+    2300018: Basic Wall EXT_2x6_Unfinished-Gyp [2266424]
+    2300020: Basic Wall IF__Denshield-Tile [2380401]
+    2300022: Basic Wall IF__Denshield-Tile [2380403]
+    2300024: Basic Wall IF__Denshield-Tile [2380404]
+    2300026: Basic Wall IF__Denshield-Tile [2381235]
+    2300028: Basic Wall IF__Denshield-Tile [2381237]
+    2300030: Basic Wall IF__Denshield-Tile [2381238]
+    2300032: Basic Wall IF_Denshield [2380715]
+    2300034: Basic Wall IF_Denshield [2380730]
+    2300036: Basic Wall IF_Denshield [2380735]
+    2300038: Basic Wall IF_Denshield [2380843]
+    2300040: Basic Wall IF_Gyp_Smooth [2380716]
+    2300042: Basic Wall IF_Gyp_Smooth [2380731]
+    2300044: Basic Wall IF_Gyp_Smooth [2380736]
+    2300046: Basic Wall IF_Gyp_Smooth [2380844]
+    2300048: Basic Wall IF_Gyp_Smooth [2381136]
+    2300050: Basic Wall IF_Gyp_Smooth [2381144]
+    2300052: Basic Wall IF_Gyp_Smooth [2381149]
+    2300054: Basic Wall IF_Gyp_Smooth [2381154]
+    2300056: Basic Wall INT_2x4_Gyp-Gyp [2265819]
+    2300058: Basic Wall INT_2x4_Gyp-Gyp [2265971]
+    2300060: Basic Wall INT_2x4_Gyp-Gyp [2266664]
+    2300062: Basic Wall INT_2x4_Gyp-Gyp [2266718]
+    2300064: Basic Wall INT_2x4_Gyp-Gyp [2266862]
+    2300066: Basic Wall INT_2x4_Gyp-Gyp [2267054]
+    2300068: Basic Wall INT_2x4_Gyp-Gyp [2267334]
+    2300070: Basic Wall INT_2x4_Gyp-Unfinished [2265701]
+    2300072: Basic Wall INT_2x4_Gyp-Unfinished [2267217]
+    2300074: Basic Wall INT_2x4_Unfinished [2268456]
+    2300076: Basic Wall INT_2x4_Unfinished [2268588]
+    2300078: Basic Wall INT_2x4_Unfinished [2269299]
+    2300080: Basic Wall INT_2x4_Unfinished [2269404]
+    2300082: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2265453]
+    2300084: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2268860]
+    2300086: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2265451]
+    2300088: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2268783]
+    2300090: Basic Wall INT_2x6_2HR_Gyp-Gyp [2268688]
+    2300092: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2268894]
+    2300094: Basic Wall INT_2x6_Gyp-Gyp [2267611]
+    2300096: Basic Wall INT_2x6_Gyp-Gyp [2267703]
+    2300098: Basic Wall INT_2x6_Gyp-Gyp [2267953]
+    2300100: Basic Wall INT_2x6_Gyp-Gyp [2268278]
+    2300102: Basic Wall INT_2x6_Gyp-Unfinished [2267565]
+    2300104: Basic Wall INT__2X4_Denshield-Tile-Denshield-Tile [2271474]
+    2300106: bath_plintus
+    2300108: Bathroom Bath
+    2300110: bathroom partition element
+    2300112: bathroom partition handle
+    2300114: bathroom partition pipe
+    2300116: bowl
+    2300118: bowl2
+    2300120: Casework_Base Casework_Base [2517011]
+    2300122: Casework_Base Casework_Base [2517011]001
+    2300124: Casework_Base Casework_Base [2517288]
+    2300126: Casework_Base Casework_Base [2517289]
+    2300128: Casework_Base Casework_Base [2517290]
+    2300130: Casework_Base Casework_Base [2517291]
+    2300132: Casework_Base Casework_Base [2517438]
+    2300134: Casework_Base Casework_Base [2517439]
+    2300136: Casework_Base Casework_Base [2517440]
+    2300138: Casework_Base Casework_Base [2517441]
+    2300140: Casework_Base Casework_Base [2517556]
+    2300142: Casework_Base Casework_Base [2517882]
+    2300144: Casework_Base Casework_Base [2518893]
+    2300146: Casework_Base Casework_Base [2519156]
+    2300148: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519537]
+    2300150: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519538]
+    2300152: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519539]
+    2300154: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519540]
+    2300156: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520204]
+    2300158: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521266]
+    2300160: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521267]
+    2300162: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521268]
+    2300164: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521269]
+    2300166: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521589]
+    2300168: Casework_Base-Quarter Round Casework_Base-Quarter Round [2525284]
+    2300170: Casework_Shelving Base Shelving [2384508]
+    2300172: Casework_Shelving Base Shelving [2384608]
+    2300174: Casework_Shelving Base Shelving [2384687]
+    2300176: Casework_Shelving Base Shelving [2384809]
+    2300178: Casework_Shelving Base Shelving [2384902]
+    2300180: Casework_Tile Base Casework_Tile Base [2382748]
+    2300182: Casework_Tile Base Casework_Tile Base [2382817]
+    2300184: Casework_Tile Base Casework_Tile Base [2382817]001
+    2300186: Casework_Tile Base Casework_Tile Base [2382984]
+    2300188: ceiling
+    2300190: countertop
+    2300192: DISHWASHER_BOX_1
+    2300194: DISHWASHER_DOR_1
+    2300196: DISHWASHER_DOWN_PANEL_1
+    2300198: DISHWASHER_DOWN_PANEL_LOGO
+    2300200: DISHWASHER_FRONTPANEL_1
+    2300202: door handle_004
+    2300204: DOR_HANDEL
+    2300206: element plumbing (drains)
+    2300208: element plumbing (drains)003
+    2300210: element plumbing (drains)004
+    2300212: element plumbing (drains)2
+    2300214: FABUWOOD Galaxy
+    2300216: Floor EF_Fiberglass [2384985]
+    2300218: Floor IF_Carpet [2270680]
+    2300220: Floor IF_Carpet [2270951]
+    2300222: Floor IF_Hardwood [2269449]
+    2300224: Floor IF_Shower Tile [2271330]
+    2300226: Floor IF_Tile [2271265]
+    2300228: Floor IF_Tile [2271297]
+    2300230: Fridge01_GE_GSE25GSHSS_body
+    2300232: Fridge01_GE_GSE25GSHSS_body2
+    2300234: Fridge01_GE_GSE25GSHSS_display
+    2300236: Fridge01_GE_GSE25GSHSS_grid
+    2300238: GGG
+    2300240: glas_LIGHT2
+    2300242: Glass Bedrooms Bathrooms
+    2300244: jalousie
+    2300246: Kitchen door handles
+    2300248: kitchen_dors
+    2300250: KITCHEN_METAL_ELEMENT_ plumbing
+    2300252: KITCHEN_PLINTUS
+    2300254: kitchen_sink
+    2300256: KITCHEN_WINDIWS 2
+    2300258: KITCHEN_WINDIWS001
+    2300260: KITCHEN_WINDIWS002
+    2300262: kitchen_wood_1
+    2300264: kitchen_wood_2
+    2300266: light metal
+    2300268: LIGHT_ELEMENT_LAMP
+    2300270: LIGHT_ELEMENT_PLAFON002
+    2300272: Line006
+    2300274: Line009
+    2300276: logo
+    2300278: Mech_Water Heater WH_AST-40-6 [2540291]
+    2300280: Metal handles of the bathroom
+    2300282: Metal handles of the bathroom 1
+    2300284: metal partition in the bathroom
+    2300286: Microwave03_GE_corpus
+    2300288: Microwave03_GE_corpus_2
+    2300290: Microwave03_GE_filter
+    2300292: Microwave03_GE_glas
+    2300294: Microwave03_GE_logo
+    2300296: Microwave03_GE_panel_1
+    2300298: Microwave03_GE_panel_2
+    2300300: MIROR
+    2300302: Object002
+    2300304: Object015
+    2300306: Object030
+    2300308: Object032
+    2300310: Object033
+    2300312: Object034
+    2300314: Object035
+    2300316: Object036
+    2300318: Object037
+    2300320: Object038
+    2300322: Object039
+    2300324: Object040
+    2300326: oven_range01_display
+    2300328: oven_range01_door
+    2300330: oven_range01_front_panel
+    2300332: oven_range01_hole
+    2300334: Plane002
+    2300336: Plane005
+    2300338: Plane007
+    2300340: plumbing element (shifter)
+    2300342: plumbing element (shifter)001
+    2300344: Rectangle002
+    2300346: room_fan
+    2300348: ShowerPull_Cardinal_C-Standard 6" [2383215]
+    2300350: Sphere002
+    2300352: The drain of water
+    2300354: TILLE
+    2300356: Walln_kitchen
+    2300358: washbasin 1
+    2300360: washbasin 1 1
+    2300362: WOOD_MIROR
+    3300000: ' oven_range01_box'
+    3300002: ' oven_range01_burner'
+    3300004: ' oven_range01_grill'
+    3300006: ' oven_range01_handles'
+    3300008: 01498-MARIONI-283286-bim84f0e7ef0012
+    3300010: Appliance_Washer-Dryer_Stacked 27" x 30" [2506986]
+    3300012: Basic Wall EXT_2x6_1HR_Unfinished-Gyp 2 [2266544]
+    3300014: Basic Wall EXT_2x6_Unfinished-Gyp [2265450]
+    3300016: Basic Wall EXT_2x6_Unfinished-Gyp [2266244]
+    3300018: Basic Wall EXT_2x6_Unfinished-Gyp [2266424]
+    3300020: Basic Wall IF__Denshield-Tile [2380401]
+    3300022: Basic Wall IF__Denshield-Tile [2380403]
+    3300024: Basic Wall IF__Denshield-Tile [2380404]
+    3300026: Basic Wall IF__Denshield-Tile [2381235]
+    3300028: Basic Wall IF__Denshield-Tile [2381237]
+    3300030: Basic Wall IF__Denshield-Tile [2381238]
+    3300032: Basic Wall IF_Denshield [2380715]
+    3300034: Basic Wall IF_Denshield [2380730]
+    3300036: Basic Wall IF_Denshield [2380735]
+    3300038: Basic Wall IF_Denshield [2380843]
+    3300040: Basic Wall IF_Gyp_Smooth [2380716]
+    3300042: Basic Wall IF_Gyp_Smooth [2380731]
+    3300044: Basic Wall IF_Gyp_Smooth [2380736]
+    3300046: Basic Wall IF_Gyp_Smooth [2380844]
+    3300048: Basic Wall IF_Gyp_Smooth [2381136]
+    3300050: Basic Wall IF_Gyp_Smooth [2381144]
+    3300052: Basic Wall IF_Gyp_Smooth [2381149]
+    3300054: Basic Wall IF_Gyp_Smooth [2381154]
+    3300056: Basic Wall INT_2x4_Gyp-Gyp [2265819]
+    3300058: Basic Wall INT_2x4_Gyp-Gyp [2265971]
+    3300060: Basic Wall INT_2x4_Gyp-Gyp [2266664]
+    3300062: Basic Wall INT_2x4_Gyp-Gyp [2266718]
+    3300064: Basic Wall INT_2x4_Gyp-Gyp [2266862]
+    3300066: Basic Wall INT_2x4_Gyp-Gyp [2267054]
+    3300068: Basic Wall INT_2x4_Gyp-Gyp [2267334]
+    3300070: Basic Wall INT_2x4_Gyp-Unfinished [2265701]
+    3300072: Basic Wall INT_2x4_Gyp-Unfinished [2267217]
+    3300074: Basic Wall INT_2x4_Unfinished [2268456]
+    3300076: Basic Wall INT_2x4_Unfinished [2268588]
+    3300078: Basic Wall INT_2x4_Unfinished [2269299]
+    3300080: Basic Wall INT_2x4_Unfinished [2269404]
+    3300082: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2265453]
+    3300084: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2268860]
+    3300086: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2265451]
+    3300088: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2268783]
+    3300090: Basic Wall INT_2x6_2HR_Gyp-Gyp [2268688]
+    3300092: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2268894]
+    3300094: Basic Wall INT_2x6_Gyp-Gyp [2267611]
+    3300096: Basic Wall INT_2x6_Gyp-Gyp [2267703]
+    3300098: Basic Wall INT_2x6_Gyp-Gyp [2267953]
+    3300100: Basic Wall INT_2x6_Gyp-Gyp [2268278]
+    3300102: Basic Wall INT_2x6_Gyp-Unfinished [2267565]
+    3300104: Basic Wall INT__2X4_Denshield-Tile-Denshield-Tile [2271474]
+    3300106: bath_plintus
+    3300108: Bathroom Bath
+    3300110: bathroom partition element
+    3300112: bathroom partition handle
+    3300114: bathroom partition pipe
+    3300116: bowl
+    3300118: bowl2
+    3300120: Casework_Base Casework_Base [2517011]
+    3300122: Casework_Base Casework_Base [2517011]001
+    3300124: Casework_Base Casework_Base [2517288]
+    3300126: Casework_Base Casework_Base [2517289]
+    3300128: Casework_Base Casework_Base [2517290]
+    3300130: Casework_Base Casework_Base [2517291]
+    3300132: Casework_Base Casework_Base [2517438]
+    3300134: Casework_Base Casework_Base [2517439]
+    3300136: Casework_Base Casework_Base [2517440]
+    3300138: Casework_Base Casework_Base [2517441]
+    3300140: Casework_Base Casework_Base [2517556]
+    3300142: Casework_Base Casework_Base [2517882]
+    3300144: Casework_Base Casework_Base [2518893]
+    3300146: Casework_Base Casework_Base [2519156]
+    3300148: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519537]
+    3300150: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519538]
+    3300152: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519539]
+    3300154: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519540]
+    3300156: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520204]
+    3300158: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521266]
+    3300160: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521267]
+    3300162: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521268]
+    3300164: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521269]
+    3300166: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521589]
+    3300168: Casework_Base-Quarter Round Casework_Base-Quarter Round [2525284]
+    3300170: Casework_Shelving Base Shelving [2384508]
+    3300172: Casework_Shelving Base Shelving [2384608]
+    3300174: Casework_Shelving Base Shelving [2384687]
+    3300176: Casework_Shelving Base Shelving [2384809]
+    3300178: Casework_Shelving Base Shelving [2384902]
+    3300180: Casework_Tile Base Casework_Tile Base [2382748]
+    3300182: Casework_Tile Base Casework_Tile Base [2382817]
+    3300184: Casework_Tile Base Casework_Tile Base [2382817]001
+    3300186: Casework_Tile Base Casework_Tile Base [2382984]
+    3300188: ceiling
+    3300190: countertop
+    3300192: DISHWASHER_BOX_1
+    3300194: DISHWASHER_DOR_1
+    3300196: DISHWASHER_DOWN_PANEL_1
+    3300198: DISHWASHER_DOWN_PANEL_LOGO
+    3300200: DISHWASHER_FRONTPANEL_1
+    3300202: door handle_004
+    3300204: DOR_HANDEL
+    3300206: element plumbing (drains)
+    3300208: element plumbing (drains)003
+    3300210: element plumbing (drains)004
+    3300212: element plumbing (drains)2
+    3300214: FABUWOOD Galaxy
+    3300216: Floor EF_Fiberglass [2384985]
+    3300218: Floor IF_Carpet [2270680]
+    3300220: Floor IF_Carpet [2270951]
+    3300222: Floor IF_Hardwood [2269449]
+    3300224: Floor IF_Shower Tile [2271330]
+    3300226: Floor IF_Tile [2271265]
+    3300228: Floor IF_Tile [2271297]
+    3300230: Fridge01_GE_GSE25GSHSS_body
+    3300232: Fridge01_GE_GSE25GSHSS_body2
+    3300234: Fridge01_GE_GSE25GSHSS_display
+    3300236: Fridge01_GE_GSE25GSHSS_grid
+    3300238: GGG
+    3300240: glas_LIGHT2
+    3300242: Glass Bedrooms Bathrooms
+    3300244: jalousie
+    3300246: Kitchen door handles
+    3300248: kitchen_dors
+    3300250: KITCHEN_METAL_ELEMENT_ plumbing
+    3300252: KITCHEN_PLINTUS
+    3300254: kitchen_sink
+    3300256: KITCHEN_WINDIWS 2
+    3300258: KITCHEN_WINDIWS001
+    3300260: KITCHEN_WINDIWS002
+    3300262: kitchen_wood_1
+    3300264: kitchen_wood_2
+    3300266: light metal
+    3300268: LIGHT_ELEMENT_LAMP
+    3300270: LIGHT_ELEMENT_PLAFON002
+    3300272: Line006
+    3300274: Line009
+    3300276: logo
+    3300278: Mech_Water Heater WH_AST-40-6 [2540291]
+    3300280: Metal handles of the bathroom
+    3300282: Metal handles of the bathroom 1
+    3300284: metal partition in the bathroom
+    3300286: Microwave03_GE_corpus
+    3300288: Microwave03_GE_corpus_2
+    3300290: Microwave03_GE_filter
+    3300292: Microwave03_GE_glas
+    3300294: Microwave03_GE_logo
+    3300296: Microwave03_GE_panel_1
+    3300298: Microwave03_GE_panel_2
+    3300300: MIROR
+    3300302: Object002
+    3300304: Object015
+    3300306: Object030
+    3300308: Object032
+    3300310: Object033
+    3300312: Object034
+    3300314: Object035
+    3300316: Object036
+    3300318: Object037
+    3300320: Object038
+    3300322: Object039
+    3300324: Object040
+    3300326: oven_range01_display
+    3300328: oven_range01_door
+    3300330: oven_range01_front_panel
+    3300332: oven_range01_hole
+    3300334: Plane002
+    3300336: Plane005
+    3300338: Plane007
+    3300340: plumbing element (shifter)
+    3300342: plumbing element (shifter)001
+    3300344: Rectangle002
+    3300346: room_fan
+    3300348: ShowerPull_Cardinal_C-Standard 6" [2383215]
+    3300350: Sphere002
+    3300352: The drain of water
+    3300354: TILLE
+    3300356: Walln_kitchen
+    3300358: washbasin 1
+    3300360: washbasin 1 1
+    3300362: WOOD_MIROR
+    4300000: element plumbing (drains)003
+    4300002: element plumbing (drains)
+    4300004: ceiling
+    4300006: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519538]
+    4300008: Basic Wall EXT_2x6_Unfinished-Gyp [2265450]
+    4300010: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2265453]
+    4300012: Basic Wall INT_2x4_Gyp-Unfinished [2265701]
+    4300014: Basic Wall INT_2x4_Gyp-Gyp [2265819]
+    4300016: Basic Wall INT_2x4_Gyp-Gyp [2265971]
+    4300018: Basic Wall EXT_2x6_Unfinished-Gyp [2266244]
+    4300020: Basic Wall EXT_2x6_Unfinished-Gyp [2266424]
+    4300022: Basic Wall EXT_2x6_1HR_Unfinished-Gyp 2 [2266544]
+    4300024: Basic Wall INT_2x4_Gyp-Gyp [2266664]
+    4300026: Basic Wall INT_2x4_Gyp-Gyp [2266718]
+    4300028: Basic Wall INT_2x4_Gyp-Gyp [2266862]
+    4300030: Basic Wall INT_2x4_Gyp-Gyp [2267054]
+    4300032: Basic Wall INT_2x4_Gyp-Gyp [2267334]
+    4300034: Basic Wall INT_2x6_Gyp-Unfinished [2267565]
+    4300036: Basic Wall INT_2x6_Gyp-Gyp [2267611]
+    4300038: Basic Wall INT_2x6_Gyp-Gyp [2267703]
+    4300040: Basic Wall INT_2x6_Gyp-Gyp [2267953]
+    4300042: Basic Wall INT_2x6_Gyp-Gyp [2268278]
+    4300044: Basic Wall INT_2x4_Unfinished [2268456]
+    4300046: Basic Wall INT_2x4_Unfinished [2268588]
+    4300048: Basic Wall INT_2x6_2HR_Gyp-Gyp [2268688]
+    4300050: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2268783]
+    4300052: room_fan
+    4300054: Floor EF_Fiberglass [2384985]
+    4300056: Basic Wall INT_2x4_Unfinished [2269299]
+    4300058: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2268860]
+    4300060: Floor IF_Hardwood [2269449]
+    4300062: Floor IF_Carpet [2270680]
+    4300064: Floor IF_Carpet [2270951]
+    4300066: Floor IF_Tile [2271265]
+    4300068: Floor IF_Tile [2271297]
+    4300070: Floor IF_Shower Tile [2271330]
+    4300072: Basic Wall INT__2X4_Denshield-Tile-Denshield-Tile [2271474]
+    4300074: Line009
+    4300076: Basic Wall IF__Denshield-Tile [2380403]
+    4300078: KITCHEN_WINDIWS002
+    4300080: Basic Wall IF_Denshield [2380715]
+    4300082: Basic Wall IF_Gyp_Smooth [2380716]
+    4300084: Basic Wall IF_Denshield [2380730]
+    4300086: Basic Wall IF_Gyp_Smooth [2380731]
+    4300088: Basic Wall IF_Gyp_Smooth [2380736]
+    4300090: Basic Wall IF_Denshield [2380843]
+    4300092: Basic Wall IF_Gyp_Smooth [2380844]
+    4300094: Basic Wall IF_Gyp_Smooth [2381136]
+    4300096: Basic Wall IF_Gyp_Smooth [2381144]
+    4300098: Basic Wall IF_Gyp_Smooth [2381149]
+    4300100: Basic Wall IF_Gyp_Smooth [2381154]
+    4300102: Basic Wall IF__Denshield-Tile [2381235]
+    4300104: Basic Wall IF__Denshield-Tile [2381237]
+    4300106: Basic Wall IF__Denshield-Tile [2381238]
+    4300108: Casework_Tile Base Casework_Tile Base [2382748]
+    4300110: Casework_Tile Base Casework_Tile Base [2382984]
+    4300112: KITCHEN_WINDIWS001
+    4300114: Casework_Shelving Base Shelving [2384508]
+    4300116: Casework_Shelving Base Shelving [2384608]
+    4300118: Casework_Shelving Base Shelving [2384687]
+    4300120: Casework_Shelving Base Shelving [2384809]
+    4300122: Casework_Shelving Base Shelving [2384902]
+    4300124: Sphere002
+    4300126: Appliance_Washer-Dryer_Stacked 27" x 30" [2506986]
+    4300128: Casework_Base Casework_Base [2517288]
+    4300130: Casework_Base Casework_Base [2517289]
+    4300132: Casework_Base Casework_Base [2517290]
+    4300134: Casework_Base Casework_Base [2517291]
+    4300136: Casework_Base Casework_Base [2517438]
+    4300138: Casework_Base Casework_Base [2517439]
+    4300140: Casework_Base Casework_Base [2517440]
+    4300142: Casework_Base Casework_Base [2517441]
+    4300144: Casework_Base Casework_Base [2517556]
+    4300146: Casework_Base Casework_Base [2517882]
+    4300148: Casework_Base Casework_Base [2518893]
+    4300150: Casework_Base Casework_Base [2519156]
+    4300152: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519537]
+    4300154: Object030
+    4300156: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519539]
+    4300158: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520204]
+    4300160: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521266]
+    4300162: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521267]
+    4300164: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521268]
+    4300166: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521269]
+    4300168: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521589]
+    4300170: Casework_Base-Quarter Round Casework_Base-Quarter Round [2525284]
+    4300172: Mech_Water Heater WH_AST-40-6 [2540291]
+    4300174: kitchen_dors
+    4300176: kitchen_wood_1
+    4300178: kitchen_wood_2
+    4300180: LIGHT_ELEMENT_LAMP
+    4300182: KITCHEN_METAL_ELEMENT_ plumbing
+    4300184: LIGHT_ELEMENT_PLAFON002
+    4300186: DOR_HANDEL
+    4300188: jalousie
+    4300190: KITCHEN_PLINTUS
+    4300192: Object002
+    4300194: light metal
+    4300196: WOOD_MIROR
+    4300198: MIROR
+    4300200: glas_LIGHT2
+    4300202: bowl
+    4300204: Rectangle002
+    4300206: bowl2
+    4300208: Bathroom Bath
+    4300210: bath_plintus
+    4300212: plumbing element (shifter)
+    4300214: Basic Wall INT_2x4_Gyp-Unfinished [2267217]
+    4300216: plumbing element (shifter)001
+    4300218: The drain of water
+    4300220: Plane005
+    4300222: Metal handles of the bathroom
+    4300224: element plumbing (drains)004
+    4300226: element plumbing (drains)2
+    4300228: Glass Bedrooms Bathrooms
+    4300230: Metal handles of the bathroom
+    4300232: Object015
+    4300234: bathroom partition pipe
+    4300236: Plane002
+    4300238: bathroom partition element
+    4300240: bathroom partition handle
+    4300242: metal partition in the bathroom
+    4300244: Line006
+    4300246: Basic Wall IF__Denshield-Tile [2380401]
+    4300248: Basic Wall INT_2x4_Unfinished [2269404]
+    4300250: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2268894]
+    4300252: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2265451]
+    4300254: Basic Wall IF__Denshield-Tile [2380404]
+    4300256: ShowerPull_Cardinal_C-Standard 6" [2383215]
+    4300258: FABUWOOD Galaxy
+    4300260: kitchen_sink
+    4300262: countertop
+    4300264: Object032
+    4300266: Plane007
+    4300268: DISHWASHER_DOR_1
+    4300270: DISHWASHER_FRONTPANEL_1
+    4300272: DISHWASHER_DOWN_PANEL_1
+    4300274: DISHWASHER_BOX_1
+    4300276: DISHWASHER_DOWN_PANEL_LOGO
+    4300278: ' oven_range01_grill'
+    4300280: oven_range01_hole
+    4300282: oven_range01_door
+    4300284: oven_range01_front_panel
+    4300286: logo
+    4300288: ' oven_range01_handles'
+    4300290: ' oven_range01_burner'
+    4300292: oven_range01_display
+    4300294: ' oven_range01_box'
+    4300296: Microwave03_GE_logo
+    4300298: Microwave03_GE_panel_2
+    4300300: Microwave03_GE_corpus_2
+    4300302: Microwave03_GE_filter
+    4300304: Microwave03_GE_glas
+    4300306: Microwave03_GE_panel_1
+    4300308: Microwave03_GE_corpus
+    4300310: Fridge01_GE_GSE25GSHSS_body
+    4300312: Fridge01_GE_GSE25GSHSS_grid
+    4300314: Casework_Base Casework_Base [2517011]001
+    4300316: Casework_Tile Base Casework_Tile Base [2382817]001
+    4300318: Casework_Base Casework_Base [2517011]
+    4300320: Fridge01_GE_GSE25GSHSS_display
+    4300322: Casework_Tile Base Casework_Tile Base [2382817]
+    4300324: Basic Wall IF_Denshield [2380735]
+    4300326: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519540]
+    4300328: Fridge01_GE_GSE25GSHSS_body2
+    4300330: washbasin 1
+    4300332: washbasin 1
+    4300334: Object034
+    4300336: Object035
+    4300338: Object036
+    4300340: Object037
+    4300342: Object038
+    4300344: Object039
+    4300346: Object040
+    4300348: GGG
+    4300350: KITCHEN_WINDIWS 2
+    4300352: Object033
+    4300354: Walln_kitchen
+    4300356: TILLE
+    4300358: door handle_004
+    4300360: Kitchen door handles
+    4300362: 01498-MARIONI-283286-bim84f0e7ef0012
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 01498-MARIONI-283286-bim84f0e7ef
+    second: {fileID: 2100000, guid: 3ca0501c3ca78224f9be404e9d0e8166, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 13 - Default
+    second: {fileID: 2100000, guid: c8a35ed364ab4784ba5c872f304f0025, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 1_2_ Denshield GWB
+    second: {fileID: 2100000, guid: b85ac29a8ebcf304a860878e09172803, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 1_2_ GWB
+    second: {fileID: 2100000, guid: 89e34e7d5f8d83043a76169a69ec5f75, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 5_8_ Type X GWB
+    second: {fileID: 2100000, guid: 3b2e6c2c9859e7541a829051bcddb49a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Air Infiltration Barrier
+    second: {fileID: 2100000, guid: 661570ae4869da7439fb770b877a0c49, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bathroom Bath
+    second: {fileID: 2100000, guid: 8986bda7708a25043a00e6d89ad12356, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body
+    second: {fileID: 2100000, guid: e46d06efc77d52c4ba67d81cc6e6640e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Brass
+    second: {fileID: 2100000, guid: 74221952899aa26479391c7b9e34900c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Brushed Nickel
+    second: {fileID: 2100000, guid: 308ece7df40268543a04e5fe2e585f17, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DISHWASHER_BOX_1
+    second: {fileID: 2100000, guid: 97049fbb24f55354c8bead8690841961, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DISHWASHER_DOR_1
+    second: {fileID: 2100000, guid: 4089d91d66a90024a872628e11d53463, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DISHWASHER_DOWN_PANEL_1
+    second: {fileID: 2100000, guid: e6ce6420c239bcc468d892322444292b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DISHWASHER_DOWN_PANEL_LOGO
+    second: {fileID: 2100000, guid: 32b6e2c3cab7aa04b8e76318c191fe44, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DISHWASHER_FRONTPANEL_1
+    second: {fileID: 2100000, guid: 58288fc70493f0a4d8f7e9ca28d4760e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Default Wall
+    second: {fileID: 2100000, guid: 24d78611d7b307a4fafea2e7f80fc8a7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Generic
+    second: {fileID: 2100000, guid: c9879d5e20e86e44cbfd5c7f607f1642, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass Bedrooms Bathrooms
+    second: {fileID: 2100000, guid: 35c9cfb92e36e4744af8c757fe8b454c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Interior Trim
+    second: {fileID: 2100000, guid: 8e81d011cd020124aad227c2d15962e0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: KITCHENL_GLASS_ELEMENT_ LIGHT
+    second: {fileID: 2100000, guid: 3dca8157d3870c64985db7c7c5433eb0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: KITCHEN_METAL_ELEMENT_ plumbing
+    second: {fileID: 2100000, guid: 7d6d560618579cb4294f706bcded728c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: KITCHEN_PLINTUS
+    second: {fileID: 2100000, guid: 8a5274285e13ad549b0271abc7c4adf1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: KITCHEN_WINDIWS_GLASS
+    second: {fileID: 2100000, guid: 2cc349d4813abb84f96935125d4988cd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Kitchen door handles_2
+    second: {fileID: 2100000, guid: e13ed1b8a2f8c3f4291e46613f9fb14b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LIGHT_ELEMENT_LAMP
+    second: {fileID: 2100000, guid: aac70c6364e5ab34cadf6ba22c7bec4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LIGHT_ELEMENT_PLAFON
+    second: {fileID: 2100000, guid: d6f6b1560a27fc844bab372b85932424, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MIROR
+    second: {fileID: 2100000, guid: 90bc2ff7957e55c4db386f7e5f1852e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #14'
+    second: {fileID: 2100000, guid: 45429ccd70ed0e949b38b87b0820b320, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #15'
+    second: {fileID: 2100000, guid: e9361e53a7f54a04aa11532929401150, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #16'
+    second: {fileID: 2100000, guid: 5c4725adf2cbf104bb6c6902f0c5627e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal - Bradford White - Steel
+    second: {fileID: 2100000, guid: 53cabe759b14115449845054023a4ca2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal handles of the bathroom
+    second: {fileID: 2100000, guid: 3de4641c4ff7eb84ea93a98ac7efe2a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Microwave03_GE_corpus
+    second: {fileID: 2100000, guid: 2f802d0dbb3e8e6498c12a7ab721f078, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Microwave03_GE_corpus_2
+    second: {fileID: 2100000, guid: d1d9747843c7a474bb797db99f6bc2af, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Microwave03_GE_filter
+    second: {fileID: 2100000, guid: f75b11b7595e0734c93fa338429791f9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Microwave03_GE_glas
+    second: {fileID: 2100000, guid: 19989805c78affa4681c2e17b82d6a49, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Microwave03_GE_logo
+    second: {fileID: 2100000, guid: 32b6e2c3cab7aa04b8e76318c191fe44, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Microwave03_GE_panel_1
+    second: {fileID: 2100000, guid: 0f586b9bbc51134489e4e11d9da92b25, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Microwave03_GE_panel_2
+    second: {fileID: 2100000, guid: daa6773b726ef3c49a50616d3d0f6f81, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: 76e25977bb2bf3646a32e8e94c546bbb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Oak Flooring
+    second: {fileID: 2100000, guid: 9da2e1c331e80334fbb6bb8101010922, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Plastic - Bradford White - UHMW Black
+    second: {fileID: 2100000, guid: 37658d731c2105a42958cb8cac790903, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Plastic- Black
+    second: {fileID: 2100000, guid: 71b78feaa13381642b1a1f15d1b63c65, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Plywood, Sheathing
+    second: {fileID: 2100000, guid: 60d5d7067f6d4d148881f13b05bbd3e3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ROOMS_PLINTUS
+    second: {fileID: 2100000, guid: 4d92e495d5f838442b5d9edb351ba8d0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ROOM_FAN
+    second: {fileID: 2100000, guid: cdf614d15105b0143bf109e1d2c63d2c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Softwood, Lumber
+    second: {fileID: 2100000, guid: 2542af697bc940547a47ff8a81ff7c3e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TILLE
+    second: {fileID: 2100000, guid: 19a8f340c65bcdd469ae5681c4392179, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: The drain of water
+    second: {fileID: 2100000, guid: f661851205823174889a750b4cf2b1ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tile, Porcelain, 2in
+    second: {fileID: 2100000, guid: 1751882612078d14caab31d4418a7df4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tile, Porcelain, Base
+    second: {fileID: 2100000, guid: af8293410384b3c48aab81d6572090db, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WOD_MIROR
+    second: {fileID: 2100000, guid: 1b40fed9df3befa4fa69926aec8933f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WOOD
+    second: {fileID: 2100000, guid: efcb9b3342f43794c86e948f176c12db, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Walln_kitchen
+    second: {fileID: 2100000, guid: f6f32e5c386af27499911a05ce831108, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White Metal
+    second: {fileID: 2100000, guid: 06bebfb420881a246af0b5af15b4503e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bath_plintus
+    second: {fileID: 2100000, guid: a1207fd05ce22cf43bff6a6c67a5aaca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bathroom partition element_
+    second: {fileID: 2100000, guid: b7dc4acf966feaf419820f44cbb92663, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bathroom partition handle
+    second: {fileID: 2100000, guid: c62107d7497ef2942ab6b09b0fa050d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bathroom partition pipe
+    second: {fileID: 2100000, guid: aa23b86a2246db0489e2b2467fc118dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bowl
+    second: {fileID: 2100000, guid: af4e22eec1e2337489bf52e20388021e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ceiling
+    second: {fileID: 2100000, guid: 7b873ea24ddeea34ab9869ce589fb063, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ceiling234234324
+    second: {fileID: 2100000, guid: 8ce72b699ed8dc84a8da9b309a3feee8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: countertop
+    second: {fileID: 2100000, guid: 80bfac17c429b3a448f557c4f953700c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: countertop bathroom bedside tables
+    second: {fileID: 2100000, guid: 75a0be3314da40840a145169fc20dd7e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: display
+    second: {fileID: 2100000, guid: f4593680f5833e8419d0a862aa40f7ad, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: door handle_2
+    second: {fileID: 2100000, guid: fdcb4d1c0698ae442a963cd2390c2f2d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: element plumbing (drains)
+    second: {fileID: 2100000, guid: 67ae52d3554776844a192b5e58f20099, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: element plumbing (drains)2
+    second: {fileID: 2100000, guid: 872abb66abbb5e14789f63f921f7897e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: fridge
+    second: {fileID: 2100000, guid: fdbf1eb152b9af448b7f6e3bb12c20b7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: glass partition in the bathroom
+    second: {fileID: 2100000, guid: 7ce061ca2d7b2664a95c46e141e88339, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: glass partition walls
+    second: {fileID: 2100000, guid: 5c9550929a75c6a43aa4571dad3096a3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: grid
+    second: {fileID: 2100000, guid: 21d15a5a1a9b4e64ba5521f5d89037eb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jalousie_kitchen
+    second: {fileID: 2100000, guid: 9d32e23e98d4574448b839631fb3ec8a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: kitchen sink
+    second: {fileID: 2100000, guid: 6d849029e85634a4d8b8d61111a4c09b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: kitchen_wood_1
+    second: {fileID: 2100000, guid: 0292a8be836629340aeb0eaf7e5575e9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: kitchen_wood_2
+    second: {fileID: 2100000, guid: ed1408dbdb29c474ea2346274137c94a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: kitchen_wood_3
+    second: {fileID: 2100000, guid: d25547c9d57bdd0428704d50e942cfff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: logo
+    second: {fileID: 2100000, guid: 32b6e2c3cab7aa04b8e76318c191fe44, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metal partition in the bathroom
+    second: {fileID: 2100000, guid: 046fa1ea3bf571545ac4332a43118ff9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: oven_range01_box
+    second: {fileID: 2100000, guid: 5278a350b3b8e8a44a4a6c2304b57f5a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: oven_range01_burner
+    second: {fileID: 2100000, guid: 28b2134072549194c84eedecc162318d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: oven_range01_display
+    second: {fileID: 2100000, guid: ea44736e4855d8f4f8ef91752c81d784, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: oven_range01_door
+    second: {fileID: 2100000, guid: 926e8b50dc0b9634ea3b88d040e74a79, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: oven_range01_front_panel
+    second: {fileID: 2100000, guid: d07e00975db4298419be480909bb48ad, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: oven_range01_grill
+    second: {fileID: 2100000, guid: 72eb0d096e99e6e408f02cfa86081f63, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: oven_range01_handles
+    second: {fileID: 2100000, guid: 54f4d5665c127cb4aa722e64308092a3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: oven_range01_hole
+    second: {fileID: 2100000, guid: c76e980421cbd624b9f2bc1b2760ac0f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plumbing element (shifter)
+    second: {fileID: 2100000, guid: 83e3361c4bcbc7846921e7edd8447ddd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: shifter
+    second: {fileID: 2100000, guid: dbe1aa9dbe3292f4bbc553eef8f5ea7f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: shifter 2
+    second: {fileID: 2100000, guid: 7b8a9bc821c6e194aa8e9fea73bf7795, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: venting
+    second: {fileID: 2100000, guid: 4636fc3b9ba6fe44397a4a80c94929b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: washbasin 1
+    second: {fileID: 2100000, guid: 2d504fdec5a2cf8429064467e376b6fe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: window_kitchen
+    second: {fileID: 2100000, guid: f280f35176055ed42a69c0e5574a60a3, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

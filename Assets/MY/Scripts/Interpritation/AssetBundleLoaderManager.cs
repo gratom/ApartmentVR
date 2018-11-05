@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -6,8 +7,15 @@ using UnityEngine;
 /// <summary>
 /// Interface for load managment and load distribution
 /// </summary>
-public interface IAssetBundleLoadeble
+public interface IAssetBundleLoadable
 {
+
+    /// <summary>
+    /// Set the bundle like in original object
+    /// </summary>
+    /// <param name="itemOriginal">object original</param>
+    void CopyBundleFrom(IAssetBundleLoadable itemOriginal);
+
     /// <summary>
     /// Starting load asset bundle
     /// </summary>
@@ -35,7 +43,26 @@ public interface IAssetBundleLoadeble
     /// <returns>gudhub url file name</returns>
     string GetRealURL();
 
+    /// <summary>
+    /// this function call when the bundle is ready to load from disk and use
+    /// </summary>
     void BundleReady();
+
+    /// <summary>
+    /// Add the listener to current event
+    /// </summary>
+    /// <param name="bundleEvent">type of event</param>
+    /// <param name="onEventFunction">Delegate will be called on event</param>
+    void AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent bundleEvent, AssetBundleLoaderManager.OnEventFunction onEventFunction);
+
+    /// <summary>
+    /// Remove the current listener on current event
+    /// </summary>
+    /// <param name="bundleEvent">type of event</param>
+    /// <param name="onEventFunction">Delegate, that will be removed from current event</param>
+    void RemoveListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent bundleEvent, AssetBundleLoaderManager.OnEventFunction onEventFunction);
+
+    AssetBundle AssetBundleInstance { get; }
 
 }
 
@@ -52,7 +79,7 @@ public class AssetBundleLoaderSetting
 public class LoadingTread
 {
     public Coroutine CoroutineInnstance;
-    public List<IAssetBundleLoadeble> AssetBundlesLoadableList;
+    public List<IAssetBundleLoadable> AssetBundlesLoadableList;
 }
 
 /// <summary>
@@ -60,6 +87,14 @@ public class LoadingTread
 /// </summary>
 public class AssetBundleLoaderManager : MonoBehaviour 
 {
+    public delegate void OnEventFunction(IAssetBundleLoadable item = null);
+
+    public enum IAssetBundleLoadableEvent
+    {
+        BundleReady,
+        BundleStartLoading,
+        BundleError
+    }
 
     /// <summary>
     /// Singleton
@@ -71,8 +106,12 @@ public class AssetBundleLoaderManager : MonoBehaviour
     /// </summary>
     public AssetBundleLoaderSetting Setting;
 
-    private List<LoadingTread> LoadingTreadsList;
+    /// <summary>
+    /// Permanent app path, that initiated when module is initiated. The path of app data
+    /// </summary>
     public string AppPath { get; private set; }
+
+    private List<LoadingTread> LoadingTreadsList;
 
     #region Unity functions
 
@@ -80,6 +119,9 @@ public class AssetBundleLoaderManager : MonoBehaviour
 
     #region public functions
 
+    /// <summary>
+    /// Trying to initiate this module
+    /// </summary>
     public void TryInit()
     {
         if (Instance == null)
@@ -88,7 +130,11 @@ public class AssetBundleLoaderManager : MonoBehaviour
         }
     }
 
-    public void AddToLoadeble(IAssetBundleLoadeble item)
+    /// <summary>
+    /// Add the item to queue loading, and when the assetbundle was loaded will be called function bundleReady()
+    /// </summary>
+    /// <param name="item">IAssetBundleLoadeble item, that will be loaded bundle</param>
+    public void AddToLoadable(IAssetBundleLoadable item)
     {
         int tempNum = 0;
         int tempCount = int.MaxValue;
@@ -101,6 +147,7 @@ public class AssetBundleLoaderManager : MonoBehaviour
             }
         }
         LoadingTreadsList[tempNum].AssetBundlesLoadableList.Add(item);
+        //Debug.Log("loading item " + item.GetURLName() + " adding to tread " + tempNum.ToString());
     }
 
     #endregion
@@ -129,7 +176,7 @@ public class AssetBundleLoaderManager : MonoBehaviour
         for (int i = 0; i < Setting.MaxCountOfLoadingTread; i++)
         {
             LoadingTreadsList.Add(new LoadingTread());
-            LoadingTreadsList[i].AssetBundlesLoadableList = new List<IAssetBundleLoadeble>();
+            LoadingTreadsList[i].AssetBundlesLoadableList = new List<IAssetBundleLoadable>();
         }
     }
 
@@ -180,25 +227,29 @@ public class AssetBundleLoaderManager : MonoBehaviour
                 {
                     WWW www = new WWW(RealGudhubURL);
                     yield return www;
-                    FileStream fs = new FileStream(path, FileMode.OpenOrCreate);
-                    BinaryWriter bw = new BinaryWriter(fs);
-                    bw.Write(www.bytes);
-                    bw.Close();
-                    fs.Close();
+                    if (!File.Exists(path))
+                    {
+                        FileStream fs = new FileStream(path, FileMode.OpenOrCreate);
+                        BinaryWriter bw = new BinaryWriter(fs);
+                        bw.Write(www.bytes);
+                        bw.Close();
+                        fs.Close();
+                    }
                 }
-
                 LoadingTreadsList[num].AssetBundlesLoadableList[0].BundleReady();
                 LoadingTreadsList[num].AssetBundlesLoadableList.RemoveAt(0);
                 yield return null;
+                #region realtimer
                 //if (Time.realtimeSinceStartup - LocalTimer > 0.03)
                 //{
                 //    LocalTimer = Time.realtimeSinceStartup;
                 //    yield return null;
                 //}
+                #endregion
             }
             else
             {
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.1f); //waiting time for next loading try
             }
         }   
     }

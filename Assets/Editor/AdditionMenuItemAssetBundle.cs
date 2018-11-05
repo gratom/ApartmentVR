@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AdditionMenuItemAssetBundle
 {
-    [MenuItem("Simple Bundles/Build")]
+    [UnityEditor.MenuItem("Simple Bundles/Build")]
     static void BuildBundles()
     {
         string path = EditorUtility.SaveFolderPanel("Save Bundle", "", "");  //Отображает диалоговое окно "Сохранить Папку" и возвращается

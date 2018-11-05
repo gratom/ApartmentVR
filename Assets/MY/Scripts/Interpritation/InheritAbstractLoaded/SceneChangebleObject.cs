@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using MyVRMenu;
 
 /// <summary>
 /// Class 
@@ -9,7 +11,8 @@ public enum SceneChangebleObjectTypes
 {
     nameObject,
     typeObject,
-    AssetBundleURL
+    AssetBundleURL,
+    PreImage
 }
 
 /// <summary>
@@ -22,20 +25,48 @@ public class SettingForFieldsInSceneChangebleObject : AbstractObjectConstructabl
 /// Class for changeble object on scene.
 /// </summary>
 [System.Serializable]
-public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleObjectTypes>, IAssetBundleLoadeble, IClickable, IMenuClickable
+public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleObjectTypes>, IAssetBundleLoadable, ISceneClickable, IMenuClickable
 {
+    /// <summary>
+    /// Its the name of object. The name is not unique
+    /// </summary>
     public string ChangebleObjectName { get; private set; }
+
+    /// <summary>
+    /// The type of this object. ChangebleObject type is needed to determine what can be replaced
+    /// </summary>
     public string ChangebleObjectType { get; private set; }
+
+    /// <summary>
+    /// This is URL for downloading assetbundle, that will be used
+    /// </summary>
     public string RealGudHubURL { get; private set; }
+
+    /// <summary>
+    /// It is the name of assetbundle on disk
+    /// </summary>
     public string URLName { get; private set; }
 
+    /// <summary>
+    /// Sprite image, that loaded before real model or texture was loaded
+    /// </summary>
+    public Sprite PreImage { get; private set; }
+
+    /// <summary>
+    /// Setting for initializing fields value
+    /// </summary>
     [SerializeField]
     private List<SettingForFieldsInSceneChangebleObject> settingFieldList;
 
+    [SerializeField]
     private GameObject AssetGameObject;
-    private AssetBundle AssetBundleInstance;
+    public AssetBundle AssetBundleInstance { get; private set; }
 
-    #region public override functions
+    private bool IsBundleAlreadyLoading = false;
+
+    private Dictionary<AssetBundleLoaderManager.IAssetBundleLoadableEvent, List<AssetBundleLoaderManager.OnEventFunction>> EventDictionary;
+
+    #region public functions
 
     /// <summary>
     /// Use this BEFORE initializating. This function make the inner cohesion in class instance 
@@ -47,7 +78,10 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         FunctionsDictionary.Add(SceneChangebleObjectTypes.AssetBundleURL, InitURL);
         FunctionsDictionary.Add(SceneChangebleObjectTypes.typeObject, InitTypeObject);
 
-        SettingListFieldToRealFields();
+        if (ComponentsDataList == null)
+        {
+            SettingListFieldToRealFields();
+        }
     }
 
     /// <summary>
@@ -79,9 +113,43 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         AssetGameObject.GetComponent<MeshRenderer>().material = material;
     }
 
+    public void SpawnBundle()
+    {
+        if (AssetBundleInstance != null && AssetGameObject == null) 
+        {
+            AssetGameObject = Instantiate((GameObject)AssetBundleInstance.LoadAsset(AssetBundleInstance.GetAllAssetNames()[0]), this.transform); //поворот бандла определяется здесь, так как сам ChangableObject не повернут относительно точки спавна
+            AssetGameObject.transform.localPosition = new Vector3(0, 0, 0);
+            LoadedMaterial tempLoadedMaterial = SceneLoaderManager.Instance.GetMaterialForThat(this);
+            if (tempLoadedMaterial != null)
+            {
+                if (tempLoadedMaterial.AssetBundleInstance != null)
+                {
+                    MaterialReady(tempLoadedMaterial);
+                }
+                else
+                {
+                    tempLoadedMaterial.AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady, MaterialReady);
+                    tempLoadedMaterial.StartLoadAssetBundle();
+                }
+            }
+            if (this.gameObject.transform.parent != null)
+            {
+                if (this.gameObject.transform.parent.GetComponent<MenuItem>() != null)
+                {
+                    if(AssetGameObject.GetComponent<BoxCollider>() != null)
+                    {
+                        Destroy(AssetGameObject.GetComponent<BoxCollider>());
+                    }
+                }
+            }
+        }       
+    }
+
     #endregion
 
     #region private functions
+
+    #region init functions
 
     private void SettingListFieldToRealFields()
     {
@@ -107,6 +175,10 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         }
     }
 
+    private void ItitPreImage(int num)
+    {
+
+    }
 
     private void InitName(int num)
     {
@@ -118,10 +190,40 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         ChangebleObjectType = ComponentsDataList[num].StringValue;
     }
 
-    private void LoadAssetBundleFromURL() // сейчас можно не использовать, а потом, когда будет написан нормальный регулятор загрузок, чтобы не было просаживания FPS, нужно будет использовать эту функцию
+    #endregion    
+
+    private void InitEventDictionary()
     {
-        StartLoadAssetBundle();
+        EventDictionary = new Dictionary<AssetBundleLoaderManager.IAssetBundleLoadableEvent, List<AssetBundleLoaderManager.OnEventFunction>>();
+        for (int i = 0; i < Enum.GetNames(typeof(AssetBundleLoaderManager.IAssetBundleLoadableEvent)).Length; i++)
+        {
+            EventDictionary[(AssetBundleLoaderManager.IAssetBundleLoadableEvent)i] = new List<AssetBundleLoaderManager.OnEventFunction>();
+        }
     }
+
+    private void EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent eventType)
+    {
+        if (EventDictionary == null)
+        {
+            InitEventDictionary();
+            return;
+        }
+        //create new list, for stabil work
+        List<AssetBundleLoaderManager.OnEventFunction> tempList = new List<AssetBundleLoaderManager.OnEventFunction>();
+        for (int i = 0; i < EventDictionary[eventType].Count; i++)
+        {
+            tempList.Add(EventDictionary[eventType][i]);
+        }
+        for (int i = 0; i < tempList.Count; i++)
+        {
+            tempList[i](this);
+        }
+    }
+
+    private void MaterialReady(IAssetBundleLoadable item)
+    {
+        ChangeMaterialTo(((LoadedMaterial)item).loadedMaterial);
+    }    
 
     #endregion
 
@@ -132,26 +234,34 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     /// </summary>
     public void StartLoadAssetBundle()
     {
-        if (AssetBundleInstance == null)
+        if (!IsBundleAlreadyLoading)
         {
-            AssetBundleLoaderManager.Instance.AddToLoadeble(this);
+            AssetBundleLoaderManager.Instance.AddToLoadable(this);
+            IsBundleAlreadyLoading = true;
+            EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleStartLoading);
         }
-        BundleShow();
+        if(AssetBundleInstance != null)
+        {
+            EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
+        }
     }
 
-    void IAssetBundleLoadeble.BundleReady()
+    /// <summary>
+    /// Event function, that will be called when asset bundle will be loaded
+    /// </summary>
+    void IAssetBundleLoadable.BundleReady()
     {
         if (AssetBundleInstance == null)
         {
             string path = AssetBundleLoaderManager.Instance.AppPath;
-            //Debug.Log(name + ";" + ChangebleObjectName + ";urlname=" + URLName + ";" + ComponentsDataList[2].StringValue);
             AssetBundleInstance = AssetBundle.LoadFromFile(path + URLName);
-            AssetGameObject = Instantiate((GameObject)AssetBundleInstance.LoadAsset(AssetBundleInstance.GetAllAssetNames()[0]), this.transform);
-            AssetGameObject.transform.localPosition = new Vector3(0, 0, 0);
         }
-        BundleShow();
+        EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
     }
 
+    /// <summary>
+    /// Hide the bundle object
+    /// </summary>
     public void BundleHide()
     {
         if (AssetGameObject != null)
@@ -160,6 +270,9 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         }
     }
 
+    /// <summary>
+    /// Show the bundle object
+    /// </summary>
     public void BundleShow()
     {
         if (AssetGameObject != null)
@@ -168,43 +281,58 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         }
     }
 
+    /// <summary>
+    /// Return the name of asset bundle on disk
+    /// </summary>
+    /// <returns>name of asset bundle on disk</returns>
     public string GetURLName()
     {
         return URLName;
     }
 
+    /// <summary>
+    /// Return the URL path for downloading the asset buncdle from GudHub
+    /// </summary>
+    /// <returns></returns>
     public string GetRealURL()
     {
         return RealGudHubURL;
     }
 
-    public void onMenuClick(MonoBehaviour itemInstance)
+    /// <summary>
+    /// The function called when item clicked on menu, usually it placed in delegate
+    /// </summary>
+    /// <param name="itemInstance">object, on which cliked</param>
+    public void OnMenuClick(MonoBehaviour itemInstance)
     {
-        Vector3 tempPos = ((SceneChangebleObject)MenuManager.Instance.objectSelected).transform.position;
-        MenuManager.Instance.ClickedOnClickable((SceneChangebleObject)itemInstance);
-        ((SceneChangebleObject)itemInstance).transform.position = tempPos;
-        ((SceneChangebleObject)itemInstance).BundleShow();
+        //TODO
+        //Spawn here new object
+        SceneChangebleObject tempSceneChangable = SceneLoaderManager.Instance.SpawnSceneChangableHere(((SceneChangebleObject)MenuManager.Instance.ObjectSelected).gameObject.transform.parent, ((SceneChangebleObject)itemInstance).ID);
+        tempSceneChangable.StartLoadAssetBundle();
+        //Click on this new object
+
+        Destroy(((SceneChangebleObject)MenuManager.Instance.ObjectSelected).gameObject);
+        //Rework this later! 
+        VRControllerManager.Instance.ImitateSelectButtonClick(tempSceneChangable.gameObject);
+
     }
 
     /// <summary>
     /// Get the object for show in menu, on click event
     /// </summary>
     /// <returns>the list of menu objects</returns>
-    public List<MenuObject> GetListOfMenuObject()
+    public List<MenuItem> GetListOfMenuObject()
     {
-        List<MenuObject> returnedList = new List<MenuObject>();       
+        List<MenuItem> returnedList = new List<MenuItem>();       
 
         //add the other item, like this item...
         List<SceneChangebleObject> tempSceneObjectChangeble = SceneLoaderManager.Instance.GetItemsLikeThat(this);
         for (int i = 0; i < tempSceneObjectChangeble.Count; i++)
-        {
-            if (tempSceneObjectChangeble[i] != this)
-            {
-                GameObject gameObjectMenuObject = new GameObject("MemuElementObject" + i.ToString());
-                MenuObject menuObject = gameObjectMenuObject.AddComponent<MenuObject>();
-                menuObject.SetMenuObject(MenuObject.TypeOfObject.firstLine, tempSceneObjectChangeble[i]);
-                returnedList.Add(menuObject);
-            }
+        {            
+            GameObject gameObjectMenuObject = new GameObject("MemuElementObject" + i.ToString());
+            MenuItem menuObject = gameObjectMenuObject.AddComponent<MenuItem>();
+            menuObject.SetMenuObject(MenuLine.TypeOfLine.firstLine, tempSceneObjectChangeble[i]);
+            returnedList.Add(menuObject);
         }
 
         //add the textures
@@ -212,12 +340,45 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         for (int i = 0; i < tempLoadedMeterial.Count; i++)
         {
             GameObject gameObjectMenuObject = new GameObject("MemuElementMaterial" + i.ToString());
-            MenuObject menuObject = gameObjectMenuObject.AddComponent<MenuObject>();
-            menuObject.SetMenuObject(MenuObject.TypeOfObject.secondLine, tempLoadedMeterial[i]);
+            MenuItem menuObject = gameObjectMenuObject.AddComponent<MenuItem>();
+            menuObject.SetMenuObject(MenuLine.TypeOfLine.secondLine, tempLoadedMeterial[i]);
             returnedList.Add(menuObject);
         }
 
         return returnedList;
+    }
+
+    public void AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent bundleEvent, AssetBundleLoaderManager.OnEventFunction onEventFunction)
+    {
+        if(EventDictionary == null)
+        {
+            InitEventDictionary();
+        }
+        EventDictionary[bundleEvent].Add(onEventFunction);
+    }
+
+    public void RemoveListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent bundleEvent, AssetBundleLoaderManager.OnEventFunction onEventFunction)
+    {
+        if (EventDictionary == null)
+        {
+            InitEventDictionary();
+        }
+        EventDictionary[bundleEvent].Remove(onEventFunction);
+    }
+
+    public void CopyBundleFrom(IAssetBundleLoadable itemOriginal)
+    {
+        if (itemOriginal.AssetBundleInstance != null)
+        {
+            AssetBundleInstance = itemOriginal.AssetBundleInstance;
+            EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
+        }
+        else
+        {
+            //wait for it...
+            itemOriginal.AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady, CopyBundleFrom);
+            itemOriginal.StartLoadAssetBundle();
+        }
     }
 
     #endregion

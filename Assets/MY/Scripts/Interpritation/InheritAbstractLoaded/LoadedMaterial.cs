@@ -1,12 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using System;
+using MyVRMenu;
 
 public enum LoadedMaterialClassTypes
 {
     nameMaterial,
     AssetBundleURL,
-    ForItemsWithID
+    ForItemsWithID,
+    PreImage
 }
 
 /// <summary>
@@ -19,7 +21,7 @@ public class SettingForFieldsInLoadedMaterial : AbstractObjectConstructableCompo
 /// Class for dynamic loaded materials
 /// </summary>
 [System.Serializable]
-public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTypes>, IAssetBundleLoadeble, IMenuClickable
+public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTypes>, IAssetBundleLoadable, IMenuClickable
 {
     public string LoadedMaterialName { get; private set; }
     public int[] ListOfItemsFor  { get; private set; }
@@ -28,19 +30,15 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
 
     [SerializeField]
     private List<SettingForFieldsInLoadedMaterial> settingFieldList;
+    
+    public Material loadedMaterial { get; private set; }
+    public AssetBundle AssetBundleInstance { get; private set; }
 
-    private AssetBundle AssetBundleInstance;
+    private Dictionary<AssetBundleLoaderManager.IAssetBundleLoadableEvent, List<AssetBundleLoaderManager.OnEventFunction>> EventDictionary;
 
-    #region Unity functions
+    private bool IsBundleAlreadyLoading = false;
 
-    void Awake()
-    {
-        //Test1();
-    }
-
-    #endregion
-
-    #region public override functions
+    #region public functions
 
     /// <summary>
     /// Use this BEFORE initializating. This function make the inner cohesion in class instance 
@@ -52,7 +50,10 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
         FunctionsDictionary.Add(LoadedMaterialClassTypes.AssetBundleURL, InitURL);
         FunctionsDictionary.Add(LoadedMaterialClassTypes.ForItemsWithID, InitListOfItemsFor);
 
-        SettingListFieldToRealFields();
+        if (ComponentsDataList == null)
+        {
+            SettingListFieldToRealFields();
+        }
     }
 
     /// <summary>
@@ -69,15 +70,22 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
                     FunctionsDictionary[ComponentsDataList[i].valueType](i);
                 }
             }
-#if UNITY_EDITOR
-            //Debug.Log("Heh, another one item is initiated!");
-#endif
+        }
+    }
+
+    public void LoadMaterial()
+    {
+        if (AssetBundleInstance != null)
+        {
+            loadedMaterial = (Material)AssetBundleInstance.LoadAsset(AssetBundleInstance.GetAllAssetNames()[0]);
         }
     }
 
     #endregion
 
     #region private functions
+
+    #region init functions
 
     private void SettingListFieldToRealFields()
     {
@@ -118,46 +126,89 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
 
     #endregion
 
+    private void InitEventDictionary()
+    {
+        EventDictionary = new Dictionary<AssetBundleLoaderManager.IAssetBundleLoadableEvent, List<AssetBundleLoaderManager.OnEventFunction>>();
+        for (int i = 0; i < Enum.GetNames(typeof(AssetBundleLoaderManager.IAssetBundleLoadableEvent)).Length; i++)
+        {
+            EventDictionary[(AssetBundleLoaderManager.IAssetBundleLoadableEvent)i] = new List<AssetBundleLoaderManager.OnEventFunction>();
+        }
+    }
+
+    private void EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent eventType)
+    {
+        if (EventDictionary == null)
+        {
+            InitEventDictionary();
+            return;
+        }
+        //create new list, for stabil work
+        List<AssetBundleLoaderManager.OnEventFunction> tempList = new List<AssetBundleLoaderManager.OnEventFunction>();
+        for (int i = 0; i < EventDictionary[eventType].Count; i++)
+        {
+            tempList.Add(EventDictionary[eventType][i]);
+        }
+        for (int i = 0; i < tempList.Count; i++)
+        {
+            tempList[i](this);
+        }
+    }
+
+    #endregion
+
     #region interfaces
 
     public void StartLoadAssetBundle()
-    {
-        if (AssetBundleInstance == null)
+    {        
+        if (!IsBundleAlreadyLoading)
         {
-            AssetBundleLoaderManager.Instance.AddToLoadeble(this);
-        }        
-        BundleShow();
+            AssetBundleLoaderManager.Instance.AddToLoadable(this);            
+            IsBundleAlreadyLoading = true;
+            EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleStartLoading);
+        }
+        if (AssetBundleInstance != null)
+        {
+            EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
+        }
     }
 
-    void IAssetBundleLoadeble.BundleReady()
+    void IAssetBundleLoadable.BundleReady()
     {
         if (AssetBundleInstance == null)
         {
             string path = AssetBundleLoaderManager.Instance.AppPath;
-            AssetBundleInstance = AssetBundle.LoadFromFile(path + URLName);
-            if (this.gameObject.GetComponent<MeshRenderer>() == null)
-            {
-                this.gameObject.AddComponent<MeshRenderer>();
-            }
-            this.gameObject.GetComponent<MeshRenderer>().material = (Material)AssetBundleInstance.LoadAsset(AssetBundleInstance.GetAllAssetNames()[0]);
+            AssetBundleInstance = AssetBundle.LoadFromFile(path + URLName);            
         }
-        BundleShow();
+        LoadMaterial();
+        EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
     }
 
     public void BundleHide()
     {
-        if (this.gameObject.GetComponent<MeshRenderer>() != null)
-        {
-            this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-        }
+
     }
 
     public void BundleShow()
     {
-        if (this.gameObject.GetComponent<MeshRenderer>() != null)
+
+    }
+
+    public void AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent bundleEvent, AssetBundleLoaderManager.OnEventFunction onEventFunction)
+    {
+        if (EventDictionary == null)
         {
-            this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            InitEventDictionary();
         }
+        EventDictionary[bundleEvent].Add(onEventFunction);
+    }
+
+    public void RemoveListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent bundleEvent, AssetBundleLoaderManager.OnEventFunction onEventFunction)
+    {
+        if (EventDictionary == null)
+        {
+            InitEventDictionary();
+        }
+        EventDictionary[bundleEvent].Remove(onEventFunction);
     }
 
     public string GetURLName()
@@ -170,15 +221,34 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
         return RealGudHubURL;
     }
 
-    public void onMenuClick(MonoBehaviour itemInstance)
+    public void OnMenuClick(MonoBehaviour itemInstance)
     {
         try
         {
-            ((SceneChangebleObject)MenuManager.Instance.objectSelected).ChangeMaterialTo(itemInstance.GetComponent<MeshRenderer>().material);
+            ((SceneChangebleObject)MenuManager.Instance.ObjectSelected).ChangeMaterialTo(loadedMaterial);
+            Debug.Log("Try to change material!" + ((SceneChangebleObject)MenuManager.Instance.ObjectSelected).name);
         }
         catch (System.Exception e)
         {
             Debug.Log(e.ToString());
+        }
+    }
+
+    public void CopyBundleFrom(IAssetBundleLoadable itemOriginal)
+    {
+        //делаем пометку что мы копия, и что мы ждем, или уже получили свой бандл
+        IsBundleAlreadyLoading = true;
+
+        if (itemOriginal.AssetBundleInstance != null)
+        {
+            AssetBundleInstance = itemOriginal.AssetBundleInstance;
+            LoadMaterial();
+            EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
+        }
+        else
+        {
+            itemOriginal.AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady, CopyBundleFrom);
+            itemOriginal.StartLoadAssetBundle();
         }
     }
 
@@ -197,5 +267,5 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
 #endif
 
     #endregion
-   
+
 }

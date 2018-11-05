@@ -9,7 +9,6 @@ using System;
 /// </summary>
 public static class SaverLoaderModule 
 {
-
     public static void SaveMyDataTo(string DPath, string DString)
     {
         try
@@ -29,11 +28,11 @@ public static class SaverLoaderModule
     {
         try
         {
-            if (File.Exists(Application.persistentDataPath + DPath))
+            if (File.Exists(Application.persistentDataPath + "/" + DPath))
             {
-                StreamReader MyFile = new StreamReader(Application.persistentDataPath + DPath);
+                StreamReader MyFile = new StreamReader(Application.persistentDataPath + "/" + DPath);
                 string DString = MyFile.ReadToEnd();
-                MyFile.Close();
+                MyFile.Close();                
                 return DString;
             }
         }
@@ -43,5 +42,4 @@ public static class SaverLoaderModule
         }
         return "";
     }   
-
 }

@@ -249,7 +249,12 @@ public class JSONMainManager : MonoBehaviour
             //Load from local storage
             for (int i = 0; i < AppDataLoaderInstance.ListOfAppsSetting.Count; i++)
             {
-                AppDataLoaderInstance.ListOfAppsSetting[i].AppData = JSONModule.StringToAppData(AppDataLoaderInstance.ListOfAppsSetting[i].LocalStorageString);
+                if (AppDataLoaderInstance.ListOfAppsSetting[i].StorageIs)
+                {
+                    Debug.Log(AppDataLoaderInstance.ListOfAppsSetting[i].LocalStorageString);
+                    AppDataLoadEnd(AppDataLoaderInstance.ListOfAppsSetting[i].LocalStorageString);
+                    //AppDataLoaderInstance.ListOfAppsSetting[i].AppData = JSONModule.StringToAppData(AppDataLoaderInstance.ListOfAppsSetting[i].LocalStorageString);
+                }
             }
         }        
     }  

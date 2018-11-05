@@ -42,11 +42,25 @@ public class RequestsModule : MonoBehaviour
 
     #region Unity Functions
 
-    
+
 
     #endregion
 
     #region Public Functions
+
+    public void DebugData()
+    {
+        string outString = "";
+        for(int i = 0; i < EventsDictionary.Count; i++)
+        {
+            outString += "Event " + i.ToString() + ":" + ((RequestEvents)i).ToString() + "; Delegate count = " + EventsDictionary[(RequestEvents)i].Count + "\n";
+            for (int j = 0; j < EventsDictionary[(RequestEvents)i].Count; j++)
+            {
+                outString += "___Delegate " + j.ToString() + ":" + EventsDictionary[(RequestEvents)i][j].Method.Name + "\n";
+            }            
+        }
+        Debug.Log(outString);
+    }
 
     /// <summary>
     /// Adding the new function to event

@@ -3,6 +3,8 @@ Library/
 .vs/
 BUILDS_ANDROID/
 BUILDS_WIN/
+Assets/Apartment1/
+LoadedAssetBundles/
 
 ExportedObj/
 obj/

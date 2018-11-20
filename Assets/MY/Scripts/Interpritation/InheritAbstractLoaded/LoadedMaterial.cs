@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using System;
 using MyVRMenu;
@@ -230,10 +231,15 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
         if (AssetBundleInstance == null)
         {
             string path = AssetBundleLoaderManager.Instance.AppPath;
-            AssetBundleInstance = AssetBundle.LoadFromFile(path + URLName);            
+            AssetBundleCreateRequest aTemp = AssetBundle.LoadFromFileAsync(path + URLName);
+            aTemp.completed += x => 
+            {
+                AssetBundleInstance = aTemp.assetBundle;
+                LoadMaterial();
+                EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
+            };            
         }
-        LoadMaterial();
-        EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
+        
     }
 
     /// <summary>

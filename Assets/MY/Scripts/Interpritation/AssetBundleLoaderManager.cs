@@ -149,6 +149,8 @@ public class AssetBundleLoaderManager : MonoBehaviour
 
     private List<LoadingTread> LoadingTreadsList;
 
+    private float LocalTimer;
+
     #region Unity functions
 
     #endregion
@@ -275,7 +277,7 @@ public class AssetBundleLoaderManager : MonoBehaviour
                 LoadingTreadsList[num].AssetBundlesLoadableList.RemoveAt(0);
                 yield return null;
                 #region realtimer
-                //if (Time.realtimeSinceStartup - LocalTimer > 0.03)
+                //if (Time.realtimeSinceStartup - LocalTimer > 0.01f)
                 //{
                 //    LocalTimer = Time.realtimeSinceStartup;
                 //    yield return null;
@@ -284,7 +286,7 @@ public class AssetBundleLoaderManager : MonoBehaviour
             }
             else
             {
-                yield return new WaitForSeconds(0.1f); //waiting time for next loading try
+                yield return new WaitForSeconds(0.2f); //waiting time for next loading try
             }
         }   
     }

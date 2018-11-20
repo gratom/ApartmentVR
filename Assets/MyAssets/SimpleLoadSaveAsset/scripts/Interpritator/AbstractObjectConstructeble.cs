@@ -2,11 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class for setting and store data of AbstractObjectConstructable class
+/// </summary>
+/// <typeparam name="TypeElement">Any of System.Enum</typeparam>
 [System.Serializable]
 public class AbstractObjectConstructableComponentData<TypeElement> where TypeElement : struct, System.IConvertible
 {
+    /// <summary>
+    /// Any of System.Enum
+    /// </summary>
     public TypeElement valueType;
+
+    /// <summary>
+    /// ID value of field in JSON 
+    /// </summary>
     public int IdField;
+
+    /// <summary>
+    /// String value of field in JSON
+    /// </summary>
     public string StringValue;
 }
 
@@ -14,12 +29,17 @@ public class AbstractObjectConstructableComponentData<TypeElement> where TypeEle
 public abstract class AbstractObjectConstructable <TypeElement> : MonoBehaviour where TypeElement : struct, System.IConvertible
 {
 
+    /// <summary>
+    /// unique index in GudHub
+    /// </summary>
     public int ID;
 
     protected delegate void InitFunctions(int num);
     protected Dictionary<TypeElement, InitFunctions> FunctionsDictionary;
 
-    [SerializeField]
+    /// <summary>
+    /// Data and setting of this class
+    /// </summary>
     public List<AbstractObjectConstructableComponentData<TypeElement>> ComponentsDataList;
 
     /// <summary>

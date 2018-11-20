@@ -12,12 +12,19 @@ public class SceneLoaderManager : MonoBehaviour
     /// Singleton
     /// </summary>
     public static SceneLoaderManager Instance { get; private set; }
+    
+    [Tooltip("This prefab used for replacing and spawning new items typeof SceneChangableObject")]
+    [Header("Prefab for SceneChangableObjects")]
+    [SerializeField]
+    private GameObject sceneChangebleObjectPrefab;
 
-    public GameObject sceneChangebleObjectPrefab;
-    public GameObject loadedMaterialPrefab;
+    [Tooltip("This prefab used for replacing and spawning new items typeof LoadedMaterial")]
+    [Header("Prefab for LoadedMaterials")]
+    [SerializeField]
+    private GameObject loadedMaterialPrefab;
 
     private List<AbstractObjectConstructable<SceneChangebleObjectTypes>> UncashedAppDataOfSceneItems;
-    private List<AbstractObjectConstructable<LoadedMaterialClassTypes>> UncashedAppDataOfMateriasl;
+    private List<AbstractObjectConstructable<LoadedMaterialClassTypes>> UncashedAppDataOfMaterials;
 
     #region Unity functions
 
@@ -45,16 +52,16 @@ public class SceneLoaderManager : MonoBehaviour
 
         for (int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
         {
-            if (((SceneChangebleObject)UncashedAppDataOfSceneItems[i]).ChangebleObjectType == item.ChangebleObjectType)
+            if (((SceneChangebleObject)UncashedAppDataOfSceneItems[i]).ChangebleObjectType == item.ChangebleObjectType && ((SceneChangebleObject)UncashedAppDataOfSceneItems[i]).ChangebleObjectType != "1")
             {
-                returnedList.Add((SceneChangebleObject)UncashedAppDataOfSceneItems[i]);
+                returnedList.Add(GetCopyOf((SceneChangebleObject)UncashedAppDataOfSceneItems[i]));
             }
         }
         return returnedList;
     }
 
     /// <summary>
-    /// Get the list of material, typeof(LoadedMaterial), that can be applyed to this item
+    /// Get the list of materials, typeof(LoadedMaterial), that can be applyed to this item
     /// </summary>
     /// <param name="item">Instance of item for searching material</param>
     /// <returns>List of LoadedMaterial that can be applyed to this item</returns>
@@ -62,19 +69,40 @@ public class SceneLoaderManager : MonoBehaviour
     {
         List<LoadedMaterial> returnedList = new List<LoadedMaterial>();
 
-        for (int i = 0; i < UncashedAppDataOfMateriasl.Count; i++)
+        for (int i = 0; i < UncashedAppDataOfMaterials.Count; i++)
         {
-            for (int j = 0; j < ((LoadedMaterial)UncashedAppDataOfMateriasl[i]).ListOfItemsFor.Length; j++)
+            for (int j = 0; j < ((LoadedMaterial)UncashedAppDataOfMaterials[i]).ListOfItemsFor.Length; j++)
             {
-                if (((LoadedMaterial)UncashedAppDataOfMateriasl[i]).ListOfItemsFor[j] == item.ID)
+                if (((LoadedMaterial)UncashedAppDataOfMaterials[i]).ListOfItemsFor[j] == item.ID)
                 {
-                    returnedList.Add((LoadedMaterial)UncashedAppDataOfMateriasl[i]);
+                    returnedList.Add(GetCopyOf((LoadedMaterial)UncashedAppDataOfMaterials[i]));
                 }
             }
         }
-
         return returnedList;
     }
+
+    /// <summary>
+    /// Returns the first suitable material for this object.
+    /// </summary>
+    /// <param name="item">Instance of item for searching material</param>
+    /// <returns>Loaded material copy</returns>
+    public LoadedMaterial GetMaterialForThat(SceneChangebleObject item)
+    {
+        for (int i = 0; i < UncashedAppDataOfMaterials.Count; i++)
+        {
+            for (int j = 0; j < ((LoadedMaterial)UncashedAppDataOfMaterials[i]).ListOfItemsFor.Length; j++)
+            {
+                if (((LoadedMaterial)UncashedAppDataOfMaterials[i]).ListOfItemsFor[j] == item.ID)
+                {
+                    return GetCopyOf((LoadedMaterial)UncashedAppDataOfMaterials[i]);
+                }
+            }
+        }
+        return null;        
+    }
+
+    #region non-used function
 
     /// <summary>
     /// Change the old object on scene to new object. Replace thoose two items. old object not will be destroed
@@ -90,18 +118,121 @@ public class SceneLoaderManager : MonoBehaviour
 
     #endregion
 
+    /// <summary>
+    /// Spawn new <code>SceneChangableObject</code> in <paramref name="parent"/> position
+    /// </summary>
+    /// <param name="parent">The Transform in which the subject with <paramref name="ID"/> will be spawned</param>
+    /// <param name="ID">ID of item, that will be spawned</param>
+    /// <returns>The copy of original object with same ID</returns>
+    public SceneChangebleObject SpawnSceneChangableHere(Transform parent, int ID)
+    {
+        for(int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
+        {
+            if(UncashedAppDataOfSceneItems[i].ID == ID)
+            {
+                return SpawnSceneChangableHere(parent, (SceneChangebleObject)UncashedAppDataOfSceneItems[i]);
+            }
+
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Spawn new SceneChangableObject in <paramref name="parent">parent</paramref> position
+    /// </summary>
+    /// <param name="parent">The <c>UnityEngine.Transform</c> in which the subject with <paramref name="ID"/> will be spawned</param>
+    /// <param name="originalSceneChangable">The original of the object from which the copy will be made</param>
+    /// <returns>The copy of original object</returns>
+    public SceneChangebleObject SpawnSceneChangableHere(Transform parent, SceneChangebleObject originalSceneChangable)
+    {
+        SceneChangebleObject sceneChangableCopy = GetCopyOf(originalSceneChangable);
+        sceneChangableCopy.gameObject.transform.parent = parent;
+        sceneChangableCopy.gameObject.transform.localPosition = new Vector3(0, 0, 0);
+        sceneChangableCopy.gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        ((IAssetBundleLoadable)sceneChangableCopy).AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady, 
+            new AssetBundleLoaderManager.OnEventFunction(x => sceneChangableCopy.SpawnBundle()));
+        return sceneChangableCopy;
+    }
+
+    /// <summary>
+    /// Return the full copy of <paramref name="originalSceneChangable">original</paramref> object
+    /// </summary>
+    /// <param name="originalSceneChangable">The original of the object from which the copy will be made</param>
+    /// <returns>Correctly made copy</returns>
+    public SceneChangebleObject GetCopyOf(SceneChangebleObject originalSceneChangable)
+    {
+        //сначала создаем объект и позиционируем его
+        GameObject gTemp = new GameObject("CopyOf_" + originalSceneChangable.name);
+
+        //теперь можно сделать копию SceneChangableObject
+        SceneChangebleObject sceneChangableCopy = gTemp.AddComponent<SceneChangebleObject>();
+        sceneChangableCopy.ComponentsDataList = originalSceneChangable.ComponentsDataList;
+        sceneChangableCopy.ID = originalSceneChangable.ID;
+        sceneChangableCopy.InitDictionary();
+        sceneChangableCopy.InitConstruct();
+        ((IAssetBundleLoadable)sceneChangableCopy).CopyBundleFrom(originalSceneChangable);
+        return sceneChangableCopy;
+    }
+
+    /// <summary>
+    /// Return the full copy of <paramref name="originalLoadedMaterial">original</paramref> object
+    /// </summary>
+    /// <param name="originalLoadedMaterial">The original of the object from which the copy will be made</param>
+    /// <returns>Correctly made copy</returns>
+    public LoadedMaterial GetCopyOf(LoadedMaterial originalLoadedMaterial)
+    {
+        //сначала создаем объект и позиционируем его
+        GameObject gTemp = new GameObject("CopyOf_" + originalLoadedMaterial.name);       
+
+        //теперь можно сделать копию LoadedMaterialObject
+        LoadedMaterial loadedMaterialCopy = gTemp.AddComponent<LoadedMaterial>();
+        loadedMaterialCopy.ComponentsDataList = originalLoadedMaterial.ComponentsDataList;
+        loadedMaterialCopy.ID = originalLoadedMaterial.ID;
+        loadedMaterialCopy.InitDictionary();
+        loadedMaterialCopy.InitConstruct();
+        ((IAssetBundleLoadable)loadedMaterialCopy).CopyBundleFrom(originalLoadedMaterial);
+        return loadedMaterialCopy;
+    }
+
+    #endregion
+
     #region private functions
+
+    private void SpawnOnLoadEventFunction(IAssetBundleLoadable item)
+    {
+
+    }
 
     private void Initialize()
     {
-        //первыи делом получаем все предустановленные изменяемые объекты на сцене
-        SceneChangebleObject[] tempSceneChangeble = GameObject.FindObjectsOfType<SceneChangebleObject>();
-        for (int i = 0; i < tempSceneChangeble.Length; i++)
+
+        //первым делом получаем все предустановленные изменяемые объекты на сцене
+        SceneChangebleObject[] tempSceneChangeble = FindObjectsOfType<SceneChangebleObject>();
+
+        #region initializing LoadedMaterials
+
+        //второе приложение должно быть Materials
+        UncashedAppDataOfMaterials = new List<AbstractObjectConstructable<LoadedMaterialClassTypes>>();
+        for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[1].AppData.items_list.Count; i++)
         {
-            tempSceneChangeble[i].InitDictionary();
-            tempSceneChangeble[i].InitConstruct();
+            //создаем тут итемы, по количеству в App
+            GameObject gTemp = Instantiate(loadedMaterialPrefab, this.transform);
+            gTemp.name = "LoadedMaterial" + i.ToString();
+            gTemp.transform.localPosition = new Vector3(0, 0, 0);
+            UncashedAppDataOfMaterials.Add(gTemp.GetComponent<LoadedMaterial>());
+            UncashedAppDataOfMaterials[i].InitDictionary();
         }
-        //Uncashing the app data...
+
+        JSONMainManager.Instance.FillDataToList(UncashedAppDataOfMaterials, JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[1].AppID);
+
+        for (int i = 0; i < UncashedAppDataOfMaterials.Count; i++)
+        {
+            UncashedAppDataOfMaterials[i].InitConstruct();
+        }
+
+        #endregion
+
+        #region initializing SceneChangableObjects
 
         //первое приложение должно быть SceneItems
         UncashedAppDataOfSceneItems = new List<AbstractObjectConstructable<SceneChangebleObjectTypes>>();
@@ -113,58 +244,36 @@ public class SceneLoaderManager : MonoBehaviour
             gTemp.transform.localPosition = new Vector3(0, 0, 0);
             UncashedAppDataOfSceneItems.Add(gTemp.GetComponent<SceneChangebleObject>());
             UncashedAppDataOfSceneItems[i].InitDictionary();
-        }        
+        }
         //заполняем данными
         JSONMainManager.Instance.FillDataToList(UncashedAppDataOfSceneItems, JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[0].AppID);
         //данные внутри, там, где и должны быть у всех элементов.
         //инициализируем все элементы (пока что не грузим AssetBundle)
         for (int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
-        {            
+        {
             UncashedAppDataOfSceneItems[i].InitConstruct();
-            //Debug.Log(UncashedAppDataOfSceneItems[j].name + ";" + ((SceneChangebleObject)UncashedAppDataOfSceneItems[j]).URLName + "__" + ((SceneChangebleObject)UncashedAppDataOfSceneItems[j]).ChangebleObjectName);
         }
 
-        //теперь нужно найти элементы на сцене, которые являются ChangebleObject и поменять их на те, что только что инициализированны
+        #endregion
+
+        #region replace SceneChangable
+        
         for (int i = 0; i < tempSceneChangeble.Length; i++)
         {//перебираем все предустановленные итемы
             for (int j = 0; j < UncashedAppDataOfSceneItems.Count; j++)
             {//перебираем все скачанные и инициализированные итемы
                 if (tempSceneChangeble[i].ID == ((SceneChangebleObject)UncashedAppDataOfSceneItems[j]).ID)
-                {//если находим соответствие, то заменяем старый предустановленный объект на новый (удаляя старый)
-                    UncashedAppDataOfSceneItems[j].gameObject.transform.position = tempSceneChangeble[i].gameObject.transform.position;                    
+                {
+                    SpawnSceneChangableHere(tempSceneChangeble[i].transform.parent, (SceneChangebleObject)UncashedAppDataOfSceneItems[j]);
                     Destroy(tempSceneChangeble[i].gameObject);
-                    //грузим AssetBundle в новый объект
-                    ((IAssetBundleLoadeble)UncashedAppDataOfSceneItems[j]).StartLoadAssetBundle();
                     break;
                 }
             }
         }
 
-        //второе приложение должно быть Materials
-        UncashedAppDataOfMateriasl = new List<AbstractObjectConstructable<LoadedMaterialClassTypes>>();
-        for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[1].AppData.items_list.Count; i++)
-        {
-            //создаем тут итемы, по количеству в App
-            GameObject gTemp = Instantiate(loadedMaterialPrefab, this.transform);
-            gTemp.name = "LoadedMaterial" + i.ToString();
-            gTemp.transform.localPosition = new Vector3(0, 0, 0);
-            UncashedAppDataOfMateriasl.Add(gTemp.GetComponent<LoadedMaterial>());
-            UncashedAppDataOfMateriasl[i].InitDictionary();
-        }   
+        #endregion
 
-        JSONMainManager.Instance.FillDataToList(UncashedAppDataOfMateriasl, JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[1].AppID);
-
-        for (int i = 0; i < UncashedAppDataOfMateriasl.Count; i++)
-        {            
-            UncashedAppDataOfMateriasl[i].InitConstruct();
-        }
-        //wait for scene element is loaded and unpacked
-        //TODO...
     }
 
-
-    #endregion
-
-    #region coroutines
     #endregion
 }

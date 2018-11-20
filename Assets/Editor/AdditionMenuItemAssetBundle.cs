@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEngine;
 using System.Collections;
 
 public class AdditionMenuItemAssetBundle
@@ -12,4 +13,21 @@ public class AdditionMenuItemAssetBundle
             BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows);
         }
     }
+}
+
+class SelectAllOfTag : ScriptableWizard
+{
+
+    [MenuItem("Simple Bundles/Remove all")]
+    static void SelectAllOfTagWizard()
+    {
+
+        string [] arrayNames = AssetDatabase.GetAllAssetBundleNames();
+        for(int i = 0; i < arrayNames.Length; i++)
+        {
+            AssetDatabase.RemoveAssetBundleName(arrayNames[i], true);
+        }
+
+    }
+
 }

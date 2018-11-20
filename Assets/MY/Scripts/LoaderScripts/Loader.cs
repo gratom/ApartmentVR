@@ -10,18 +10,20 @@ public class Loader : MonoBehaviour
     /// </summary>
     public static Loader Instance { get; private set; }
 
-    public delegate int del(int i, int k);
-
+    /// <summary>
+    /// Setting class for JSONMainManager
+    /// </summary>
     public AppDataLoader AppDataLoaderInstance;
 
+    /// <summary>
+    /// Setting for AssetBundle loader
+    /// </summary>
     public AssetBundleLoaderSetting AssetBundleLoaderSettingInstance;
 
+    /// <summary>
+    /// Name of scene, that will be loaded after loading
+    /// </summary>
     public string SceneLoadAfterLoading;
-
-    void Awake()
-    {
-        //Initialize();
-    }
 
     void Start()
     {
@@ -34,26 +36,26 @@ public class Loader : MonoBehaviour
         {
             Instance = this;
         }
+        
     }
 
     private IEnumerator LoadingCoroutine()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return null;
         LoadingVisualizer.Instance.StatusBarText = "Initiate the main objects and scripts...\n";
         LoadingVisualizer.Instance.counter++;
         GameObject managersMainGameObject = new GameObject("Managers");
         DontDestroyOnLoad(managersMainGameObject);
 
-        yield return new WaitForSeconds(0.1f);
+        yield return null;
         GameObject JSONManagerGameObject = new GameObject("JSONManagerGameObject");
         JSONManagerGameObject.transform.parent = managersMainGameObject.transform;
         JSONManagerGameObject.AddComponent<JSONMainManager>();
         JSONManagerGameObject.GetComponent<JSONMainManager>().AppDataLoaderInstance = AppDataLoaderInstance;
         LoadingVisualizer.Instance.StatusBarText += "Initiate JSONManager...\nTry to check the internet connection...\n";
+        yield return null;
         LoadingVisualizer.Instance.counter++;
-        yield return null;
-        yield return null;
-
+        
         //tracking the events of loading data
         JSONMainManager.Instance.requestModuleInstance.AddDelegate(RequestsModule.RequestEvents.FindInternet, InternetEvent);
         JSONMainManager.Instance.requestModuleInstance.AddDelegate(RequestsModule.RequestEvents.NoInternet, ErrorEvent);
@@ -61,13 +63,15 @@ public class Loader : MonoBehaviour
         JSONMainManager.Instance.requestModuleInstance.AddDelegate(RequestsModule.RequestEvents.AuthentificationFailed, ErrorEvent);
         JSONMainManager.Instance.requestModuleInstance.AddDelegate(RequestsModule.RequestEvents.GettingAppListOK, GetAppList);
         JSONMainManager.Instance.requestModuleInstance.AddDelegate(RequestsModule.RequestEvents.GettingAppListFailed, ErrorEvent);
+        
+        LoadingVisualizer.Instance.counter += 10;
 
         for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting.Count; i++)
         {
             JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[i].requestsModule.AddDelegate(RequestsModule.RequestEvents.AppDataOK, AppDataLoaded);
             JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[i].requestsModule.AddDelegate(RequestsModule.RequestEvents.AppDataFailed, ErrorEvent);
         }
-
+        
         //create loader assetBundle
         GameObject AssetBundleLoaderManager = new GameObject("AssetBundleLoaderManager");
         AssetBundleLoaderManager.transform.parent = managersMainGameObject.transform;
@@ -78,14 +82,17 @@ public class Loader : MonoBehaviour
         while (!JSONMainManager.Instance.IsReady)
         {
             yield return new WaitForSeconds(0.2f);
-        }        
-        
-        //create scripts
-        //init scripts
-        //make this DontDestroyOnLoad
+        }
 
-        yield return new WaitForSeconds(2);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneLoadAfterLoading);
+        LoadingVisualizer.Instance.counter += 100;
+
+        yield return new WaitForSeconds(1);
+
+        AssetBundle bundle = AssetBundle.LoadFromFile(Application.dataPath + "/" + SceneLoadAfterLoading);
+        string[] scenePaths = bundle.GetAllScenePaths();
+        string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePaths[0]);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        
     }
 
     private void ErrorEvent(string Responce)
@@ -97,28 +104,28 @@ public class Loader : MonoBehaviour
     {
         JSONMainManager.Instance.requestModuleInstance.RemoveDelegate(RequestsModule.RequestEvents.FindInternet, InternetEvent);
         LoadingVisualizer.Instance.StatusBarText += "Connection OK.\nTry to authenticate...\n";
-        LoadingVisualizer.Instance.counter++;        
+        LoadingVisualizer.Instance.counter += 7;        
     }
 
     private void AuthEvent(string Responce)
     {
         JSONMainManager.Instance.requestModuleInstance.RemoveDelegate(RequestsModule.RequestEvents.AuthentificationOK, AuthEvent);
         LoadingVisualizer.Instance.StatusBarText += "Authenticate OK.\nTry to load main App list...\n";
-        LoadingVisualizer.Instance.counter++;
+        LoadingVisualizer.Instance.counter += 13;
     }
 
     private void GetAppList(string Responce)
     {
         JSONMainManager.Instance.requestModuleInstance.RemoveDelegate(RequestsModule.RequestEvents.GettingAppListOK, GetAppList);
         LoadingVisualizer.Instance.StatusBarText += "Main app list loaded.\nTry to load allication data...\n";
-        LoadingVisualizer.Instance.counter++;
+        LoadingVisualizer.Instance.counter += 17;
     }
 
     private void AppDataLoaded(string Responce)
     {
         string s = Responce.Substring(Responce.IndexOf("app_name") + 11, Responce.IndexOf("\"", Responce.IndexOf("app_name") + 11) - (Responce.IndexOf("app_name") + 11));
         LoadingVisualizer.Instance.StatusBarText += "App loaded:" + s + "\n";
-        LoadingVisualizer.Instance.counter++;
+        LoadingVisualizer.Instance.counter += 22;
     }
 
 }

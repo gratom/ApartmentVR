@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 /// <summary>
 /// Setting for get the access and load the data of current App
@@ -8,11 +9,14 @@ using UnityEngine;
 [System.Serializable]
 public class AppSetting
 {
+
+    [Tooltip("Name of file, where saved the JSON-data of this App")]
     /// <summary>
     /// Name of file, where be saved the JSON of this Application
     /// </summary>
     public string FileName;
 
+    [Tooltip("Application ID, it used for find necessary Application in the app list")]
     /// <summary>
     /// Application ID, it used for find necessary Application in the app list
     /// </summary>
@@ -30,15 +34,33 @@ public class AppSetting
     [HideInInspector]
     public string LocalStorageString;
 
+    /// <summary>
+    /// Get the state of app setting
+    /// </summary>
     [HideInInspector]
-    public bool IsReady = false;
+    public bool IsReady
+    {
+        get
+        {
+            return AppData != null && StorageIs;
+        }
+    }
 
     /// <summary>
     /// Is local storage exist
     /// </summary>
     [HideInInspector]
-    public bool StorageIs { get; private set; }
+    public bool StorageIs
+    {
+        get
+        {
+            return LocalStorageString != "";
+        }
+    }
 
+    /// <summary>
+    /// Module for request to gudhub
+    /// </summary>
     [HideInInspector]
     public RequestsModule requestsModule { get; private set; }
     
@@ -56,15 +78,15 @@ public class AppSetting
     /// </summary>
     public void TryLoadLocalStorage()
     {        
-        LocalStorageString = SaverLoaderModule.LoadMyDataFrom(FileName);
-        if (LocalStorageString == "")
-        {
-            StorageIs = false;
-        }
-        else
-        {
-            StorageIs = true;
-        }
+        LocalStorageString = SaverLoaderModule.LoadMyDataFromFile(Application.dataPath.Substring(0, Application.dataPath.LastIndexOf("/")) + JSONMainManager.Instance.AppDataLoaderInstance.JSONFolder + FileName);
+    }
+
+    /// <summary>
+    /// Try to save the string data in LocalStorageString in file on disk
+    /// </summary>
+    public void CreateLocalStorage()
+    {
+        SaverLoaderModule.SaveMyDataTo(Application.dataPath.Substring(0, Application.dataPath.LastIndexOf("/")) + JSONMainManager.Instance.AppDataLoaderInstance.JSONFolder + FileName, LocalStorageString);
     }
 
 }
@@ -76,11 +98,19 @@ public class AppSetting
 public class AppDataLoader
 {
 
+    [Tooltip("The list of app setting, that contain id, token and name of local file, in which app data was saved. You must fill them in to access the data you need.")]
     /// <summary>
     /// The list of app setting, that contain id, token and name of local file, in which app data was saved
     /// </summary>
     public List<AppSetting> ListOfAppsSetting;
-    
+
+    [Header("Folder for JSON saves")]
+    /// <summary>
+    /// Folder for json saves
+    /// </summary>
+    public string JSONFolder;
+
+    [Header("Key to get access to GubHub Account")]
     /// <summary>
     /// Key to get access to GubHub Account (its like login and password)
     /// </summary>
@@ -92,17 +122,23 @@ public class AppDataLoader
     [HideInInspector]
     public string AccessToken;
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
     public AppDataLoader()
     {
         Key = "key dont exist!";
         ListOfAppsSetting = new List<AppSetting>();
     }
 
+    #region public functions
+
     /// <summary>
     /// Init All request modules in all apps
     /// </summary>
     public void InitRequestModulesHere(GameObject gameObject)
-    {        
+    {
+        CreateFolderForJson();
         for (int i = 0; i < ListOfAppsSetting.Count; i++)
         {
             GameObject RequestModuleGameObject = new GameObject("RequestModuleGameObject" + i.ToString());
@@ -127,6 +163,21 @@ public class AppDataLoader
         }
         return null;
     }
+
+    #endregion
+
+    #region private functions
+
+    private void CreateFolderForJson()
+    {
+        string AppPath = Application.dataPath.Substring(0, Application.dataPath.LastIndexOf("/")) + JSONFolder;
+        if (!Directory.Exists(AppPath))
+        {
+            Directory.CreateDirectory(AppPath);
+        }
+    }
+
+    #endregion
 
 }
 
@@ -249,7 +300,12 @@ public class JSONMainManager : MonoBehaviour
             //Load from local storage
             for (int i = 0; i < AppDataLoaderInstance.ListOfAppsSetting.Count; i++)
             {
-                AppDataLoaderInstance.ListOfAppsSetting[i].AppData = JSONModule.StringToAppData(AppDataLoaderInstance.ListOfAppsSetting[i].LocalStorageString);
+                if (AppDataLoaderInstance.ListOfAppsSetting[i].StorageIs)
+                {
+                    Debug.Log(AppDataLoaderInstance.ListOfAppsSetting[i].LocalStorageString);
+                    AppDataLoadEnd(AppDataLoaderInstance.ListOfAppsSetting[i].LocalStorageString);
+                    //AppDataLoaderInstance.ListOfAppsSetting[i].AppData = JSONModule.StringToAppData(AppDataLoaderInstance.ListOfAppsSetting[i].LocalStorageString);
+                }
             }
         }        
     }  
@@ -287,12 +343,13 @@ public class JSONMainManager : MonoBehaviour
             {
                 if (tS.apps_list[i].app_id == AppDataLoaderInstance.ListOfAppsSetting[j].AppID)
                 {
+                    #region cool function for cool server
                     //if (tS.apps_list[j].last_update == JSONModule.StringToAppData(LocalStorageString).last_update)
                     //{
                     //    IsOutdated = false;
-                    //}
-                    
+                    //}                    
                     //reload all, because the server is wrong
+                    #endregion
 
                     AppDataLoaderInstance.ListOfAppsSetting[j].requestsModule.AddDelegate(RequestsModule.RequestEvents.AppDataOK, AppDataLoadEnd);
                     AppDataLoaderInstance.ListOfAppsSetting[j].requestsModule.AddDelegate(RequestsModule.RequestEvents.AppDataFailed, ErrorFunc);
@@ -311,10 +368,8 @@ public class JSONMainManager : MonoBehaviour
             {
                 AppDataLoaderInstance.ListOfAppsSetting[i].requestsModule.RemoveDelegate(RequestsModule.RequestEvents.AppDataOK, AppDataLoadEnd);
                 AppDataLoaderInstance.ListOfAppsSetting[i].AppData = AppData;
-                //save to local
-                SaverLoaderModule.SaveMyDataTo(AppDataLoaderInstance.ListOfAppsSetting[i].FileName, Responce);
-                //that element is ready
-                AppDataLoaderInstance.ListOfAppsSetting[i].IsReady = true;
+                AppDataLoaderInstance.ListOfAppsSetting[i].LocalStorageString = Responce;
+                AppDataLoaderInstance.ListOfAppsSetting[i].CreateLocalStorage();
                 IsReady = IsGlobalReady();
                 return;
             }
@@ -339,7 +394,7 @@ public class JSONMainManager : MonoBehaviour
 
     private IEnumerator InitManager()
     {
-        yield return null; //ждем, на случай того, что менеджер создан динамически. 
+        yield return null; //ждем, на случай того, что менеджер создан динамически.        
 
         //app init data must be not null
         if (AppDataLoaderInstance == null)

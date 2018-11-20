@@ -10,12 +10,12 @@ public class TestingSaveLoad : MonoBehaviour
 
     public void SaveText()
     {
-        SaverLoaderModule.SaveMyDataTo("/Mdata.txt", textTest.text);
+        SaverLoaderModule.SaveMyDataToFile("/Mdata.txt", textTest.text);
     }
 
     public void LoadText()
     {
-        textTest.text = SaverLoaderModule.LoadMyDataFrom("/Mdata.txt");
+        textTest.text = SaverLoaderModule.LoadMyDataFromFile("/Mdata.txt");
     }
 
 

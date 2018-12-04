@@ -4,6 +4,9 @@ using UnityEngine;
 using System;
 using MyVRMenu;
 
+/// <summary>
+/// Types of field in LoadedMaterial
+/// </summary>
 public enum LoadedMaterialClassTypes
 {
     nameMaterial,
@@ -59,6 +62,8 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
     /// </summary>
     public AssetBundle AssetBundleInstance { get; private set; }
 
+    public int itemID { get { return ID; } }
+
     private Dictionary<AssetBundleLoaderManager.IAssetBundleLoadableEvent, List<AssetBundleLoaderManager.OnEventFunction>> EventDictionary;
 
     private bool IsBundleAlreadyLoading = false;
@@ -70,10 +75,12 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
     /// </summary>
     public override void InitDictionary()
     {
-        FunctionsDictionary = new Dictionary<LoadedMaterialClassTypes, InitFunctions>();
-        FunctionsDictionary.Add(LoadedMaterialClassTypes.nameMaterial, InitName);
-        FunctionsDictionary.Add(LoadedMaterialClassTypes.AssetBundleURL, InitURL);
-        FunctionsDictionary.Add(LoadedMaterialClassTypes.ForItemsWithID, InitListOfItemsFor);
+        FunctionsDictionary = new Dictionary<LoadedMaterialClassTypes, InitFunctions>
+        {
+            { LoadedMaterialClassTypes.nameMaterial, InitName },
+            { LoadedMaterialClassTypes.AssetBundleURL, InitURL },
+            { LoadedMaterialClassTypes.ForItemsWithID, InitListOfItemsFor }
+        };
 
         if (ComponentsDataList == null)
         {
@@ -150,6 +157,10 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
         {
             URLName = ComponentsDataList[num].StringValue;
             RealGudHubURL = JSONMainManager.Instance.GetRealFileURLById(URLName);
+            if(RealGudHubURL == "")
+            {
+                Debug.LogError("Item is non-initialized! Item id = " + ID.ToString());
+            }
         }
         catch (System.Exception e)
         {
@@ -232,11 +243,19 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
         {
             string path = AssetBundleLoaderManager.Instance.AppPath;
             AssetBundleCreateRequest aTemp = AssetBundle.LoadFromFileAsync(path + URLName);
-            aTemp.completed += x => 
+            aTemp.completed += x =>
             {
+                
                 AssetBundleInstance = aTemp.assetBundle;
-                LoadMaterial();
-                EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
+                if (AssetBundleInstance != null)
+                {
+                    LoadMaterial();
+                    EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
+                }
+                else
+                {
+                    Debug.LogError("On item " + ID.ToString() + " bundle is can`t loaded. Try to change this ->\n" + JSONMainManager.Instance.GetRealItemURLByID(ID).ToString());
+                }
             };            
         }
         

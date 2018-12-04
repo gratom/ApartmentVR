@@ -22,6 +22,12 @@ public class AppSetting
     /// </summary>
     public int AppID;
 
+    [Tooltip("View ID used for show the errors in app items")]
+    /// <summary>
+    /// View ID used for show the errors in app items
+    /// </summary>
+    public int viewID;
+
     /// <summary>
     /// Application data
     /// </summary>
@@ -261,7 +267,27 @@ public class JSONMainManager : MonoBehaviour
                 }
             }
         }
+        Debug.LogError("Item is not exist!" + "\nFile ID " + URLID);
         return "";
+    }
+
+    public string GetRealItemURLByID(int ID)
+    {
+        string ReturnedString = "https://gudhub.com/act/open_item/";
+        for(int i = 0; i < AppDataLoaderInstance.ListOfAppsSetting.Count; i++)
+        {
+            for(int j = 0; j < AppDataLoaderInstance.ListOfAppsSetting[i].AppData.items_list.Count; j++)
+            {
+                if(AppDataLoaderInstance.ListOfAppsSetting[i].AppData.items_list[j].item_id == ID)
+                {
+                    int appID = AppDataLoaderInstance.ListOfAppsSetting[i].AppData.app_id;
+                    int viewID = AppDataLoaderInstance.ListOfAppsSetting[i].viewID;
+                    ReturnedString += appID.ToString() + "/" + viewID.ToString() + "/" + ID.ToString();
+                    return ReturnedString;
+                }
+            }
+        }
+        return ReturnedString;
     }
 
     #endregion

@@ -67,6 +67,11 @@ public interface IAssetBundleLoadable
     /// </summary>
     AssetBundle AssetBundleInstance { get; }
 
+    /// <summary>
+    /// ID parent item
+    /// </summary>
+    int itemID { get; }
+
 }
 
 /// <summary>
@@ -256,13 +261,23 @@ public class AssetBundleLoaderManager : MonoBehaviour
             if (LoadingTreadsList[num].AssetBundlesLoadableList.Count > 0)
             {                     
                 string path = Path.Combine(AppPath, LoadingTreadsList[num].AssetBundlesLoadableList[0].GetURLName());
-                string RealGudhubURL = LoadingTreadsList[num].AssetBundlesLoadableList[0].GetRealURL();
-
-                //Debug.Log("Try to load ->" + URLs[0]);
-
+                string RealGudhubURL = LoadingTreadsList[num].AssetBundlesLoadableList[0].GetRealURL();                
                 if (!File.Exists(path))
                 {
-                    WWW www = new WWW(RealGudhubURL);
+#if UNITY_EDITOR
+                    {
+                        Debug.Log("Try to load ->" + RealGudhubURL + "\nItemID = " + LoadingTreadsList[num].AssetBundlesLoadableList[0].itemID);
+                    }
+#endif
+                    if(RealGudhubURL == "")
+                    {                        
+                        Debug.Log("Cant load item bundle." + LoadingTreadsList[num].AssetBundlesLoadableList[0].itemID.ToString());
+                        Debug.LogError("Loading manager get error.\nMaybe you should to fix this item -> " + JSONMainManager.Instance.GetRealItemURLByID(LoadingTreadsList[num].AssetBundlesLoadableList[0].itemID));                        
+                        Application.OpenURL(JSONMainManager.Instance.GetRealItemURLByID(LoadingTreadsList[num].AssetBundlesLoadableList[0].itemID));
+                        LoadingTreadsList[num].AssetBundlesLoadableList.RemoveAt(0);
+                        continue;
+                    }
+                    WWW www = new WWW(RealGudhubURL);                    
                     yield return www;
                     if (!File.Exists(path))
                     {

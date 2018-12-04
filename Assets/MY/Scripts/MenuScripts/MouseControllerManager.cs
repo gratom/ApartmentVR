@@ -14,9 +14,6 @@ public class MouseControllerManager : MonoBehaviour
     [SerializeField]
     private float Sensitivity;
 
-    [SerializeField]
-    private LineRenderer LinePointer;
-
     private MyVRMenu.MenuItem LastPointedItem;
 
     private GameObject LastPointedGameObject;

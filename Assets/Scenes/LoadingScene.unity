@@ -943,6 +943,7 @@ MonoBehaviour:
     ListOfAppsSetting:
     - FileName: VRApartmentObjects.txt
       AppID: 11487
+      viewID: 222643
       AppData:
         app_id: 0
         app_name: 
@@ -962,6 +963,7 @@ MonoBehaviour:
       LocalStorageString: 
     - FileName: VRApartmentMaterials.txt
       AppID: 11477
+      viewID: 222383
       AppData:
         app_id: 0
         app_name: 

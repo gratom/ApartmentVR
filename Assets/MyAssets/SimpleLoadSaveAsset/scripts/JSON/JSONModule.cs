@@ -66,10 +66,10 @@ public class Container
 [Serializable]
 public class ViewList
 {
+    public string name;
     public int view_id;
-    public int app_id;
-    public List<Container> container;
 }
+
 [Serializable]
 public class Option
 {

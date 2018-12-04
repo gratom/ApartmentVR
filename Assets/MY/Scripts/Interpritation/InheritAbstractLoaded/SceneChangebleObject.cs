@@ -62,6 +62,8 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     private GameObject AssetGameObject;
     public AssetBundle AssetBundleInstance { get; private set; }
 
+    public int itemID { get { return ID; } }
+
     private bool IsBundleAlreadyLoading = false;
 
     private Dictionary<AssetBundleLoaderManager.IAssetBundleLoadableEvent, List<AssetBundleLoaderManager.OnEventFunction>> EventDictionary;
@@ -303,9 +305,20 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         if (AssetBundleInstance == null)
         {
             string path = AssetBundleLoaderManager.Instance.AppPath;
-            AssetBundleInstance = AssetBundle.LoadFromFile(path + URLName);
+            AssetBundleCreateRequest aTemp = AssetBundle.LoadFromFileAsync(path + URLName);
+            aTemp.completed += x =>
+            {
+                AssetBundleInstance = aTemp.assetBundle;
+                if (AssetBundleInstance != null)
+                {
+                    EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
+                }
+                else
+                {
+                    Debug.LogError("On item " + ID.ToString() + " bundle is can`t loaded. Try to change this ->\n" + JSONMainManager.Instance.GetRealItemURLByID(ID).ToString());
+                }
+            };
         }
-        EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
     }
 
     /// <summary>

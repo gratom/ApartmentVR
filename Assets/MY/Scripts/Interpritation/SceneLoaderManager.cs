@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniversalAssetBundleLoader;
 
 /// <summary>
 /// Class for managment of scene loading and dynamic creating and replacing items on this scene
@@ -149,8 +150,8 @@ public class SceneLoaderManager : MonoBehaviour
         sceneChangableCopy.gameObject.transform.parent = parent;
         sceneChangableCopy.gameObject.transform.localPosition = new Vector3(0, 0, 0);
         sceneChangableCopy.gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        ((IAssetBundleLoadable)sceneChangableCopy).AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady, 
-            new AssetBundleLoaderManager.OnEventFunction(x => sceneChangableCopy.SpawnBundle()));
+        sceneChangableCopy.RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
+            new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteImageDelegate(x => sceneChangableCopy.SpawnBundle()));
         return sceneChangableCopy;
     }
 
@@ -170,7 +171,7 @@ public class SceneLoaderManager : MonoBehaviour
         sceneChangableCopy.ID = originalSceneChangable.ID;
         sceneChangableCopy.InitDictionary();
         sceneChangableCopy.InitConstruct();
-        ((IAssetBundleLoadable)sceneChangableCopy).CopyBundleFrom(originalSceneChangable);
+        sceneChangableCopy.RemoteAssetBundleInstance.CopyItemFrom(originalSceneChangable.RemoteAssetBundleInstance, AssetBundleLoaderManager.Instance);
         return sceneChangableCopy;
     }
 
@@ -190,18 +191,13 @@ public class SceneLoaderManager : MonoBehaviour
         loadedMaterialCopy.ID = originalLoadedMaterial.ID;
         loadedMaterialCopy.InitDictionary();
         loadedMaterialCopy.InitConstruct();
-        ((IAssetBundleLoadable)loadedMaterialCopy).CopyBundleFrom(originalLoadedMaterial);
+        loadedMaterialCopy.RemoteAssetBundleInstance.CopyItemFrom(originalLoadedMaterial.RemoteAssetBundleInstance, AssetBundleLoaderManager.Instance);
         return loadedMaterialCopy;
     }
 
     #endregion
 
     #region private functions
-
-    private void SpawnOnLoadEventFunction(IAssetBundleLoadable item)
-    {
-
-    }
 
     private void Initialize()
     {

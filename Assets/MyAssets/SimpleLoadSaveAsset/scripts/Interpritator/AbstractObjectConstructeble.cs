@@ -40,6 +40,7 @@ public abstract class AbstractObjectConstructable <TypeElement> : MonoBehaviour 
     /// <summary>
     /// Data and setting of this class
     /// </summary>
+    [SerializeField]
     public List<AbstractObjectConstructableComponentData<TypeElement>> ComponentsDataList;
 
     /// <summary>

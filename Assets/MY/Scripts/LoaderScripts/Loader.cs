@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniversalAssetBundleLoader;
+using UniversalImageLoader;
 
 public class Loader : MonoBehaviour
 {
@@ -10,15 +12,22 @@ public class Loader : MonoBehaviour
     /// </summary>
     public static Loader Instance { get; private set; }
 
+    public bool IsLoadSceneFromBundle;
+
     /// <summary>
     /// Setting class for JSONMainManager
     /// </summary>
     public AppDataLoader AppDataLoaderInstance;
 
     /// <summary>
-    /// Setting for AssetBundle loader
+    /// Instance of AssetBundle loader
     /// </summary>
-    public AssetBundleLoaderSetting AssetBundleLoaderSettingInstance;
+    public AssetBundleLoaderManager assetBundleLoaderManager;
+
+    /// <summary>
+    /// Instance of RemoteImage loader
+    /// </summary>
+    public RemoteImageLoaderManager remoteImageLoaderManager;
 
     /// <summary>
     /// Name of scene, that will be loaded after loading
@@ -73,11 +82,8 @@ public class Loader : MonoBehaviour
         }
         
         //create loader assetBundle
-        GameObject AssetBundleLoaderManager = new GameObject("AssetBundleLoaderManager");
-        AssetBundleLoaderManager.transform.parent = managersMainGameObject.transform;
-        AssetBundleLoaderManager.AddComponent<AssetBundleLoaderManager>();
-        AssetBundleLoaderManager.GetComponent<AssetBundleLoaderManager>().Setting = AssetBundleLoaderSettingInstance;
-        AssetBundleLoaderManager.GetComponent<AssetBundleLoaderManager>().TryInit();
+        assetBundleLoaderManager.transform.parent = managersMainGameObject.transform;
+        remoteImageLoaderManager.transform.parent = managersMainGameObject.transform;
 
         while (!JSONMainManager.Instance.IsReady)
         {
@@ -88,11 +94,17 @@ public class Loader : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
-        AssetBundle bundle = AssetBundle.LoadFromFile(Application.dataPath + "/" + SceneLoadAfterLoading);
-        string[] scenePaths = bundle.GetAllScenePaths();
-        string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePaths[0]);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
-        
+        if (IsLoadSceneFromBundle)
+        {
+            AssetBundle bundle = AssetBundle.LoadFromFile(Application.dataPath + "/" + SceneLoadAfterLoading);
+            string[] scenePaths = bundle.GetAllScenePaths();
+            string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePaths[0]);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        }
+        else
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneLoadAfterLoading);
+        }
     }
 
     private void ErrorEvent(string Responce)

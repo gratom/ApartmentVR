@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System;
 using MyVRMenu;
+using UniversalAssetBundleLoader;
 
 /// <summary>
 /// Class 
@@ -19,13 +18,13 @@ public enum SceneChangebleObjectTypes
 /// Serializeble class for start setting
 /// </summary>
 [System.Serializable]
-public class SettingForFieldsInSceneChangebleObject : AbstractObjectConstructableComponentData<SceneChangebleObjectTypes> { }
+public class SettingForFieldsInSceneChangebleObject : AbstractObjectConstructableComponentData<SceneChangebleObjectTypes> {}
 
 /// <summary>
 /// Class for changeble object on scene.
 /// </summary>
 [System.Serializable]
-public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleObjectTypes>, IAssetBundleLoadable, ISceneClickable, IMenuClickable
+public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleObjectTypes>, ISceneClickable, IMenuClickable
 {
     /// <summary>
     /// Its the name of object. The name is not unique
@@ -60,13 +59,23 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
 
     [SerializeField]
     private GameObject AssetGameObject;
-    public AssetBundle AssetBundleInstance { get; private set; }
+    public RemoteAssetBundle RemoteAssetBundleInstance
+    {
+        get
+        {
+            return _remoteAssetBundleInstance;
+        }
+        private set
+        {
+            _remoteAssetBundleInstance = value;
+        }
+    }
+    [SerializeField]
+    private RemoteAssetBundle _remoteAssetBundleInstance;
 
-    public int itemID { get { return ID; } }
+    public AbstractObjectConstructableComponentData<int>listOfRemote;
 
-    private bool IsBundleAlreadyLoading = false;
-
-    private Dictionary<AssetBundleLoaderManager.IAssetBundleLoadableEvent, List<AssetBundleLoaderManager.OnEventFunction>> EventDictionary;
+    public int itemID { get { return ID; } }    
 
     #region public functions
 
@@ -124,7 +133,7 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     /// <returns>center of AssetGameObject</returns>
     public Vector3 GetBundleCenter()
     {
-        if(AssetGameObject != null)
+        if (AssetGameObject != null)
         {
             #region debug
 
@@ -132,7 +141,6 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
             cord1.transform.position = AssetGameObject.GetComponent<BoxCollider>().center;
             GameObject cord2 = new GameObject("Bound center");
             cord2.transform.position = AssetGameObject.GetComponent<Renderer>().bounds.center - AssetGameObject.transform.position;
-
 
             #endregion
 
@@ -148,9 +156,10 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     {
         if (AssetGameObject != null)
         {
-            if (AssetGameObject.GetComponent<BoxCollider>() != null)
+            BoxCollider[] boxColliders = AssetGameObject.GetComponents<BoxCollider>();
             {
-                Destroy(AssetGameObject.GetComponent<BoxCollider>());
+                for(int i = 0; i < boxColliders.Length; i++)
+                Destroy(boxColliders[i]);
             }
         }
     }
@@ -160,24 +169,56 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     /// </summary>
     public void SpawnBundle()
     {
-        if (AssetBundleInstance != null && AssetGameObject == null) 
+        if (RemoteAssetBundleInstance.IsReady && AssetGameObject == null)
         {
-            AssetGameObject = Instantiate((GameObject)AssetBundleInstance.LoadAsset(AssetBundleInstance.GetAllAssetNames()[0]), this.transform); //поворот бандла определяется здесь, так как сам ChangableObject не повернут относительно точки спавна
+            AssetGameObject = Instantiate((GameObject)RemoteAssetBundleInstance.RemoteItemInstance.LoadAsset(RemoteAssetBundleInstance.RemoteItemInstance.GetAllAssetNames()[0]), this.transform);
+            //поворот бандла определяется здесь, так как сам ChangableObject не повернут относительно точки спавна
             AssetGameObject.transform.localPosition = new Vector3(0, 0, 0);
             LoadedMaterial tempLoadedMaterial = SceneLoaderManager.Instance.GetMaterialForThat(this);
             if (tempLoadedMaterial != null)
             {
-                if (tempLoadedMaterial.AssetBundleInstance != null)
-                {
-                    MaterialReady(tempLoadedMaterial);
-                }
-                else
-                {
-                    tempLoadedMaterial.AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady, MaterialReady);
-                    tempLoadedMaterial.StartLoadAssetBundle();
-                }
+                tempLoadedMaterial.RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
+                    new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteImageDelegate(x =>
+                    {
+                        tempLoadedMaterial.LoadMaterial();
+                        MaterialReady(tempLoadedMaterial);
+                    }));
+                tempLoadedMaterial.RemoteAssetBundleInstance.StartLoad(AssetBundleLoaderManager.Instance);
             }
-        }      
+        }
+    }
+
+    /// <summary>
+    /// Called on menu Draw
+    /// </summary>
+    /// <param name="menuItem">menu item, that called this function</param>
+    public void OnMenuDraw(MenuItem menuItem)
+    {
+        //get the real size
+        SpawnBundle();
+        if (AssetGameObject != null)
+        {
+            DestroyAssetCollider();
+            float r = 0.075f;
+
+            MeshRenderer coolMesh = AssetGameObject.GetComponent<MeshRenderer>();
+            Vector3 vmin = coolMesh.bounds.min;
+            Vector3 vmax = coolMesh.bounds.max;
+
+            float f = 0;
+            if (f < vmax.x - vmin.x) { f = vmax.x - vmin.x; }
+            if (f < vmax.y - vmin.y) { f = vmax.y - vmin.y; }
+            if (f < vmax.z - vmin.z) { f = vmax.z - vmin.z; }
+            float scale = f / r;
+            AssetGameObject.transform.localScale /= scale;
+            Vector3 vTemp = AssetGameObject.transform.position - coolMesh.bounds.center;
+            AssetGameObject.transform.position += new Vector3(vTemp.x, vTemp.y + ((coolMesh.bounds.max.y - coolMesh.bounds.min.y) / 2), vTemp.z);
+        }
+        else
+        {
+            RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
+                new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteImageDelegate(x => { OnMenuDraw(menuItem); }));
+        }
     }
 
     /// <summary>
@@ -218,6 +259,7 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         {
             URLName = ComponentsDataList[num].StringValue;
             RealGudHubURL = JSONMainManager.Instance.GetRealFileURLById(URLName);
+            RemoteAssetBundleInstance = new RemoteAssetBundle(RealGudHubURL, URLName, JSONMainManager.Instance.GetRealItemURLByID(ID));
         }
         catch (System.Exception e)
         {
@@ -242,39 +284,14 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
 
     #endregion    
 
-    private void InitEventDictionary()
+    private void MaterialReady(LoadedMaterial item)
     {
-        EventDictionary = new Dictionary<AssetBundleLoaderManager.IAssetBundleLoadableEvent, List<AssetBundleLoaderManager.OnEventFunction>>();
-        for (int i = 0; i < Enum.GetNames(typeof(AssetBundleLoaderManager.IAssetBundleLoadableEvent)).Length; i++)
-        {
-            EventDictionary[(AssetBundleLoaderManager.IAssetBundleLoadableEvent)i] = new List<AssetBundleLoaderManager.OnEventFunction>();
-        }
+        //Debug.Log(URLName + "destr!  " + (item == null) + "\n" + item.loadedMaterial.name);
+        ChangeMaterialTo(item.loadedMaterial);
+        //Debug.Log("try to destroy : " + item.name);
+        Destroy(item.gameObject);
+        //Debug.Log("item destroyed : " + item.name);
     }
-
-    private void EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent eventType)
-    {
-        if (EventDictionary == null)
-        {
-            InitEventDictionary();
-            return;
-        }
-        //create new list, for stabil work
-        List<AssetBundleLoaderManager.OnEventFunction> tempList = new List<AssetBundleLoaderManager.OnEventFunction>();
-        for (int i = 0; i < EventDictionary[eventType].Count; i++)
-        {
-            tempList.Add(EventDictionary[eventType][i]);
-        }        
-        for (int i = 0; i < tempList.Count; i++)
-        {
-            tempList[i](this);
-        }
-    }
-
-    private void MaterialReady(IAssetBundleLoadable item)
-    {
-        ChangeMaterialTo(((LoadedMaterial)item).loadedMaterial);
-        Destroy(((LoadedMaterial)item).gameObject);
-    }    
 
     #endregion
 
@@ -285,80 +302,7 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     /// </summary>
     public void StartLoadAssetBundle()
     {
-        if (!IsBundleAlreadyLoading)
-        {
-            AssetBundleLoaderManager.Instance.AddToLoadable(this);
-            IsBundleAlreadyLoading = true;
-            EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleStartLoading);
-        }
-        if(AssetBundleInstance != null)
-        {
-            EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
-        }
-    }
-
-    /// <summary>
-    /// Event function, that will be called when asset bundle will be loaded
-    /// </summary>
-    void IAssetBundleLoadable.BundleReady()
-    {
-        if (AssetBundleInstance == null)
-        {
-            string path = AssetBundleLoaderManager.Instance.AppPath;
-            AssetBundleCreateRequest aTemp = AssetBundle.LoadFromFileAsync(path + URLName);
-            aTemp.completed += x =>
-            {
-                AssetBundleInstance = aTemp.assetBundle;
-                if (AssetBundleInstance != null)
-                {
-                    EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
-                }
-                else
-                {
-                    Debug.LogError("On item " + ID.ToString() + " bundle is can`t loaded. Try to change this ->\n" + JSONMainManager.Instance.GetRealItemURLByID(ID).ToString());
-                }
-            };
-        }
-    }
-
-    /// <summary>
-    /// Hide the bundle object
-    /// </summary>
-    public void BundleHide()
-    {
-        if (AssetGameObject != null)
-        {
-            AssetGameObject.SetActive(false);
-        }
-    }
-
-    /// <summary>
-    /// Show the bundle object
-    /// </summary>
-    public void BundleShow()
-    {
-        if (AssetGameObject != null)
-        {
-            AssetGameObject.SetActive(true);
-        }
-    }
-
-    /// <summary>
-    /// Return the name of asset bundle on disk
-    /// </summary>
-    /// <returns>name of asset bundle on disk</returns>
-    public string GetURLName()
-    {
-        return URLName;
-    }
-
-    /// <summary>
-    /// Return the URL path for downloading the asset buncdle from GudHub
-    /// </summary>
-    /// <returns></returns>
-    public string GetRealURL()
-    {
-        return RealGudHubURL;
+        RemoteAssetBundleInstance.StartLoad(AssetBundleLoaderManager.Instance);
     }
 
     /// <summary>
@@ -384,16 +328,19 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     /// <param name="menuItem"></param>
     public void OnPointFunction(MenuItem menuItem, bool isPointed)
     {
-        if (menuItem != null)
+        if (menuItem)
         {
-            if (isPointed)
+            if (menuItem.Illumination)
             {
-                menuItem.gameObject.transform.Rotate(new Vector3(0, 50 * Time.deltaTime, 0)); //TODO : remove this
-                menuItem.Illumination.PlayEffect();
-            }
-            else
-            {
-                menuItem.Illumination.StopEffect();
+                if (isPointed)
+                {
+                    menuItem.gameObject.transform.Rotate(new Vector3(0, 50 * Time.deltaTime, 0)); //TODO : remove this
+                    menuItem.Illumination.PlayEffect();
+                }
+                else
+                {
+                    menuItem.Illumination.StopEffect();
+                }
             }
         }
     }
@@ -404,15 +351,16 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     /// <returns>the list of menu objects</returns>
     public List<MenuItem> GetListOfMenuObject()
     {
-        List<MenuItem> returnedList = new List<MenuItem>();       
+        List<MenuItem> returnedList = new List<MenuItem>();
 
         //add the other item, like this item...
         List<SceneChangebleObject> tempSceneObjectChangeble = SceneLoaderManager.Instance.GetItemsLikeThat(this);
         for (int i = 0; i < tempSceneObjectChangeble.Count; i++)
-        {            
+        {
             GameObject gameObjectMenuObject = new GameObject("MemuElementObject" + i.ToString());
             MenuItem menuObject = gameObjectMenuObject.AddComponent<MenuItem>();
             menuObject.SetMenuObject(MenuLine.TypeOfLine.firstLine, tempSceneObjectChangeble[i]);
+            menuObject.onDrawFunction = tempSceneObjectChangeble[i].OnMenuDraw;
             returnedList.Add(menuObject);
         }
 
@@ -423,58 +371,11 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
             GameObject gameObjectMenuObject = new GameObject("MemuElementMaterial" + i.ToString());
             MenuItem menuObject = gameObjectMenuObject.AddComponent<MenuItem>();
             menuObject.SetMenuObject(MenuLine.TypeOfLine.secondLine, tempLoadedMeterial[i]);
+            menuObject.onDrawFunction = tempLoadedMeterial[i].OnMenuDraw;
             returnedList.Add(menuObject);
         }
 
         return returnedList;
-    }
-
-    /// <summary>
-    /// Adds a listener to one of the events
-    /// </summary>
-    /// <param name="bundleEvent">Type of event</param>
-    /// <param name="onEventFunction">Delegate functions</param>
-    public void AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent bundleEvent, AssetBundleLoaderManager.OnEventFunction onEventFunction)
-    {
-        if(EventDictionary == null)
-        {
-            InitEventDictionary();
-        }
-        EventDictionary[bundleEvent].Add(onEventFunction);
-    }
-
-    /// <summary>
-    /// Remove listener in one of the events
-    /// </summary>
-    /// <param name="bundleEvent">Type of event</param>
-    /// <param name="onEventFunction">Delegate function</param>
-    public void RemoveListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent bundleEvent, AssetBundleLoaderManager.OnEventFunction onEventFunction)
-    {
-        if (EventDictionary == null)
-        {
-            InitEventDictionary();
-        }
-        EventDictionary[bundleEvent].Remove(onEventFunction);
-    }
-
-    /// <summary>
-    /// Copies an AssetBundle from an object, placing a link to it in its Instance. 
-    /// If the parent AssetBundle is empty, it calls the AssetBundle loading method and subscribes to the load event.
-    /// </summary>
-    /// <param name="itemOriginal">Other object, that contain AssetBundle</param>
-    public void CopyBundleFrom(IAssetBundleLoadable itemOriginal)
-    {
-        if (itemOriginal.AssetBundleInstance != null)
-        {
-            AssetBundleInstance = itemOriginal.AssetBundleInstance;
-            EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
-        }
-        else
-        {
-            //wait for it...
-            itemOriginal.AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady, CopyBundleFrom);
-            itemOriginal.StartLoadAssetBundle();
-        }
     }
 
     #endregion

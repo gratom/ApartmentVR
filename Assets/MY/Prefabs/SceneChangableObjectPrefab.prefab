@@ -62,3 +62,12 @@ MonoBehaviour:
   - valueType: 2
     IdField: 161877
     StringValue: 
+  AssetGameObject: {fileID: 0}
+  _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}

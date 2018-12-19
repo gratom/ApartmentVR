@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
 using MyVRMenu;
+using UniversalAssetBundleLoader;
 
 /// <summary>
 /// Types of field in LoadedMaterial
@@ -25,7 +25,7 @@ public class SettingForFieldsInLoadedMaterial : AbstractObjectConstructableCompo
 /// Class for dynamic loaded materials
 /// </summary>
 [System.Serializable]
-public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTypes>, IAssetBundleLoadable, IMenuClickable
+public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTypes>, IMenuClickable
 {
     /// <summary>
     /// Name of material, name of this item in GudHub
@@ -36,7 +36,7 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
     /// List of items on which you can apply this material
     /// This list stores item IDs in "int" type
     /// </summary>
-    public int[] ListOfItemsFor  { get; private set; }
+    public int[] ListOfItemsFor { get; private set; }
 
     /// <summary>
     /// A link where you can download this item from GudHub
@@ -51,22 +51,42 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
     [Tooltip("This is a list of settings for the correct operation of the internal functions for initializing an item.\nThese settings are used to determine how to process data from JSON.")]
     [SerializeField]
     private List<SettingForFieldsInLoadedMaterial> settingFieldList;
-    
+
     /// <summary>
     /// Material that loaded from AssetBundle
     /// </summary>
-    public Material loadedMaterial { get; private set; }
+    public Material loadedMaterial
+    {
+        get
+        {
+            return _loadedMaterial;
+        }
+        private set
+        {
+            _loadedMaterial = value;
+        }
+    }
+    [SerializeField]
+    private Material _loadedMaterial;
 
     /// <summary>
     /// AssetBundle instance, that contains the material
     /// </summary>
-    public AssetBundle AssetBundleInstance { get; private set; }
+    public RemoteAssetBundle RemoteAssetBundleInstance
+    {
+        get
+        {
+            return _remoteAssetBundleInstance;
+        }
+        private set
+        {
+            _remoteAssetBundleInstance = value;
+        }
+    }
+    [SerializeField]
+    private RemoteAssetBundle _remoteAssetBundleInstance;
 
-    public int itemID { get { return ID; } }
-
-    private Dictionary<AssetBundleLoaderManager.IAssetBundleLoadableEvent, List<AssetBundleLoaderManager.OnEventFunction>> EventDictionary;
-
-    private bool IsBundleAlreadyLoading = false;
+    public int itemID { get { return ID; } }    
 
     #region public functions
 
@@ -87,7 +107,7 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
             SettingListFieldToRealFields();
         }
     }
-
+        
     /// <summary>
     /// The Initializing functions. Make the initialization by data from ComponentsDataList.
     /// </summary>
@@ -110,9 +130,26 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
     /// </summary>
     public void LoadMaterial()
     {
-        if (AssetBundleInstance != null)
+        if (RemoteAssetBundleInstance.IsReady)
         {
-            loadedMaterial = (Material)AssetBundleInstance.LoadAsset(AssetBundleInstance.GetAllAssetNames()[0]);
+            if (!loadedMaterial)
+            {
+                loadedMaterial = (Material)RemoteAssetBundleInstance.RemoteItemInstance.LoadAsset(RemoteAssetBundleInstance.RemoteItemInstance.GetAllAssetNames()[0]);
+            }
+        }
+    }
+
+    public void OnMenuDraw(MenuItem menuItem)
+    {
+        LoadMaterial();
+        if (loadedMaterial != null)
+        {
+            menuItem.VisualGameObject.GetComponent<MeshRenderer>().material = loadedMaterial;
+        }
+        else
+        {
+            RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
+                new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteImageDelegate(x => { OnMenuDraw(menuItem); }));
         }
     }
 
@@ -128,7 +165,7 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
         sReturned += "gudhub item ID: " + ID + "\n";
         sReturned += "ID of AssetBundle: " + URLName + "\n";
         sReturned += "item reference: \n{\n";
-        for(int i = 0; i < ListOfItemsFor.Length; i++)
+        for (int i = 0; i < ListOfItemsFor.Length; i++)
         {
             sReturned += "    " + ListOfItemsFor[i] + ";\n";
         }
@@ -139,8 +176,6 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
     #endregion
 
     #region private functions
-
-    #region init functions
 
     private void SettingListFieldToRealFields()
     {
@@ -157,10 +192,7 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
         {
             URLName = ComponentsDataList[num].StringValue;
             RealGudHubURL = JSONMainManager.Instance.GetRealFileURLById(URLName);
-            if(RealGudHubURL == "")
-            {
-                Debug.LogError("Item is non-initialized! Item id = " + ID.ToString());
-            }
+            RemoteAssetBundleInstance = new RemoteAssetBundle(RealGudHubURL, URLName, JSONMainManager.Instance.GetRealItemURLByID(ID));
         }
         catch (System.Exception e)
         {
@@ -185,142 +217,19 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
 
     #endregion
 
-    private void InitEventDictionary()
-    {
-        EventDictionary = new Dictionary<AssetBundleLoaderManager.IAssetBundleLoadableEvent, List<AssetBundleLoaderManager.OnEventFunction>>();
-        for (int i = 0; i < Enum.GetNames(typeof(AssetBundleLoaderManager.IAssetBundleLoadableEvent)).Length; i++)
-        {
-            EventDictionary[(AssetBundleLoaderManager.IAssetBundleLoadableEvent)i] = new List<AssetBundleLoaderManager.OnEventFunction>();
-        }
-    }
-
-    private void EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent eventType)
-    {
-        if (EventDictionary == null)
-        {
-            InitEventDictionary();
-            return;
-        }
-        //create new list, for stabil work
-        List<AssetBundleLoaderManager.OnEventFunction> tempList = new List<AssetBundleLoaderManager.OnEventFunction>();
-        for (int i = 0; i < EventDictionary[eventType].Count; i++)
-        {
-            tempList.Add(EventDictionary[eventType][i]);
-        }
-        for (int i = 0; i < tempList.Count; i++)
-        {
-            tempList[i](this);
-        }
-    }
-
-    #endregion
-
     #region interfaces
 
     /// <summary>
     /// Initiate loading assetBundle
     /// </summary>
     public void StartLoadAssetBundle()
-    {        
-        if (!IsBundleAlreadyLoading)
-        {
-            AssetBundleLoaderManager.Instance.AddToLoadable(this);            
-            IsBundleAlreadyLoading = true;
-            EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleStartLoading);
-        }
-        if (AssetBundleInstance != null)
-        {
-            EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
-        }
-    }
-
-    /// <summary>
-    /// Calling when bundle is ready to load to this item
-    /// </summary>
-    void IAssetBundleLoadable.BundleReady()
     {
-        if (AssetBundleInstance == null)
-        {
-            string path = AssetBundleLoaderManager.Instance.AppPath;
-            AssetBundleCreateRequest aTemp = AssetBundle.LoadFromFileAsync(path + URLName);
-            aTemp.completed += x =>
+        RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
+            new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteImageDelegate(x =>
             {
-                
-                AssetBundleInstance = aTemp.assetBundle;
-                if (AssetBundleInstance != null)
-                {
-                    LoadMaterial();
-                    EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
-                }
-                else
-                {
-                    Debug.LogError("On item " + ID.ToString() + " bundle is can`t loaded. Try to change this ->\n" + JSONMainManager.Instance.GetRealItemURLByID(ID).ToString());
-                }
-            };            
-        }
-        
-    }
-
-    /// <summary>
-    /// Hide assetBundle. In this item do nothing
-    /// </summary>
-    public void BundleHide()
-    {
-        //do nothing
-    }
-
-    /// <summary>
-    /// Show assetBundle. In this item do nothing
-    /// </summary>
-    public void BundleShow()
-    {
-        //do nothing
-    }
-
-    /// <summary>
-    /// Adds a listener to one of the events
-    /// </summary>
-    /// <param name="bundleEvent">Type of event</param>
-    /// <param name="onEventFunction">Delegate functions</param>
-    public void AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent bundleEvent, AssetBundleLoaderManager.OnEventFunction onEventFunction)
-    {
-        if (EventDictionary == null)
-        {
-            InitEventDictionary();
-        }
-        EventDictionary[bundleEvent].Add(onEventFunction);
-    }
-
-    /// <summary>
-    /// Remove listener in one of the events
-    /// </summary>
-    /// <param name="bundleEvent">Type of event</param>
-    /// <param name="onEventFunction">Delegate function</param>
-    public void RemoveListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent bundleEvent, AssetBundleLoaderManager.OnEventFunction onEventFunction)
-    {
-        if (EventDictionary == null)
-        {
-            InitEventDictionary();
-        }
-        EventDictionary[bundleEvent].Remove(onEventFunction);
-    }
-
-    /// <summary>
-    /// Return the URL name of this item (index of file in gudhub)
-    /// </summary>
-    /// <returns>String URL name</returns>
-    public string GetURLName()
-    {
-        return URLName;
-    }
-
-    /// <summary>
-    /// Return the real URL of gudhub for loading this AssetBundle
-    /// </summary>
-    /// <returns>String with real URL for loading</returns>
-    public string GetRealURL()
-    {
-        return RealGudHubURL;
+                LoadMaterial();
+            }));
+        RemoteAssetBundleInstance.StartLoad(AssetBundleLoaderManager.Instance);
     }
 
     /// <summary>
@@ -331,7 +240,11 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
     {
         try
         {
-            ((SceneChangebleObject)MenuManager.Instance.ObjectSelected).ChangeMaterialTo(loadedMaterial);
+            LoadMaterial();
+            if (loadedMaterial)
+            {
+                ((SceneChangebleObject)MenuManager.Instance.ObjectSelected).ChangeMaterialTo(loadedMaterial);
+            }
         }
         catch (System.Exception e)
         {
@@ -346,39 +259,19 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
     /// <param name="isPointed">Parametr, that controling animation</param>
     public void OnPointFunction(MenuItem menuItem, bool isPointed)
     {
-        if (menuItem != null)
+        if (menuItem)
         {
-            if (isPointed)
+            if (menuItem.Illumination)
             {
-                menuItem.Illumination.PlayEffect();
+                if (isPointed)
+                {
+                    menuItem.Illumination.PlayEffect();
+                }
+                else
+                {
+                    menuItem.Illumination.StopEffect();
+                }
             }
-            else
-            {
-                menuItem.Illumination.StopEffect();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Copies an AssetBundle from an object, placing a link to it in its Instance. 
-    /// If the parent AssetBundle is empty, it calls the AssetBundle loading method and subscribes to the load event.
-    /// </summary>
-    /// <param name="itemOriginal">Other object, that contain AssetBundle</param>
-    public void CopyBundleFrom(IAssetBundleLoadable itemOriginal)
-    {
-        //делаем пометку что мы копия, и что мы ждем, или уже получили свой бандл
-        IsBundleAlreadyLoading = true;
-
-        if (itemOriginal.AssetBundleInstance != null)
-        {
-            AssetBundleInstance = itemOriginal.AssetBundleInstance;
-            LoadMaterial();
-            EventHappend(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady);
-        }
-        else
-        {
-            itemOriginal.AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady, CopyBundleFrom);
-            itemOriginal.StartLoadAssetBundle();
         }
     }
 

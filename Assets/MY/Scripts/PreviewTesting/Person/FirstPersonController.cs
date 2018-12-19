@@ -38,6 +38,11 @@ public class FirstPersonController : MonoBehaviour
 	// Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
         if (isPlaing)
         {
             MouseTracker();

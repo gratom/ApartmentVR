@@ -35,11 +35,15 @@ namespace MyVRMenu
 
         public delegate void OnPoint(MenuItem menuItem, bool isPointed);
 
+        public delegate void OnDraw(MenuItem menuItem);
+
         public MenuLine.TypeOfLine typeOfObject;
         public OnClickDelegate onClick;
         public OnPoint onPoint;
+        public OnDraw onDrawFunction;
         public float CurrentRotation;
         public MonoBehaviour ItemInstance { get; private set; }
+        public GameObject VisualGameObject;
         public LineEffects Illumination;
 
         public void SetMenuObject(MenuLine.TypeOfLine menuItemType, MonoBehaviour referenceItem)
@@ -244,18 +248,6 @@ namespace MyVRMenu
             }
         }
 
-        private void PlaceInCenterFunction(MonoBehaviour item)
-        {
-            #region wft
-            //dont change this
-            Vector3 v = ((SceneChangebleObject)item).GetBundleCenter();
-            v.y = 0.006f;
-            v.z = -v.z / 2;
-            ((SceneChangebleObject)item).gameObject.transform.localPosition = -v * scaleForItems;
-            ((SceneChangebleObject)item).DestroyAssetCollider();
-            #endregion
-        }
-
         private void CreateMenuObjectAtPosition(MenuItem menuObject, int pos, Transform ZepoPoint)
         {
             menuObject.transform.parent = ZepoPoint; //перемещаем объект в меню. Делаем его дочерним
@@ -264,56 +256,19 @@ namespace MyVRMenu
             menuObject.transform.localPosition = realPosition;
 
             //создаем префаб объекта и помещаем его MenuObject
-            GameObject gTemp = GameObject.Instantiate(PrefabLine, menuObject.transform);
-            gTemp.transform.localPosition = new Vector3(0, 0, 0);
+            menuObject.VisualGameObject = GameObject.Instantiate(PrefabLine, menuObject.transform);
+            menuObject.VisualGameObject.transform.localPosition = new Vector3(0, 0, 0);
 
             menuObject.ItemInstance.gameObject.transform.parent = menuObject.transform;
             menuObject.ItemInstance.gameObject.transform.localPosition = new Vector3(0, 0, 0);
             menuObject.transform.LookAt(ZepoPoint);
 
-            #region ELEGANTNIY KOSTIL
-
-            if (menuObject.typeOfObject == TypeOfLine.secondLine)
+            if (menuObject.onDrawFunction != null)
             {
-                ((IAssetBundleLoadable)menuObject.ItemInstance).AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady, 
-                    new AssetBundleLoaderManager.OnEventFunction(x =>
-                    {
-                        if (gTemp != null)
-                        {
-                            gTemp.GetComponent<MeshRenderer>().material = ((LoadedMaterial)menuObject.ItemInstance).loadedMaterial;
-                        }
-                    }));
-                ((IAssetBundleLoadable)menuObject.ItemInstance).StartLoadAssetBundle();
-                menuObject.Illumination = gTemp.GetComponent<MenuSecondLineEffects>();
+                menuObject.onDrawFunction(menuObject);
             }
 
-            if (menuObject.typeOfObject == TypeOfLine.firstLine)
-            {
-                ((IAssetBundleLoadable)menuObject.ItemInstance).AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady, 
-                    new AssetBundleLoaderManager.OnEventFunction(x =>
-                    {
-                        if (menuObject != null)
-                        {
-                            ((SceneChangebleObject)menuObject.ItemInstance).SpawnBundle();
-                        }
-                    }));
-                ((IAssetBundleLoadable)menuObject.ItemInstance).AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady,
-                    new AssetBundleLoaderManager.OnEventFunction(x =>
-                    {
-                        if (menuObject != null)
-                        {
-                            PlaceInCenterFunction(menuObject.ItemInstance);
-                        }
-                    }));
-                ((SceneChangebleObject)menuObject.ItemInstance).SpawnBundle();
-                ((SceneChangebleObject)menuObject.ItemInstance).gameObject.transform.localScale = new Vector3(scaleForItems, scaleForItems, scaleForItems);
-
-                PlaceInCenterFunction(menuObject.ItemInstance);
-
-                menuObject.Illumination = gTemp.GetComponent<MenuFirstLineEffects>();
-            }
-
-            #endregion
+            menuObject.Illumination = menuObject.VisualGameObject.GetComponent<MenuFirstLineEffects>();
 
         }
 

@@ -194,30 +194,33 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
     /// <param name="menuItem">menu item, that called this function</param>
     public void OnMenuDraw(MenuItem menuItem)
     {
-        //get the real size
-        SpawnBundle();
-        if (AssetGameObject != null)
+        if (menuItem)
         {
-            DestroyAssetCollider();
-            float r = 0.075f;
+            //get the real size
+            SpawnBundle();
+            if (AssetGameObject != null)
+            {
+                DestroyAssetCollider();
+                float r = 0.075f; //расстояние стороны куба, в который модель вписывается. Эту переменную стоит перенести в настройки меню
 
-            MeshRenderer coolMesh = AssetGameObject.GetComponent<MeshRenderer>();
-            Vector3 vmin = coolMesh.bounds.min;
-            Vector3 vmax = coolMesh.bounds.max;
+                MeshRenderer coolMesh = AssetGameObject.GetComponent<MeshRenderer>();
+                Vector3 vmin = coolMesh.bounds.min;
+                Vector3 vmax = coolMesh.bounds.max;
 
-            float f = 0;
-            if (f < vmax.x - vmin.x) { f = vmax.x - vmin.x; }
-            if (f < vmax.y - vmin.y) { f = vmax.y - vmin.y; }
-            if (f < vmax.z - vmin.z) { f = vmax.z - vmin.z; }
-            float scale = f / r;
-            AssetGameObject.transform.localScale /= scale;
-            Vector3 vTemp = AssetGameObject.transform.position - coolMesh.bounds.center;
-            AssetGameObject.transform.position += new Vector3(vTemp.x, vTemp.y + ((coolMesh.bounds.max.y - coolMesh.bounds.min.y) / 2), vTemp.z);
-        }
-        else
-        {
-            RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
-                new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteImageDelegate(x => { OnMenuDraw(menuItem); }));
+                float f = 0;
+                if (f < vmax.x - vmin.x) { f = vmax.x - vmin.x; }
+                if (f < vmax.y - vmin.y) { f = vmax.y - vmin.y; }
+                if (f < vmax.z - vmin.z) { f = vmax.z - vmin.z; }
+                float scale = f / r;
+                AssetGameObject.transform.localScale /= scale;
+                Vector3 vTemp = AssetGameObject.transform.position - coolMesh.bounds.center;
+                AssetGameObject.transform.position += new Vector3(vTemp.x, vTemp.y + ((coolMesh.bounds.max.y - coolMesh.bounds.min.y) / 2), vTemp.z);
+            }
+            else
+            {
+                RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
+                    new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteImageDelegate(x => { OnMenuDraw(menuItem); }));
+            }
         }
     }
 

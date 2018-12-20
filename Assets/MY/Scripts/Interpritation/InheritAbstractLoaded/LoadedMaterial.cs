@@ -144,7 +144,10 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
         LoadMaterial();
         if (loadedMaterial != null)
         {
-            menuItem.VisualGameObject.GetComponent<MeshRenderer>().material = loadedMaterial;
+            if (menuItem)
+            {
+                menuItem.VisualGameObject.GetComponent<MeshRenderer>().material = loadedMaterial;
+            }
         }
         else
         {

@@ -30,6 +30,11 @@ public class Loader : MonoBehaviour
     public RemoteImageLoaderManager remoteImageLoaderManager;
 
     /// <summary>
+    /// AllManagers need to scene working
+    /// </summary>
+    public GameObject AllManagersForScene;
+
+    /// <summary>
     /// Name of scene, that will be loaded after loading
     /// </summary>
     public string SceneLoadAfterLoading;
@@ -84,6 +89,7 @@ public class Loader : MonoBehaviour
         //create loader assetBundle
         assetBundleLoaderManager.transform.parent = managersMainGameObject.transform;
         remoteImageLoaderManager.transform.parent = managersMainGameObject.transform;
+        AllManagersForScene.transform.parent = managersMainGameObject.transform;
 
         while (!JSONMainManager.Instance.IsReady)
         {

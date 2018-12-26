@@ -45,7 +45,7 @@ public class SceneLoaderManager : MonoBehaviour
 
         for (int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
         {
-            if (((SceneChangebleObject)UncashedAppDataOfSceneItems[i]).ChangebleObjectType == item.ChangebleObjectType)
+            if (((SceneChangebleObject)UncashedAppDataOfSceneItems[i]).ChangebleObjectType == item.ChangebleObjectType && ((SceneChangebleObject)UncashedAppDataOfSceneItems[i]).ChangebleObjectType != "2")
             {
                 returnedList.Add(GetCopyOf((SceneChangebleObject)UncashedAppDataOfSceneItems[i]));
             }

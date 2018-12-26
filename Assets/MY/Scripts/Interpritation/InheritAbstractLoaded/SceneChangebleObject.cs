@@ -113,6 +113,26 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
         AssetGameObject.GetComponent<MeshRenderer>().material = material;
     }
 
+    public Vector3 GetBundleCenter()
+    {
+        if(AssetGameObject != null)
+        {
+            return AssetGameObject.GetComponent<BoxCollider>().center;
+        }
+        return new Vector3();
+    }
+
+    public void DestroyAssetCollider()
+    {
+        if (AssetGameObject != null)
+        {
+            if (AssetGameObject.GetComponent<BoxCollider>() != null)
+            {
+                Destroy(AssetGameObject.GetComponent<BoxCollider>());
+            }
+        }
+    }
+
     public void SpawnBundle()
     {
         if (AssetBundleInstance != null && AssetGameObject == null) 
@@ -132,17 +152,7 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
                     tempLoadedMaterial.StartLoadAssetBundle();
                 }
             }
-            if (this.gameObject.transform.parent != null)
-            {
-                if (this.gameObject.transform.parent.GetComponent<MenuItem>() != null)
-                {
-                    if(AssetGameObject.GetComponent<BoxCollider>() != null)
-                    {
-                        Destroy(AssetGameObject.GetComponent<BoxCollider>());
-                    }
-                }
-            }
-        }       
+        }      
     }
 
     #endregion
@@ -223,6 +233,7 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
     private void MaterialReady(IAssetBundleLoadable item)
     {
         ChangeMaterialTo(((LoadedMaterial)item).loadedMaterial);
+        Destroy(((LoadedMaterial)item).gameObject);
     }    
 
     #endregion
@@ -313,8 +324,27 @@ public class SceneChangebleObject : AbstractObjectConstructable <SceneChangebleO
 
         Destroy(((SceneChangebleObject)MenuManager.Instance.ObjectSelected).gameObject);
         //Rework this later! 
-        VRControllerManager.Instance.ImitateSelectButtonClick(tempSceneChangable.gameObject);
+        //VRControllerManager.Instance.ImitateSelectButtonClick(tempSceneChangable.gameObject);
+    }
 
+    /// <summary>
+    /// Call when menu item is point
+    /// </summary>
+    /// <param name="menuItem"></param>
+    public void OnPointFunction(MenuItem menuItem, bool isPointed)
+    {
+        if (menuItem != null)
+        {
+            if (isPointed)
+            {
+                menuItem.gameObject.transform.Rotate(new Vector3(0, 50 * Time.deltaTime, 0));
+                menuItem.Illumination.PlayEffect();
+            }
+            else
+            {
+                menuItem.Illumination.StopEffect();
+            }
+        }
     }
 
     /// <summary>

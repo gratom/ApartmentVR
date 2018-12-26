@@ -18,7 +18,11 @@ namespace MyVRMenu
     /// </summary>
     public interface IMenuClickable
     {
+
         void OnMenuClick(MonoBehaviour itemInstance);
+
+        void OnPointFunction(MenuItem menuItem, bool isPointed);
+
     }
 
     /// <summary>
@@ -29,16 +33,21 @@ namespace MyVRMenu
 
         public delegate void OnClickDelegate(MonoBehaviour item);
 
+        public delegate void OnPoint(MenuItem menuItem, bool isPointed);
+
         public MenuLine.TypeOfLine typeOfObject;
         public OnClickDelegate onClick;
+        public OnPoint onPoint;
         public float CurrentRotation;
         public MonoBehaviour ItemInstance { get; private set; }
+        public LineEffects Illumination;
 
         public void SetMenuObject(MenuLine.TypeOfLine menuItemType, MonoBehaviour referenceItem)
         {
             typeOfObject = menuItemType;
             ItemInstance = referenceItem;
             onClick = ((IMenuClickable)referenceItem).OnMenuClick;
+            onPoint = ((IMenuClickable)referenceItem).OnPointFunction;
         }
 
         public void DeleteThis()
@@ -76,6 +85,9 @@ namespace MyVRMenu
         /// </summary>
         public GameObject PrefabLine;
 
+        /// <summary>
+        /// Distance to line
+        /// </summary>
         public float LineDistance;
 
         /// <summary>
@@ -102,6 +114,8 @@ namespace MyVRMenu
         /// Type of line
         /// </summary>
         public TypeOfLine typeLine;
+
+        public float scaleForItems;
 
         public float CurrentLineRotation { get; set; }
 
@@ -169,6 +183,18 @@ namespace MyVRMenu
 
         #region private function
 
+        private void PlaceInCenterFunction(MonoBehaviour item)
+        {
+            #region wft
+            //dont change this
+            Vector3 v = ((SceneChangebleObject)item).GetBundleCenter();
+            v.y = 0.006f;
+            v.z = -v.z / 2;
+            ((SceneChangebleObject)item).gameObject.transform.localPosition = -v * scaleForItems;
+            ((SceneChangebleObject)item).DestroyAssetCollider();
+            #endregion
+        }
+
         private void CreateMenuObjectAtPosition(MenuItem menuObject, int pos, Transform ZepoPoint)
         {
             menuObject.transform.parent = ZepoPoint; //перемещаем объект в меню. Делаем его дочерним
@@ -183,7 +209,6 @@ namespace MyVRMenu
             menuObject.ItemInstance.gameObject.transform.parent = menuObject.transform;
             menuObject.ItemInstance.gameObject.transform.localPosition = new Vector3(0, 0, 0);
             menuObject.transform.LookAt(ZepoPoint);
-
             #region ELEGANTNIY KOSTIL
 
             if (menuObject.typeOfObject == TypeOfLine.secondLine)
@@ -191,18 +216,25 @@ namespace MyVRMenu
                 ((IAssetBundleLoadable)menuObject.ItemInstance).AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady, new AssetBundleLoaderManager.OnEventFunction(x=>
                 gTemp.GetComponent<MeshRenderer>().material = ((LoadedMaterial)menuObject.ItemInstance).loadedMaterial));
                 ((IAssetBundleLoadable)menuObject.ItemInstance).StartLoadAssetBundle();
+                menuObject.Illumination = gTemp.GetComponent<MenuSecondLineEffects>();
             }
 
             if (menuObject.typeOfObject == TypeOfLine.firstLine)
             {
                 ((IAssetBundleLoadable)menuObject.ItemInstance).AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady, 
-                    new AssetBundleLoaderManager.OnEventFunction(x=>((SceneChangebleObject)menuObject.ItemInstance).SpawnBundle()));
+                    new AssetBundleLoaderManager.OnEventFunction(x => ((SceneChangebleObject)menuObject.ItemInstance).SpawnBundle()));
+                ((IAssetBundleLoadable)menuObject.ItemInstance).AddListenerLoading(AssetBundleLoaderManager.IAssetBundleLoadableEvent.BundleReady,
+                    new AssetBundleLoaderManager.OnEventFunction(x => PlaceInCenterFunction(menuObject.ItemInstance)));
                 ((SceneChangebleObject)menuObject.ItemInstance).SpawnBundle();
-                ((SceneChangebleObject)menuObject.ItemInstance).gameObject.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+                ((SceneChangebleObject)menuObject.ItemInstance).gameObject.transform.localScale = new Vector3(scaleForItems, scaleForItems, scaleForItems);
+
+                PlaceInCenterFunction(menuObject.ItemInstance);
+
+                menuObject.Illumination = gTemp.GetComponent<MenuFirstLineEffects>();
             }
 
             #endregion
-            
+
         }
 
         #endregion
@@ -237,7 +269,10 @@ namespace MyVRMenu
         {
             get
             {
-                MenuPosition.GetComponent<CameraFollower>().UpdatePosition();
+                if (!IsShown)
+                {
+                    MenuPosition.GetComponent<CameraFollower>().UpdatePosition();
+                }
                 return MenuPosition.transform;
             }
         }
@@ -271,7 +306,7 @@ namespace MyVRMenu
             ObjectSelected = clickableObject; //назначаем выбранный объект
             CleanMenu();
             List<MenuItem> tempList = ObjectSelected.GetListOfMenuObject(); //получаем от него список объектов для меню            
-            RefreshMenu(tempList);
+            RefreshMenu(tempList);            
         }
 
         public void ClickedOnMenuElement(MenuItem menuItem)
@@ -299,12 +334,11 @@ namespace MyVRMenu
         /// </summary>
         public void HideMenu()
         {
-            if (IsShown) //если меню показано
+            if (IsShown)
             {
-                //IsShown = false;
-                //Setting.MenuPosition.transform.localScale = new Vector3(1f, 1f, 1f);
-                //Setting.MenuPosition.SetActive(false);
-                //TODO: animation
+                ObjectSelected = null;
+                CleanMenu();
+                IsShown = false;
             }
         }
 
@@ -323,6 +357,7 @@ namespace MyVRMenu
                     }
                 }
             }
+            IsShown = true;
         }
 
         #endregion

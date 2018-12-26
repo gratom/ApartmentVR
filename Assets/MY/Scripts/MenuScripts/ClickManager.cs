@@ -69,17 +69,19 @@ public class ClickManager : MonoBehaviour
                 MenuManager.Instance.ClickedOnMenuElement(controlInstance.ClickedObject.GetComponent<MenuItem>());
                 return;
             }
-            //try to clickable...
-            if (controlInstance.ClickedObject.GetComponent<ISceneClickable>() != null)
+            else
             {
-                MenuManager.Instance.ClickedOnClickable(controlInstance.ClickedObject.GetComponent<ISceneClickable>());
-                return;
+                if (controlInstance.ClickedObject.GetComponent<ISceneClickable>() != null)
+                {
+                    MenuManager.Instance.ClickedOnClickable(controlInstance.ClickedObject.GetComponent<ISceneClickable>());
+                    return;
+                }
+                else
+                {
+                    MenuManager.Instance.HideMenu();
+                }
             }
-        }
-        else
-        {
-            MenuManager.Instance.HideMenu();
-        }
+        }        
     }
 
     private void MenuRotateDelegate(IControlable controlInstance)

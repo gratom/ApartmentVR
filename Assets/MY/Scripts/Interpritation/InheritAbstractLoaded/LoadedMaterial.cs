@@ -226,11 +226,29 @@ public class LoadedMaterial : AbstractObjectConstructable <LoadedMaterialClassTy
         try
         {
             ((SceneChangebleObject)MenuManager.Instance.ObjectSelected).ChangeMaterialTo(loadedMaterial);
-            Debug.Log("Try to change material!" + ((SceneChangebleObject)MenuManager.Instance.ObjectSelected).name);
         }
         catch (System.Exception e)
         {
             Debug.Log(e.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Call when menu item is point
+    /// </summary>
+    /// <param name="menuItem"></param>
+    public void OnPointFunction(MenuItem menuItem, bool isPointed)
+    {
+        if (menuItem != null)
+        {
+            if (isPointed)
+            {
+                menuItem.Illumination.PlayEffect();
+            }
+            else
+            {
+                menuItem.Illumination.StopEffect();
+            }
         }
     }
 

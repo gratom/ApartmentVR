@@ -11,6 +11,9 @@ namespace MyVRMenu
     public interface ISceneClickable
     {
         List<MenuItem> GetListOfMenuObject();
+
+        string getTypeClickable();
+
     }
 
     /// <summary>
@@ -269,7 +272,6 @@ namespace MyVRMenu
             }
 
             menuObject.Illumination = menuObject.VisualGameObject.GetComponent<MenuFirstLineEffects>();
-
         }
 
         #endregion
@@ -303,11 +305,7 @@ namespace MyVRMenu
         public Transform menuPosition
         {
             get
-            {
-                if (!IsShown)
-                {
-                    MenuPosition.GetComponent<CameraFollower>().UpdatePosition();
-                }
+            {                
                 return MenuPosition.transform;
             }
         }
@@ -327,6 +325,17 @@ namespace MyVRMenu
             HideMenu();
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                
+                HideMenu();
+                UnityEngine.SceneManagement.SceneManager.LoadScene("TestMenuScene");
+                GameObject.FindGameObjectWithTag("SceneManagers").SetActive(false);
+            }
+        }
+
         #endregion
 
         #region public functions
@@ -338,10 +347,21 @@ namespace MyVRMenu
         /// <param name="clickableObject"></param>
         public void ClickedOnClickable(ISceneClickable clickableObject)
         {
+            if (ObjectSelected != null)
+            {
+                if (ObjectSelected.getTypeClickable() != clickableObject.getTypeClickable() || clickableObject.getTypeClickable() == "1")
+                {
+                    MenuPosition.GetComponent<CameraFollower>().UpdatePosition();
+                }
+            }
+            else
+            {
+                MenuPosition.GetComponent<CameraFollower>().UpdatePosition();
+            }
             ObjectSelected = clickableObject; //назначаем выбранный объект
             CleanMenu();
             List<MenuItem> tempList = ObjectSelected.GetListOfMenuObject(); //получаем от него список объектов для меню            
-            RefreshMenu(tempList);            
+            RefreshMenu(tempList);
         }
 
         public void ClickedOnMenuElement(MenuItem menuItem)
@@ -369,9 +389,9 @@ namespace MyVRMenu
         /// </summary>
         public void HideMenu()
         {
+            ObjectSelected = null;
             if (IsShown)
             {
-                ObjectSelected = null;
                 CleanMenu();
                 IsShown = false;
             }
@@ -388,9 +408,10 @@ namespace MyVRMenu
                 {
                     for (int i = 0; i < MenuLines.Count; i++)
                     {
-                        MenuLines[i].SetLine(tempList, MenuPosition.transform);
+                        MenuLines[i].SetLine(tempList, menuPosition);
                     }
                 }
+                
             }
             IsShown = true;
         }
@@ -408,7 +429,7 @@ namespace MyVRMenu
 
         #endregion
 
-        #region private functions
+        #region private functions        
 
         private void CleanMenu()
         {

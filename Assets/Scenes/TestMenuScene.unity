@@ -582,7 +582,7 @@ MonoBehaviour:
   keyBack: 115
   keyLeft: 97
   keyRight: 100
-  speedMouse: -100
+  speedMouse: -150
   speedWalking: 10
 --- !u!4 &2123093864
 Transform:

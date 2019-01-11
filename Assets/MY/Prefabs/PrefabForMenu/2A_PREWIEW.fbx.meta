@@ -1,0 +1,729 @@
+fileFormatVersion: 2
+guid: 390fa662f2234a34a9154c6d61e5bbd3
+timeCreated: 1547132682
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Basic Wall EXT_2x6_1HR_Unfinished-Gyp 2 [2266544]
+    100004: Basic Wall EXT_2x6_Unfinished-Gyp [2265450]
+    100006: Basic Wall EXT_2x6_Unfinished-Gyp [2266244]
+    100008: Basic Wall EXT_2x6_Unfinished-Gyp [2266424]
+    100010: Basic Wall IF__Denshield-Tile [2380401]
+    100012: Basic Wall IF__Denshield-Tile [2380403]
+    100014: Basic Wall IF__Denshield-Tile [2380404]
+    100016: Basic Wall IF__Denshield-Tile [2381235]
+    100018: Basic Wall IF__Denshield-Tile [2381237]
+    100020: Basic Wall IF__Denshield-Tile [2381238]
+    100022: Basic Wall IF_Backsplash Tile [2543640]
+    100024: Basic Wall IF_Denshield [2380715]
+    100026: Basic Wall IF_Denshield [2380730]
+    100028: Basic Wall IF_Denshield [2380735]
+    100030: Basic Wall IF_Denshield [2380843]
+    100032: Basic Wall IF_Denshield [2381135]
+    100034: Basic Wall IF_Denshield [2381143]
+    100036: Basic Wall IF_Denshield [2381148]
+    100038: Basic Wall IF_Denshield [2381153]
+    100040: Basic Wall IF_Gyp_Smooth [2380716]
+    100042: Basic Wall IF_Gyp_Smooth [2380731]
+    100044: Basic Wall IF_Gyp_Smooth [2380736]
+    100046: Basic Wall IF_Gyp_Smooth [2380844]
+    100048: Basic Wall IF_Gyp_Smooth [2381136]
+    100050: Basic Wall IF_Gyp_Smooth [2381144]
+    100052: Basic Wall IF_Gyp_Smooth [2381149]
+    100054: Basic Wall IF_Gyp_Smooth [2381154]
+    100056: Basic Wall INT_2x4_Gyp-Gyp [2265819]
+    100058: Basic Wall INT_2x4_Gyp-Gyp [2265971]
+    100060: Basic Wall INT_2x4_Gyp-Gyp [2266664]
+    100062: Basic Wall INT_2x4_Gyp-Gyp [2266718]
+    100064: Basic Wall INT_2x4_Gyp-Gyp [2266862]
+    100066: Basic Wall INT_2x4_Gyp-Gyp [2267054]
+    100068: Basic Wall INT_2x4_Gyp-Gyp [2267334]
+    100070: Basic Wall INT_2x4_Gyp-Unfinished [2265701]
+    100072: Basic Wall INT_2x4_Gyp-Unfinished [2267217]
+    100074: Basic Wall INT_2x4_Unfinished [2268456]
+    100076: Basic Wall INT_2x4_Unfinished [2268588]
+    100078: Basic Wall INT_2x4_Unfinished [2269299]
+    100080: Basic Wall INT_2x4_Unfinished [2269404]
+    100082: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2265453]
+    100084: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2268860]
+    100086: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2265451]
+    100088: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2268783]
+    100090: Basic Wall INT_2x6_2HR_Gyp-Gyp [2268688]
+    100092: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2265452]
+    100094: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2268894]
+    100096: Basic Wall INT_2x6_Gyp-Gyp [2267611]
+    100098: Basic Wall INT_2x6_Gyp-Gyp [2267703]
+    100100: Basic Wall INT_2x6_Gyp-Gyp [2267953]
+    100102: Basic Wall INT_2x6_Gyp-Gyp [2268278]
+    100104: Basic Wall INT_2x6_Gyp-Gyp [2269049]
+    100106: Basic Wall INT_2x6_Gyp-Unfinished [2267565]
+    100108: Basic Wall INT_2x6_Gyp-Unfinished [2268117]
+    100110: Basic Wall INT__2X4_Denshield-Tile-Denshield-Tile [2271474]
+    100112: Box001
+    100114: Box002
+    100116: Box003
+    100118: Box004
+    100120: Box006
+    100122: Box007
+    100124: Casework_Base Casework_Base [2516716]
+    100126: Casework_Base Casework_Base [2517011]
+    100128: Casework_Base Casework_Base [2517102]
+    100130: Casework_Base Casework_Base [2517438]
+    100132: Casework_Base Casework_Base [2517439]
+    100134: Casework_Base Casework_Base [2517440]
+    100136: Casework_Base Casework_Base [2517441]
+    100138: Casework_Base Casework_Base [2517556]
+    100140: Casework_Base Casework_Base [2517882]
+    100142: Casework_Base Casework_Base [2519156]
+    100144: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519776]
+    100146: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520204]
+    100148: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520414]
+    100150: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520522]
+    100152: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520754]
+    100154: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520844]
+    100156: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521232]
+    100158: Casework_Tile Base Casework_Tile Base [2382817]
+    100160: Casework_Tile Base Casework_Tile Base [2382984]
+    100162: Cylinder002
+    100164: Floor EF_Fiberglass [2384985]
+    100166: Floor IF_Carpet [2270680]
+    100168: Floor IF_Carpet [2270951]
+    100170: Floor IF_Hardwood [2269449]
+    100172: Floor IF_Shower Tile [2271330]
+    100174: Floor IF_Tile [2271265]
+    100176: Floor IF_Tile [2271297]
+    100178: Line002
+    100180: Line003
+    100182: Rectangle001
+    100184: Rectangle002
+    100186: Rectangle003
+    100188: Rectangle004
+    100190: Rectangle006
+    100192: Rectangle007
+    100194: Rectangle008
+    100196: Rectangle009
+    100198: Rectangle010
+    100200: Rectangle011
+    100202: Rectangle012
+    100204: Rectangle013
+    100206: Rectangle017
+    100208: Rectangle018
+    100210: Rectangle019
+    100212: Rectangle020
+    100214: Rectangle021
+    100216: Rectangle022
+    100218: Rectangle023
+    100220: Rectangle024
+    100222: Rectangle025
+    100224: Rectangle026
+    100226: Rectangle027
+    100228: Rectangle028
+    100230: Rectangle029
+    100232: Rectangle030
+    100234: Rectangle031
+    100236: Rectangle032
+    100238: Rectangle034
+    100240: Rectangle035
+    100242: Rectangle036
+    100244: Rectangle037
+    100246: Rectangle038
+    100248: Rectangle039
+    100250: Rectangle040
+    100252: UNIT2A_2-5FLR_KITCHEN UNIT2A_2-5FLR_KITCHEN [2531807]_[2532802]
+    400000: //RootNode
+    400002: Basic Wall EXT_2x6_1HR_Unfinished-Gyp 2 [2266544]
+    400004: Basic Wall EXT_2x6_Unfinished-Gyp [2265450]
+    400006: Basic Wall EXT_2x6_Unfinished-Gyp [2266244]
+    400008: Basic Wall EXT_2x6_Unfinished-Gyp [2266424]
+    400010: Basic Wall IF__Denshield-Tile [2380401]
+    400012: Basic Wall IF__Denshield-Tile [2380403]
+    400014: Basic Wall IF__Denshield-Tile [2380404]
+    400016: Basic Wall IF__Denshield-Tile [2381235]
+    400018: Basic Wall IF__Denshield-Tile [2381237]
+    400020: Basic Wall IF__Denshield-Tile [2381238]
+    400022: Basic Wall IF_Backsplash Tile [2543640]
+    400024: Basic Wall IF_Denshield [2380715]
+    400026: Basic Wall IF_Denshield [2380730]
+    400028: Basic Wall IF_Denshield [2380735]
+    400030: Basic Wall IF_Denshield [2380843]
+    400032: Basic Wall IF_Denshield [2381135]
+    400034: Basic Wall IF_Denshield [2381143]
+    400036: Basic Wall IF_Denshield [2381148]
+    400038: Basic Wall IF_Denshield [2381153]
+    400040: Basic Wall IF_Gyp_Smooth [2380716]
+    400042: Basic Wall IF_Gyp_Smooth [2380731]
+    400044: Basic Wall IF_Gyp_Smooth [2380736]
+    400046: Basic Wall IF_Gyp_Smooth [2380844]
+    400048: Basic Wall IF_Gyp_Smooth [2381136]
+    400050: Basic Wall IF_Gyp_Smooth [2381144]
+    400052: Basic Wall IF_Gyp_Smooth [2381149]
+    400054: Basic Wall IF_Gyp_Smooth [2381154]
+    400056: Basic Wall INT_2x4_Gyp-Gyp [2265819]
+    400058: Basic Wall INT_2x4_Gyp-Gyp [2265971]
+    400060: Basic Wall INT_2x4_Gyp-Gyp [2266664]
+    400062: Basic Wall INT_2x4_Gyp-Gyp [2266718]
+    400064: Basic Wall INT_2x4_Gyp-Gyp [2266862]
+    400066: Basic Wall INT_2x4_Gyp-Gyp [2267054]
+    400068: Basic Wall INT_2x4_Gyp-Gyp [2267334]
+    400070: Basic Wall INT_2x4_Gyp-Unfinished [2265701]
+    400072: Basic Wall INT_2x4_Gyp-Unfinished [2267217]
+    400074: Basic Wall INT_2x4_Unfinished [2268456]
+    400076: Basic Wall INT_2x4_Unfinished [2268588]
+    400078: Basic Wall INT_2x4_Unfinished [2269299]
+    400080: Basic Wall INT_2x4_Unfinished [2269404]
+    400082: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2265453]
+    400084: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2268860]
+    400086: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2265451]
+    400088: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2268783]
+    400090: Basic Wall INT_2x6_2HR_Gyp-Gyp [2268688]
+    400092: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2265452]
+    400094: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2268894]
+    400096: Basic Wall INT_2x6_Gyp-Gyp [2267611]
+    400098: Basic Wall INT_2x6_Gyp-Gyp [2267703]
+    400100: Basic Wall INT_2x6_Gyp-Gyp [2267953]
+    400102: Basic Wall INT_2x6_Gyp-Gyp [2268278]
+    400104: Basic Wall INT_2x6_Gyp-Gyp [2269049]
+    400106: Basic Wall INT_2x6_Gyp-Unfinished [2267565]
+    400108: Basic Wall INT_2x6_Gyp-Unfinished [2268117]
+    400110: Basic Wall INT__2X4_Denshield-Tile-Denshield-Tile [2271474]
+    400112: Box001
+    400114: Box002
+    400116: Box003
+    400118: Box004
+    400120: Box006
+    400122: Box007
+    400124: Casework_Base Casework_Base [2516716]
+    400126: Casework_Base Casework_Base [2517011]
+    400128: Casework_Base Casework_Base [2517102]
+    400130: Casework_Base Casework_Base [2517438]
+    400132: Casework_Base Casework_Base [2517439]
+    400134: Casework_Base Casework_Base [2517440]
+    400136: Casework_Base Casework_Base [2517441]
+    400138: Casework_Base Casework_Base [2517556]
+    400140: Casework_Base Casework_Base [2517882]
+    400142: Casework_Base Casework_Base [2519156]
+    400144: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519776]
+    400146: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520204]
+    400148: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520414]
+    400150: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520522]
+    400152: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520754]
+    400154: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520844]
+    400156: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521232]
+    400158: Casework_Tile Base Casework_Tile Base [2382817]
+    400160: Casework_Tile Base Casework_Tile Base [2382984]
+    400162: Cylinder002
+    400164: Floor EF_Fiberglass [2384985]
+    400166: Floor IF_Carpet [2270680]
+    400168: Floor IF_Carpet [2270951]
+    400170: Floor IF_Hardwood [2269449]
+    400172: Floor IF_Shower Tile [2271330]
+    400174: Floor IF_Tile [2271265]
+    400176: Floor IF_Tile [2271297]
+    400178: Line002
+    400180: Line003
+    400182: Rectangle001
+    400184: Rectangle002
+    400186: Rectangle003
+    400188: Rectangle004
+    400190: Rectangle006
+    400192: Rectangle007
+    400194: Rectangle008
+    400196: Rectangle009
+    400198: Rectangle010
+    400200: Rectangle011
+    400202: Rectangle012
+    400204: Rectangle013
+    400206: Rectangle017
+    400208: Rectangle018
+    400210: Rectangle019
+    400212: Rectangle020
+    400214: Rectangle021
+    400216: Rectangle022
+    400218: Rectangle023
+    400220: Rectangle024
+    400222: Rectangle025
+    400224: Rectangle026
+    400226: Rectangle027
+    400228: Rectangle028
+    400230: Rectangle029
+    400232: Rectangle030
+    400234: Rectangle031
+    400236: Rectangle032
+    400238: Rectangle034
+    400240: Rectangle035
+    400242: Rectangle036
+    400244: Rectangle037
+    400246: Rectangle038
+    400248: Rectangle039
+    400250: Rectangle040
+    400252: UNIT2A_2-5FLR_KITCHEN UNIT2A_2-5FLR_KITCHEN [2531807]_[2532802]
+    2100000: No Name
+    2100002: 23453242
+    2100004: 32423432
+    2100006: 32423432324
+    2100008: 23432423
+    2100010: Default Wall
+    2100012: 16 - Default
+    2100014: 08 - 34234234322234324
+    2100016: 08 - 3423243234234322234324
+    2100018: 08 - 342342234324
+    2300000: Basic Wall EXT_2x6_1HR_Unfinished-Gyp 2 [2266544]
+    2300002: Basic Wall EXT_2x6_Unfinished-Gyp [2265450]
+    2300004: Basic Wall EXT_2x6_Unfinished-Gyp [2266244]
+    2300006: Basic Wall EXT_2x6_Unfinished-Gyp [2266424]
+    2300008: Basic Wall IF__Denshield-Tile [2380401]
+    2300010: Basic Wall IF__Denshield-Tile [2380403]
+    2300012: Basic Wall IF__Denshield-Tile [2380404]
+    2300014: Basic Wall IF__Denshield-Tile [2381235]
+    2300016: Basic Wall IF__Denshield-Tile [2381237]
+    2300018: Basic Wall IF__Denshield-Tile [2381238]
+    2300020: Basic Wall IF_Backsplash Tile [2543640]
+    2300022: Basic Wall IF_Denshield [2380715]
+    2300024: Basic Wall IF_Denshield [2380730]
+    2300026: Basic Wall IF_Denshield [2380735]
+    2300028: Basic Wall IF_Denshield [2380843]
+    2300030: Basic Wall IF_Denshield [2381135]
+    2300032: Basic Wall IF_Denshield [2381143]
+    2300034: Basic Wall IF_Denshield [2381148]
+    2300036: Basic Wall IF_Denshield [2381153]
+    2300038: Basic Wall IF_Gyp_Smooth [2380716]
+    2300040: Basic Wall IF_Gyp_Smooth [2380731]
+    2300042: Basic Wall IF_Gyp_Smooth [2380736]
+    2300044: Basic Wall IF_Gyp_Smooth [2380844]
+    2300046: Basic Wall IF_Gyp_Smooth [2381136]
+    2300048: Basic Wall IF_Gyp_Smooth [2381144]
+    2300050: Basic Wall IF_Gyp_Smooth [2381149]
+    2300052: Basic Wall IF_Gyp_Smooth [2381154]
+    2300054: Basic Wall INT_2x4_Gyp-Gyp [2265819]
+    2300056: Basic Wall INT_2x4_Gyp-Gyp [2265971]
+    2300058: Basic Wall INT_2x4_Gyp-Gyp [2266664]
+    2300060: Basic Wall INT_2x4_Gyp-Gyp [2266718]
+    2300062: Basic Wall INT_2x4_Gyp-Gyp [2266862]
+    2300064: Basic Wall INT_2x4_Gyp-Gyp [2267054]
+    2300066: Basic Wall INT_2x4_Gyp-Gyp [2267334]
+    2300068: Basic Wall INT_2x4_Gyp-Unfinished [2265701]
+    2300070: Basic Wall INT_2x4_Gyp-Unfinished [2267217]
+    2300072: Basic Wall INT_2x4_Unfinished [2268456]
+    2300074: Basic Wall INT_2x4_Unfinished [2268588]
+    2300076: Basic Wall INT_2x4_Unfinished [2269299]
+    2300078: Basic Wall INT_2x4_Unfinished [2269404]
+    2300080: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2265453]
+    2300082: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2268860]
+    2300084: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2265451]
+    2300086: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2268783]
+    2300088: Basic Wall INT_2x6_2HR_Gyp-Gyp [2268688]
+    2300090: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2265452]
+    2300092: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2268894]
+    2300094: Basic Wall INT_2x6_Gyp-Gyp [2267611]
+    2300096: Basic Wall INT_2x6_Gyp-Gyp [2267703]
+    2300098: Basic Wall INT_2x6_Gyp-Gyp [2267953]
+    2300100: Basic Wall INT_2x6_Gyp-Gyp [2268278]
+    2300102: Basic Wall INT_2x6_Gyp-Gyp [2269049]
+    2300104: Basic Wall INT_2x6_Gyp-Unfinished [2267565]
+    2300106: Basic Wall INT_2x6_Gyp-Unfinished [2268117]
+    2300108: Basic Wall INT__2X4_Denshield-Tile-Denshield-Tile [2271474]
+    2300110: Box001
+    2300112: Box002
+    2300114: Box003
+    2300116: Box004
+    2300118: Box006
+    2300120: Box007
+    2300122: Casework_Base Casework_Base [2516716]
+    2300124: Casework_Base Casework_Base [2517011]
+    2300126: Casework_Base Casework_Base [2517102]
+    2300128: Casework_Base Casework_Base [2517438]
+    2300130: Casework_Base Casework_Base [2517439]
+    2300132: Casework_Base Casework_Base [2517440]
+    2300134: Casework_Base Casework_Base [2517441]
+    2300136: Casework_Base Casework_Base [2517556]
+    2300138: Casework_Base Casework_Base [2517882]
+    2300140: Casework_Base Casework_Base [2519156]
+    2300142: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519776]
+    2300144: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520204]
+    2300146: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520414]
+    2300148: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520522]
+    2300150: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520754]
+    2300152: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520844]
+    2300154: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521232]
+    2300156: Casework_Tile Base Casework_Tile Base [2382817]
+    2300158: Casework_Tile Base Casework_Tile Base [2382984]
+    2300160: Cylinder002
+    2300162: Floor EF_Fiberglass [2384985]
+    2300164: Floor IF_Carpet [2270680]
+    2300166: Floor IF_Carpet [2270951]
+    2300168: Floor IF_Hardwood [2269449]
+    2300170: Floor IF_Shower Tile [2271330]
+    2300172: Floor IF_Tile [2271265]
+    2300174: Floor IF_Tile [2271297]
+    2300176: Line002
+    2300178: Line003
+    2300180: Rectangle001
+    2300182: Rectangle002
+    2300184: Rectangle003
+    2300186: Rectangle004
+    2300188: Rectangle006
+    2300190: Rectangle007
+    2300192: Rectangle008
+    2300194: Rectangle009
+    2300196: Rectangle010
+    2300198: Rectangle011
+    2300200: Rectangle012
+    2300202: Rectangle013
+    2300204: Rectangle017
+    2300206: Rectangle018
+    2300208: Rectangle019
+    2300210: Rectangle020
+    2300212: Rectangle021
+    2300214: Rectangle022
+    2300216: Rectangle023
+    2300218: Rectangle024
+    2300220: Rectangle025
+    2300222: Rectangle026
+    2300224: Rectangle027
+    2300226: Rectangle028
+    2300228: Rectangle029
+    2300230: Rectangle030
+    2300232: Rectangle031
+    2300234: Rectangle032
+    2300236: Rectangle034
+    2300238: Rectangle035
+    2300240: Rectangle036
+    2300242: Rectangle037
+    2300244: Rectangle038
+    2300246: Rectangle039
+    2300248: Rectangle040
+    2300250: UNIT2A_2-5FLR_KITCHEN UNIT2A_2-5FLR_KITCHEN [2531807]_[2532802]
+    3300000: Basic Wall EXT_2x6_1HR_Unfinished-Gyp 2 [2266544]
+    3300002: Basic Wall EXT_2x6_Unfinished-Gyp [2265450]
+    3300004: Basic Wall EXT_2x6_Unfinished-Gyp [2266244]
+    3300006: Basic Wall EXT_2x6_Unfinished-Gyp [2266424]
+    3300008: Basic Wall IF__Denshield-Tile [2380401]
+    3300010: Basic Wall IF__Denshield-Tile [2380403]
+    3300012: Basic Wall IF__Denshield-Tile [2380404]
+    3300014: Basic Wall IF__Denshield-Tile [2381235]
+    3300016: Basic Wall IF__Denshield-Tile [2381237]
+    3300018: Basic Wall IF__Denshield-Tile [2381238]
+    3300020: Basic Wall IF_Backsplash Tile [2543640]
+    3300022: Basic Wall IF_Denshield [2380715]
+    3300024: Basic Wall IF_Denshield [2380730]
+    3300026: Basic Wall IF_Denshield [2380735]
+    3300028: Basic Wall IF_Denshield [2380843]
+    3300030: Basic Wall IF_Denshield [2381135]
+    3300032: Basic Wall IF_Denshield [2381143]
+    3300034: Basic Wall IF_Denshield [2381148]
+    3300036: Basic Wall IF_Denshield [2381153]
+    3300038: Basic Wall IF_Gyp_Smooth [2380716]
+    3300040: Basic Wall IF_Gyp_Smooth [2380731]
+    3300042: Basic Wall IF_Gyp_Smooth [2380736]
+    3300044: Basic Wall IF_Gyp_Smooth [2380844]
+    3300046: Basic Wall IF_Gyp_Smooth [2381136]
+    3300048: Basic Wall IF_Gyp_Smooth [2381144]
+    3300050: Basic Wall IF_Gyp_Smooth [2381149]
+    3300052: Basic Wall IF_Gyp_Smooth [2381154]
+    3300054: Basic Wall INT_2x4_Gyp-Gyp [2265819]
+    3300056: Basic Wall INT_2x4_Gyp-Gyp [2265971]
+    3300058: Basic Wall INT_2x4_Gyp-Gyp [2266664]
+    3300060: Basic Wall INT_2x4_Gyp-Gyp [2266718]
+    3300062: Basic Wall INT_2x4_Gyp-Gyp [2266862]
+    3300064: Basic Wall INT_2x4_Gyp-Gyp [2267054]
+    3300066: Basic Wall INT_2x4_Gyp-Gyp [2267334]
+    3300068: Basic Wall INT_2x4_Gyp-Unfinished [2265701]
+    3300070: Basic Wall INT_2x4_Gyp-Unfinished [2267217]
+    3300072: Basic Wall INT_2x4_Unfinished [2268456]
+    3300074: Basic Wall INT_2x4_Unfinished [2268588]
+    3300076: Basic Wall INT_2x4_Unfinished [2269299]
+    3300078: Basic Wall INT_2x4_Unfinished [2269404]
+    3300080: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2265453]
+    3300082: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2268860]
+    3300084: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2265451]
+    3300086: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2268783]
+    3300088: Basic Wall INT_2x6_2HR_Gyp-Gyp [2268688]
+    3300090: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2265452]
+    3300092: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2268894]
+    3300094: Basic Wall INT_2x6_Gyp-Gyp [2267611]
+    3300096: Basic Wall INT_2x6_Gyp-Gyp [2267703]
+    3300098: Basic Wall INT_2x6_Gyp-Gyp [2267953]
+    3300100: Basic Wall INT_2x6_Gyp-Gyp [2268278]
+    3300102: Basic Wall INT_2x6_Gyp-Gyp [2269049]
+    3300104: Basic Wall INT_2x6_Gyp-Unfinished [2267565]
+    3300106: Basic Wall INT_2x6_Gyp-Unfinished [2268117]
+    3300108: Basic Wall INT__2X4_Denshield-Tile-Denshield-Tile [2271474]
+    3300110: Box001
+    3300112: Box002
+    3300114: Box003
+    3300116: Box004
+    3300118: Box006
+    3300120: Box007
+    3300122: Casework_Base Casework_Base [2516716]
+    3300124: Casework_Base Casework_Base [2517011]
+    3300126: Casework_Base Casework_Base [2517102]
+    3300128: Casework_Base Casework_Base [2517438]
+    3300130: Casework_Base Casework_Base [2517439]
+    3300132: Casework_Base Casework_Base [2517440]
+    3300134: Casework_Base Casework_Base [2517441]
+    3300136: Casework_Base Casework_Base [2517556]
+    3300138: Casework_Base Casework_Base [2517882]
+    3300140: Casework_Base Casework_Base [2519156]
+    3300142: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519776]
+    3300144: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520204]
+    3300146: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520414]
+    3300148: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520522]
+    3300150: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520754]
+    3300152: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520844]
+    3300154: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521232]
+    3300156: Casework_Tile Base Casework_Tile Base [2382817]
+    3300158: Casework_Tile Base Casework_Tile Base [2382984]
+    3300160: Cylinder002
+    3300162: Floor EF_Fiberglass [2384985]
+    3300164: Floor IF_Carpet [2270680]
+    3300166: Floor IF_Carpet [2270951]
+    3300168: Floor IF_Hardwood [2269449]
+    3300170: Floor IF_Shower Tile [2271330]
+    3300172: Floor IF_Tile [2271265]
+    3300174: Floor IF_Tile [2271297]
+    3300176: Line002
+    3300178: Line003
+    3300180: Rectangle001
+    3300182: Rectangle002
+    3300184: Rectangle003
+    3300186: Rectangle004
+    3300188: Rectangle006
+    3300190: Rectangle007
+    3300192: Rectangle008
+    3300194: Rectangle009
+    3300196: Rectangle010
+    3300198: Rectangle011
+    3300200: Rectangle012
+    3300202: Rectangle013
+    3300204: Rectangle017
+    3300206: Rectangle018
+    3300208: Rectangle019
+    3300210: Rectangle020
+    3300212: Rectangle021
+    3300214: Rectangle022
+    3300216: Rectangle023
+    3300218: Rectangle024
+    3300220: Rectangle025
+    3300222: Rectangle026
+    3300224: Rectangle027
+    3300226: Rectangle028
+    3300228: Rectangle029
+    3300230: Rectangle030
+    3300232: Rectangle031
+    3300234: Rectangle032
+    3300236: Rectangle034
+    3300238: Rectangle035
+    3300240: Rectangle036
+    3300242: Rectangle037
+    3300244: Rectangle038
+    3300246: Rectangle039
+    3300248: Rectangle040
+    3300250: UNIT2A_2-5FLR_KITCHEN UNIT2A_2-5FLR_KITCHEN [2531807]_[2532802]
+    4300000: Casework_Base Casework_Base [2516716]
+    4300002: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2265451]
+    4300004: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2265452]
+    4300006: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2265453]
+    4300008: Basic Wall INT_2x4_Gyp-Unfinished [2265701]
+    4300010: Basic Wall INT_2x4_Gyp-Gyp [2265819]
+    4300012: Basic Wall INT_2x4_Gyp-Gyp [2265971]
+    4300014: Basic Wall EXT_2x6_Unfinished-Gyp [2266244]
+    4300016: Basic Wall EXT_2x6_Unfinished-Gyp [2266424]
+    4300018: Basic Wall EXT_2x6_1HR_Unfinished-Gyp 2 [2266544]
+    4300020: Basic Wall INT_2x4_Gyp-Gyp [2266664]
+    4300022: Basic Wall INT_2x4_Gyp-Gyp [2266718]
+    4300024: Basic Wall INT_2x4_Gyp-Gyp [2266862]
+    4300026: Basic Wall INT_2x4_Gyp-Gyp [2267054]
+    4300028: Basic Wall INT_2x4_Gyp-Unfinished [2267217]
+    4300030: Basic Wall INT_2x4_Gyp-Gyp [2267334]
+    4300032: Basic Wall INT_2x6_Gyp-Unfinished [2267565]
+    4300034: Basic Wall INT_2x6_Gyp-Gyp [2267611]
+    4300036: Basic Wall INT_2x6_Gyp-Gyp [2267703]
+    4300038: Basic Wall INT_2x6_Gyp-Gyp [2267953]
+    4300040: Basic Wall INT_2x6_Gyp-Unfinished [2268117]
+    4300042: Basic Wall INT_2x6_Gyp-Gyp [2268278]
+    4300044: Basic Wall INT_2x4_Unfinished [2268456]
+    4300046: Basic Wall INT_2x4_Unfinished [2268588]
+    4300048: Basic Wall INT_2x6_2HR_Gyp-Gyp [2268688]
+    4300050: Basic Wall INT_2x6_2HR_Adjacent Unit_Unfinished [2268783]
+    4300052: Rectangle040
+    4300054: Basic Wall INT_2x6_2HR_Gyp-Unfinished [2268894]
+    4300056: Basic Wall INT_2x6_Gyp-Gyp [2269049]
+    4300058: Basic Wall INT_2x4_Unfinished [2269299]
+    4300060: Basic Wall INT_2x4_Unfinished [2269404]
+    4300062: Floor IF_Hardwood [2269449]
+    4300064: Floor IF_Carpet [2270680]
+    4300066: Floor IF_Carpet [2270951]
+    4300068: Floor IF_Tile [2271265]
+    4300070: Floor IF_Tile [2271297]
+    4300072: Floor IF_Shower Tile [2271330]
+    4300074: Basic Wall INT__2X4_Denshield-Tile-Denshield-Tile [2271474]
+    4300076: Basic Wall IF__Denshield-Tile [2380401]
+    4300078: Basic Wall IF__Denshield-Tile [2380403]
+    4300080: Basic Wall IF__Denshield-Tile [2380404]
+    4300082: Basic Wall IF_Denshield [2380715]
+    4300084: Basic Wall IF_Gyp_Smooth [2380716]
+    4300086: Basic Wall IF_Denshield [2380730]
+    4300088: Basic Wall IF_Gyp_Smooth [2380731]
+    4300090: Basic Wall IF_Denshield [2380735]
+    4300092: Basic Wall IF_Gyp_Smooth [2380736]
+    4300094: Basic Wall IF_Denshield [2380843]
+    4300096: Basic Wall IF_Gyp_Smooth [2380844]
+    4300098: Basic Wall IF_Denshield [2381135]
+    4300100: Basic Wall IF_Gyp_Smooth [2381136]
+    4300102: Basic Wall IF_Denshield [2381143]
+    4300104: Basic Wall IF_Gyp_Smooth [2381144]
+    4300106: Basic Wall IF_Denshield [2381148]
+    4300108: Basic Wall IF_Gyp_Smooth [2381149]
+    4300110: Basic Wall IF_Denshield [2381153]
+    4300112: Basic Wall IF_Gyp_Smooth [2381154]
+    4300114: Basic Wall IF__Denshield-Tile [2381235]
+    4300116: Basic Wall IF__Denshield-Tile [2381237]
+    4300118: Basic Wall IF__Denshield-Tile [2381238]
+    4300120: Casework_Tile Base Casework_Tile Base [2382817]
+    4300122: Casework_Tile Base Casework_Tile Base [2382984]
+    4300124: Floor EF_Fiberglass [2384985]
+    4300126: Box007
+    4300128: Casework_Base Casework_Base [2517011]
+    4300130: Casework_Base Casework_Base [2517102]
+    4300132: Casework_Base Casework_Base [2517438]
+    4300134: Casework_Base Casework_Base [2517439]
+    4300136: Casework_Base Casework_Base [2517440]
+    4300138: Casework_Base Casework_Base [2517441]
+    4300140: Casework_Base Casework_Base [2517556]
+    4300142: Casework_Base Casework_Base [2517882]
+    4300144: Casework_Base Casework_Base [2519156]
+    4300146: Casework_Base-Quarter Round Casework_Base-Quarter Round [2519776]
+    4300148: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520204]
+    4300150: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520414]
+    4300152: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520522]
+    4300154: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520754]
+    4300156: Casework_Base-Quarter Round Casework_Base-Quarter Round [2520844]
+    4300158: Casework_Base-Quarter Round Casework_Base-Quarter Round [2521232]
+    4300160: Basic Wall IF_Backsplash Tile [2543640]
+    4300162: UNIT2A_2-5FLR_KITCHEN UNIT2A_2-5FLR_KITCHEN [2531807]_[2532802]
+    4300164: Rectangle001
+    4300166: Rectangle002
+    4300168: Rectangle003
+    4300170: Rectangle004
+    4300172: Rectangle006
+    4300174: Rectangle007
+    4300176: Rectangle008
+    4300178: Rectangle009
+    4300180: Rectangle010
+    4300182: Rectangle011
+    4300184: Rectangle012
+    4300186: Rectangle013
+    4300188: Rectangle039
+    4300190: Line003
+    4300192: Rectangle017
+    4300194: Rectangle018
+    4300196: Rectangle019
+    4300198: Rectangle020
+    4300200: Rectangle021
+    4300202: Rectangle022
+    4300204: Rectangle023
+    4300206: Rectangle024
+    4300208: Rectangle025
+    4300210: Rectangle026
+    4300212: Rectangle027
+    4300214: Rectangle028
+    4300216: Rectangle029
+    4300218: Rectangle030
+    4300220: Rectangle031
+    4300222: Rectangle032
+    4300224: Cylinder002
+    4300226: Box001
+    4300228: Box002
+    4300230: Rectangle038
+    4300232: Box004
+    4300234: Rectangle034
+    4300236: Box006
+    4300238: Rectangle035
+    4300240: Rectangle036
+    4300242: Rectangle037
+    4300244: Line002
+    4300246: Basic Wall INT_2x6_2HR_Adjacent Unit_Gyp [2268860]
+    4300248: Basic Wall EXT_2x6_Unfinished-Gyp [2265450]
+    4300250: Box003
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

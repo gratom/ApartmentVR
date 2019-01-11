@@ -22,7 +22,7 @@ public class MouseControllerManager : MonoBehaviour
 
     #region Unity functions
 
-    void Awake()
+    void OnEnable()
     {
         Initialize();
     }

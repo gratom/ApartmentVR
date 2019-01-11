@@ -11,9 +11,3 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestMenuScene.unity
     guid: 04afc618c0f054042bf04c4e58d9db96
-  - enabled: 1
-    path: Assets/Scenes/Room.unity
-    guid: 41750808fdbeee54eb952a9afc43f1ee
-  - enabled: 1
-    path: Assets/Scenes/TEstBundled1.unity
-    guid: 5ebe0ebf0f5cba34db5163c173178f82

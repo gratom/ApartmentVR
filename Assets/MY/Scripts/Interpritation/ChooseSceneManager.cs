@@ -27,8 +27,17 @@ public class ChooseSceneManager : MonoBehaviour
         Initialize();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Application.Quit();
+        }
+    }
+
     private void Initialize()
     {
+        
         #region Scenes from JSON
         //третье приложение это приложение с данными сцен
         UncashedAppDataOfSceneObjects = new List<AbstractObjectConstructable<SceneObjectTypes>>();
@@ -56,14 +65,21 @@ public class ChooseSceneManager : MonoBehaviour
                 });
             ((SceneObject)UncashedAppDataOfSceneObjects[i]).RemoteImageInstance.StartLoad(UniversalImageLoader.RemoteImageLoaderManager.Instance);
             UncashedAppDataOfSceneObjects[i].gameObject.AddComponent<SimpleAction>().simpleActionDelegate = new SimpleAction.SimpleActionDelegate(() =>
-            {                
+            {
                 ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
                     x =>
-                    {
+                    {                        
                         string[] scenePaths = ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemoteAssetBundleInstance.RemoteItemInstance.GetAllScenePaths();
                         string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePaths[0]);
-                        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+                        AsyncOperation asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
+                        asyncOperation.completed += y =>
+                        {
+                            Loader.Instance.AllManagersForScene.SetActive(true);
+                            ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemoteAssetBundleInstance.RemoteItemInstance.Unload(false);
+                            SceneLoaderManager.Instance.LoadSceneObjects();                            
+                        };                        
                     });
+                StartCoroutine(LoadingVisualizerCoroutine(((SceneObject)UncashedAppDataOfSceneObjects[j])));
                 ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemoteAssetBundleInstance.StartLoad(AssetBundleLoaderManager.Instance);
             });
         }
@@ -100,7 +116,12 @@ public class ChooseSceneManager : MonoBehaviour
                     int j = i;
                     gTemp.AddComponent<SimpleAction>().simpleActionDelegate = new SimpleAction.SimpleActionDelegate(() =>
                     {
-                        UnityEngine.SceneManagement.SceneManager.LoadScene(NameFromIndex(j));
+                        AsyncOperation asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(NameFromIndex(j));
+                        asyncOperation.completed += y =>
+                        {                            
+                            Loader.Instance.AllManagersForScene.SetActive(true);
+                            SceneLoaderManager.Instance.LoadSceneObjects();
+                        };
                     });
                 }
             }
@@ -130,6 +151,11 @@ public class ChooseSceneManager : MonoBehaviour
 
     }
 
+    private void AsyncOperation_completed(AsyncOperation obj)
+    {
+        throw new System.NotImplementedException();
+    }
+
     private bool IsIgnore(string nameOfScene)
     {
         for (int i = 0; i < ignoredScenes.Length; i++)
@@ -140,6 +166,23 @@ public class ChooseSceneManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private IEnumerator LoadingVisualizerCoroutine(SceneObject sceneObject)
+    {
+        while (true)
+        {
+            yield return null;
+            if (sceneObject.RemoteAssetBundleInstance.loadingOperation != null)
+            {
+                sceneObject.textMestName.text = Mathf.RoundToInt(sceneObject.RemoteAssetBundleInstance.loadingOperation.progress * 100).ToString() + "%";
+                if (sceneObject.RemoteAssetBundleInstance.loadingOperation.isDone)
+                {
+                    sceneObject.textMestName.text = "Scene fully loaded. Wait a couple of seconds...";
+                    break;
+                }
+            }
+        }
     }
 
     private string NameFromIndex(int BuildIndex)

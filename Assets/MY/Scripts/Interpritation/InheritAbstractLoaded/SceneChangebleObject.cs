@@ -18,7 +18,7 @@ public enum SceneChangebleObjectTypes
 /// Serializeble class for start setting
 /// </summary>
 [System.Serializable]
-public class SettingForFieldsInSceneChangebleObject : AbstractObjectConstructableComponentData<SceneChangebleObjectTypes> {}
+public class SettingForFieldsInSceneChangebleObject : AbstractObjectConstructableComponentData<SceneChangebleObjectTypes> { }
 
 /// <summary>
 /// Class for changeble object on scene.
@@ -178,7 +178,7 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
             if (tempLoadedMaterial != null)
             {
                 tempLoadedMaterial.RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
-                    new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteImageDelegate(x =>
+                    new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableDelegate(x =>
                     {
                         tempLoadedMaterial.LoadMaterial();
                         MaterialReady(tempLoadedMaterial);
@@ -219,7 +219,7 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
             else
             {
                 RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
-                    new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteImageDelegate(x => { OnMenuDraw(menuItem); }));
+                    new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableDelegate(x => { OnMenuDraw(menuItem); }));
             }
         }
     }
@@ -379,6 +379,11 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
         }
 
         return returnedList;
+    }
+
+    public string getTypeClickable()
+    {
+        return ChangebleObjectType;
     }
 
     #endregion

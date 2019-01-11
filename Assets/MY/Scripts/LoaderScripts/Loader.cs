@@ -35,6 +35,11 @@ public class Loader : MonoBehaviour
     public GameObject AllManagersForScene;
 
     /// <summary>
+    /// Manager, that loading scene objects
+    /// </summary>
+    public GameObject SceneLoaderManagerGameObject;
+
+    /// <summary>
     /// Name of scene, that will be loaded after loading
     /// </summary>
     public string SceneLoadAfterLoading;
@@ -55,6 +60,8 @@ public class Loader : MonoBehaviour
 
     private IEnumerator LoadingCoroutine()
     {
+        Initialize();
+
         yield return null;
         LoadingVisualizer.Instance.StatusBarText = "Initiate the main objects and scripts...\n";
         LoadingVisualizer.Instance.counter++;
@@ -90,11 +97,19 @@ public class Loader : MonoBehaviour
         assetBundleLoaderManager.transform.parent = managersMainGameObject.transform;
         remoteImageLoaderManager.transform.parent = managersMainGameObject.transform;
         AllManagersForScene.transform.parent = managersMainGameObject.transform;
+        SceneLoaderManagerGameObject.transform.parent = managersMainGameObject.transform;
+        this.transform.parent = managersMainGameObject.transform;
 
         while (!JSONMainManager.Instance.IsReady)
         {
             yield return new WaitForSeconds(0.2f);
         }
+
+        SceneLoaderManagerGameObject.SetActive(true);
+
+        yield return null;
+
+        SceneLoaderManager.Instance.Initialize();
 
         LoadingVisualizer.Instance.counter += 100;
 

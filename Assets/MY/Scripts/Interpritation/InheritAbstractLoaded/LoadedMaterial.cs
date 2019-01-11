@@ -152,7 +152,7 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
         else
         {
             RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
-                new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteImageDelegate(x => { OnMenuDraw(menuItem); }));
+                new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableDelegate(x => { OnMenuDraw(menuItem); }));
         }
     }
 
@@ -228,7 +228,7 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
     public void StartLoadAssetBundle()
     {
         RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
-            new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteImageDelegate(x =>
+            new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableDelegate(x =>
             {
                 LoadMaterial();
             }));

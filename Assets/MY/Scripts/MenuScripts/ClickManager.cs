@@ -12,6 +12,11 @@ public class ControlInputData
 
     public float Param { get; set; }
 
+    public override string ToString()
+    {
+        return "Control input data:\n__type:" + ControlEventType.ToString() + "\n__param:" + Param.ToString() + "\n__clicked object:" + ClickedObject.name;
+    }
+
 }
 
 /// <summary>
@@ -71,11 +76,12 @@ public class ClickManager : MonoBehaviour
 
     private void ChooseEventDelegate(ControlInputData controlData)
     {
+        //Debug.Log(controlData.ToString());
         if(controlData.ClickedObject != null)
         {
             if (controlData.ClickedObject.GetComponent<MenuItem>() != null)
             {
-                MenuManager.Instance.ClickedOnMenuElement(controlData.ClickedObject.GetComponent<MenuItem>());
+                MenuManager.Instance.ClickedOnMenuElement(controlData.ClickedObject.GetComponent<MenuItem>());                
                 return;
             }
             else

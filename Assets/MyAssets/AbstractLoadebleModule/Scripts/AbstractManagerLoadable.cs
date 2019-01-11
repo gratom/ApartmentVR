@@ -166,7 +166,7 @@ namespace AbstractRemoteLoadable
         /// Type of delegate, that you can attach to current events in this class
         /// </summary>
         /// <param name="param">paramets of events</param>
-        public delegate void RemoteImageDelegate(string param);
+        public delegate void RemoteLoadableDelegate(string param);
 
         /// <summary>
         /// Full path URL in GudHub
@@ -287,10 +287,25 @@ namespace AbstractRemoteLoadable
             }
         }
 
+        public AsyncOperation loadingOperation
+        {
+            get
+            {
+                return _loadingOperation;
+            }
+            set
+            {
+                _loadingOperation = value;
+            }
+        }
+        protected AsyncOperation _loadingOperation;
+
+
         [SerializeField]
         private RemoteItemType _RemoteItemInstance;
 
-        private Dictionary<RemoteLoadableEvent, List<RemoteImageDelegate>> EventDictionary;
+        private Dictionary<RemoteLoadableEvent, List<RemoteLoadableDelegate>> EventDictionary;
+        
 
         #region constructor
 
@@ -302,7 +317,7 @@ namespace AbstractRemoteLoadable
         /// <param name="priority">Priority of item. This is an indicator of importance. More important items load faster.</param>
         public RemoteLoadable(string ItemURL, string ItemName = "", string parentItemURL = "", int priority = 0)
         {
-            if(ItemURL == "")
+            if (ItemURL == "")
             {
                 throw new System.ArgumentException("URL can not be null.", "ItemURL");
             }
@@ -336,8 +351,8 @@ namespace AbstractRemoteLoadable
 
         public virtual void CopyItemFrom(RemoteLoadable<RemoteItemType> originalRemoteItem, AbstractManagerLoadable<RemoteItemType> instanceOfLoadManager)
         {
-            RemoteImageDelegate tempDelegate = new RemoteImageDelegate(x => { });
-            tempDelegate = new RemoteImageDelegate(x =>
+            RemoteLoadableDelegate tempDelegate = new RemoteLoadableDelegate(x => { });
+            tempDelegate = new RemoteLoadableDelegate(x =>
             {
                 RemoteItemInstance = originalRemoteItem.RemoteItemInstance;
                 originalRemoteItem.RemoveDelegateFromEvent(RemoteLoadableEvent.OnReady, tempDelegate);
@@ -354,7 +369,7 @@ namespace AbstractRemoteLoadable
         /// </summary>
         /// <param name="eventType"></param>
         /// <param name="functionInstance"></param>
-        public void AddDelegateToEvent(RemoteLoadableEvent eventType, RemoteImageDelegate functionInstance)
+        public void AddDelegateToEvent(RemoteLoadableEvent eventType, RemoteLoadableDelegate functionInstance)
         {
             EventDictionary[eventType].Add(functionInstance);
         }
@@ -364,7 +379,7 @@ namespace AbstractRemoteLoadable
         /// </summary>
         /// <param name="eventType"></param>
         /// <param name="functionInstance"></param>
-        public void RemoveDelegateFromEvent(RemoteLoadableEvent eventType, RemoteImageDelegate functionInstance)
+        public void RemoveDelegateFromEvent(RemoteLoadableEvent eventType, RemoteLoadableDelegate functionInstance)
         {
             if (EventDictionary[eventType].Contains(functionInstance))
             {
@@ -379,7 +394,7 @@ namespace AbstractRemoteLoadable
         {
             if (instanceOfLoadManager != null)
             {
-                if (RemoteItemInstance == null)
+                if (!IsReady)
                 {
                     if (!isLoading)
                     {
@@ -393,7 +408,7 @@ namespace AbstractRemoteLoadable
                     //RemoteItemInstance already loaded
                     //call ready event
                     EventHappend(RemoteLoadableEvent.OnReady, "Item already loaded\nName : " + Name);
-                }                
+                }
             }
         }
 
@@ -403,10 +418,10 @@ namespace AbstractRemoteLoadable
 
         private void InitDictionary()
         {
-            EventDictionary = new Dictionary<RemoteLoadableEvent, List<RemoteImageDelegate>>();
+            EventDictionary = new Dictionary<RemoteLoadableEvent, List<RemoteLoadableDelegate>>();
             for (int i = 0; i < System.Enum.GetNames(typeof(RemoteLoadableEvent)).Length; i++)
             {
-                EventDictionary.Add((RemoteLoadableEvent)i, new List<RemoteImageDelegate>());
+                EventDictionary.Add((RemoteLoadableEvent)i, new List<RemoteLoadableDelegate>());
             }
         }
 
@@ -424,7 +439,7 @@ namespace AbstractRemoteLoadable
             if (EventDictionary[eventType].Count > 0)
             {
                 #region coping
-                List<RemoteImageDelegate> tempExecutionList = new List<RemoteImageDelegate>();
+                List<RemoteLoadableDelegate> tempExecutionList = new List<RemoteLoadableDelegate>();
                 for (int i = 0; i < EventDictionary[eventType].Count; i++)
                 {
                     tempExecutionList.Add(EventDictionary[eventType][i]);

@@ -32,6 +32,7 @@ public class FirstPersonController : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 	}
 	
@@ -41,6 +42,7 @@ public class FirstPersonController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         if (isPlaing)

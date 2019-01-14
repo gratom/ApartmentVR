@@ -1553,12 +1553,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb5fae6b7920f594587a8285cd1c01af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyForward: 119
-  keyBack: 115
-  keyLeft: 97
-  keyRight: 100
-  speedMouse: -150
-  speedWalking: 6
+  speedMouse: -25
+  speedWalking: 5
 --- !u!33 &1599529156
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1653,6 +1649,7 @@ GameObject:
   - component: {fileID: 1618011323}
   - component: {fileID: 1618011322}
   - component: {fileID: 1618011321}
+  - component: {fileID: 1618011324}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -1727,6 +1724,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1618011324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1618011319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 6fce72a51acb921449256646bba3ef19, type: 2}
 --- !u!1 &1813374239
 GameObject:
   m_ObjectHideFlags: 0

@@ -267,7 +267,7 @@ public class JSONMainManager : MonoBehaviour
                 }
             }
         }
-        Debug.LogError("Item is not exist!" + "\nFile ID " + URLID);
+        Debug.Log("Item is not exist!" + "\nFile ID " + URLID);
         return "";
     }
 

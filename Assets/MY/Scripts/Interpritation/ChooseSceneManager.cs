@@ -46,7 +46,7 @@ public class ChooseSceneManager : MonoBehaviour
             //создаем тут итемы, по количеству в App
             GameObject gTemp = Instantiate(sceneObjectPrefab, this.transform);
             gTemp.name = "SceneObject" + i.ToString();
-            gTemp.transform.position = new Vector3(i, 1.5f, 2);
+            gTemp.transform.position = new Vector3(i * 2, 1.2f, 2);
             UncashedAppDataOfSceneObjects.Add(gTemp.GetComponent<SceneObject>());
             UncashedAppDataOfSceneObjects[i].InitDictionary();
         }
@@ -57,13 +57,15 @@ public class ChooseSceneManager : MonoBehaviour
         {
             UncashedAppDataOfSceneObjects[i].InitConstruct();            
             int j = i;
-            ((SceneObject)UncashedAppDataOfSceneObjects[i]).RemoteImageInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<Texture2D>.RemoteLoadableEvent.OnReady,
+
+            //preview
+            ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemotePreviewInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
                 x =>
                 {
-                    UncashedAppDataOfSceneObjects[j].gameObject.GetComponent<MeshRenderer>().material = new Material(UncashedAppDataOfSceneObjects[j].gameObject.GetComponent<MeshRenderer>().material);
-                    UncashedAppDataOfSceneObjects[j].gameObject.GetComponent<MeshRenderer>().material.mainTexture = ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemoteImageInstance.RemoteItemInstance;
+                    ((SceneObject)UncashedAppDataOfSceneObjects[j]).SpawnBundle();
                 });
-            ((SceneObject)UncashedAppDataOfSceneObjects[i]).RemoteImageInstance.StartLoad(UniversalImageLoader.RemoteImageLoaderManager.Instance);
+            ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemotePreviewInstance.StartLoad(AssetBundleLoaderManager.Instance);
+
             UncashedAppDataOfSceneObjects[i].gameObject.AddComponent<SimpleAction>().simpleActionDelegate = new SimpleAction.SimpleActionDelegate(() =>
             {
                 ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
@@ -76,6 +78,7 @@ public class ChooseSceneManager : MonoBehaviour
                         {
                             Loader.Instance.AllManagersForScene.SetActive(true);
                             ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemoteAssetBundleInstance.RemoteItemInstance.Unload(false);
+                            ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemotePreviewInstance.RemoteItemInstance.Unload(false);
                             SceneLoaderManager.Instance.LoadSceneObjects();                            
                         };                        
                     });

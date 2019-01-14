@@ -10,11 +10,6 @@ public class FirstPersonController : MonoBehaviour
     /// </summary>
     public static FirstPersonController Instance { get; private set; }
 
-    public KeyCode keyForward;
-    public KeyCode keyBack;
-    public KeyCode keyLeft;
-    public KeyCode keyRight;
-
     public float speedMouse;
     public float speedWalking;
 
@@ -54,22 +49,8 @@ public class FirstPersonController : MonoBehaviour
 
     private void ObjectTracker()
     {
-        if (Input.GetKey(keyForward))
-        {
-            this.gameObject.transform.position += this.gameObject.transform.forward * speedWalking * Time.deltaTime;
-        }
-        if (Input.GetKey(keyBack))
-        {
-            this.gameObject.transform.position += this.gameObject.transform.forward * -speedWalking * Time.deltaTime;
-        }
-        if (Input.GetKey(keyLeft))
-        {
-            this.gameObject.transform.position += this.gameObject.transform.right * -speedWalking * Time.deltaTime;
-        }
-        if (Input.GetKey(keyRight))
-        {
-            this.gameObject.transform.position += this.gameObject.transform.right * speedWalking * Time.deltaTime;
-        }
+        this.gameObject.transform.position += this.gameObject.transform.forward * Input.GetAxis("Vertical") * speedWalking * Time.deltaTime;
+        this.gameObject.transform.position += this.gameObject.transform.right * Input.GetAxis("Horizontal") * speedWalking * Time.deltaTime;
     }
 
     private void MouseTracker()

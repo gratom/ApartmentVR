@@ -11,7 +11,7 @@ public enum SceneObjectTypes
 {
     SceneName,
     AssetBundleURL,
-    PreImageURL
+    PreviewAssetBundleURL
 }
 
 /// <summary>
@@ -47,7 +47,7 @@ public class SceneObject : AbstractObjectConstructable<SceneObjectTypes>
     /// <summary>
     /// Unique ID file in GudHub
     /// </summary>
-    public string URLNameRemoteImage { get; private set; }
+    public string URLNameRemotePreview { get; private set; }
 
     /// <summary>
     /// Instance of Remote AssetBundle in this class
@@ -69,23 +69,25 @@ public class SceneObject : AbstractObjectConstructable<SceneObjectTypes>
     /// <summary>
     /// Preloaded image for showing in menu
     /// </summary>
-    public RemoteImage RemoteImageInstance
+    public RemoteAssetBundle RemotePreviewInstance
     {
         get
         {
-            return _remoteImageInstance;
+            return _remotePreviewInstance;
         }
         set
         {
-            _remoteImageInstance = value;
+            _remotePreviewInstance = value;
         }
     }
     [SerializeField]
-    private RemoteImage _remoteImageInstance;
-    
+    private RemoteAssetBundle _remotePreviewInstance;
+
     [Tooltip("This is a list of settings for the correct operation of the internal functions for initializing an item.\nThese settings are used to determine how to process data from JSON.")]
     [SerializeField]
     private List<SettingForFieldsInSceneObject> settingFieldList;
+
+    public GameObject previewGameObject;
 
     #region public functions
 
@@ -95,7 +97,7 @@ public class SceneObject : AbstractObjectConstructable<SceneObjectTypes>
         {
             { SceneObjectTypes.SceneName, InitSceneName },
             { SceneObjectTypes.AssetBundleURL, InitAssetBundleURL },
-            { SceneObjectTypes.PreImageURL, InitImageURL }
+            { SceneObjectTypes.PreviewAssetBundleURL, InitPreviewURL }
         };
 
         if (ComponentsDataList == null)
@@ -115,6 +117,17 @@ public class SceneObject : AbstractObjectConstructable<SceneObjectTypes>
                     FunctionsDictionary[ComponentsDataList[i].valueType](i);
                 }
             }
+        }
+    }
+
+    public void SpawnBundle()
+    {
+        //if (RemotePreviewInstance.IsReady && previewGameObject == null)
+        {
+            previewGameObject = Instantiate((GameObject)RemotePreviewInstance.RemoteItemInstance.LoadAsset(RemotePreviewInstance.RemoteItemInstance.GetAllAssetNames()[0]), 
+                this.transform.position, 
+                ((GameObject)RemotePreviewInstance.RemoteItemInstance.LoadAsset(RemotePreviewInstance.RemoteItemInstance.GetAllAssetNames()[0])).transform.rotation);
+            //previewGameObject.transform.localPosition = new Vector3(0, 0, 0);            
         }
     }
 
@@ -154,13 +167,13 @@ public class SceneObject : AbstractObjectConstructable<SceneObjectTypes>
         }
     }
 
-    private void InitImageURL(int num)
+    private void InitPreviewURL(int num)
     {
         try
         {
-            URLNameRemoteImage = ComponentsDataList[num].StringValue;
-            RemoteImageInstance = new RemoteImage(JSONMainManager.Instance.GetRealFileURLById(URLNameRemoteImage)
-                , URLNameRemoteImage
+            URLNameRemotePreview = ComponentsDataList[num].StringValue;
+            RemotePreviewInstance = new RemoteAssetBundle(JSONMainManager.Instance.GetRealFileURLById(URLNameRemotePreview)
+                , URLNameRemotePreview
                 , JSONMainManager.Instance.GetRealItemURLByID(ID));
         }
         catch (System.Exception e)

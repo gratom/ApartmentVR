@@ -5,33 +5,19 @@ using UnityEngine;
 public class FirstPersonController : MonoBehaviour
 {
 
-    /// <summary>
-    /// Singleton
-    /// </summary>
-    public static FirstPersonController Instance { get; private set; }
-
+    public new Camera camera;
     public float speedMouse;
     public float speedWalking;
 
     private bool isPlaing;
 
-    void Awake()
+    // Use this for initialization
+    void Start()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        isPlaing = true;
+        PlayController();
     }
 
-	// Use this for initialization
-	void Start () 
-    {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-	}
-	
-	// Update is called once per frame
+    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.C))

@@ -7,6 +7,7 @@ public class SceneClickTracker : MonoBehaviour
 
     private void Start()
     {
+
         StartCoroutine(TrackingCoroutine());
     }
 

@@ -31,14 +31,6 @@ public class MouseControllerManager : MonoBehaviour
 
     #region public functions
 
-    public void ImitateSelectButtonClick(GameObject clickTo)
-    {
-        InputData.ControlEventType = ClickManager.ControlEvent.chooseEvent;
-        InputData.Param = 0;
-        InputData.ClickedObject = clickTo;
-        ClickManager.Instance.ControlEventHappend(InputData);
-    }
-
     #endregion
     
     #region private functions

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UniversalAssetBundleLoader;
+using Valve.VR;
+using Valve.VR.InteractionSystem;
 
 public class ChooseSceneManager : MonoBehaviour
 {
@@ -37,7 +39,12 @@ public class ChooseSceneManager : MonoBehaviour
 
     private void Initialize()
     {
-        
+        #region Creating the SceneClickTracker
+
+        new GameObject("SimpleTracker").AddComponent<SceneClickTracker>();
+
+        #endregion        
+
         #region Scenes from JSON
         //третье приложение это приложение с данными сцен
         UncashedAppDataOfSceneObjects = new List<AbstractObjectConstructable<SceneObjectTypes>>();
@@ -46,7 +53,7 @@ public class ChooseSceneManager : MonoBehaviour
             //создаем тут итемы, по количеству в App
             GameObject gTemp = Instantiate(sceneObjectPrefab, this.transform);
             gTemp.name = "SceneObject" + i.ToString();
-            gTemp.transform.position = new Vector3(i * 2, 1.2f, 2);
+            gTemp.transform.position = new Vector3(i * 2 - (JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[2].AppData.items_list.Count - 1) / 2.0f, sceneObjectPrefab.transform.position.y, 1);
             UncashedAppDataOfSceneObjects.Add(gTemp.GetComponent<SceneObject>());
             UncashedAppDataOfSceneObjects[i].InitDictionary();
         }
@@ -73,7 +80,9 @@ public class ChooseSceneManager : MonoBehaviour
                     {                        
                         string[] scenePaths = ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemoteAssetBundleInstance.RemoteItemInstance.GetAllScenePaths();
                         string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePaths[0]);
-                        AsyncOperation asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
+                        MyPlayerControllers.PlayerManager.Instance.DestroyCurrentController();
+                        UnityEngine.XR.XRSettings.enabled = false;
+                        AsyncOperation asyncOperation = UnityEditor.SceneManagement.EditorSceneManager.LoadSceneAsync(sceneName);
                         asyncOperation.completed += y =>
                         {
                             Loader.Instance.AllManagersForScene.SetActive(true);
@@ -86,8 +95,12 @@ public class ChooseSceneManager : MonoBehaviour
                 ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemoteAssetBundleInstance.StartLoad(AssetBundleLoaderManager.Instance);
             });
         }
+
+        StartCoroutine(WaitFor(2));
+
         #endregion
 
+        //obsolete code
         #region Scene from project
 
         if (IsBuildFromProjectScenes)
@@ -131,6 +144,7 @@ public class ChooseSceneManager : MonoBehaviour
         }
         #endregion
 
+        //dont working code
         #region Scenes from disk
 
         if (IsBuildFromDiskScenes)
@@ -145,18 +159,7 @@ public class ChooseSceneManager : MonoBehaviour
         }
 
         #endregion
-
-        #region Creating the SceneClickTracker
-
-        new GameObject("SimpleTracker").AddComponent<SceneClickTracker>();
-
-        #endregion
-
-    }
-
-    private void AsyncOperation_completed(AsyncOperation obj)
-    {
-        throw new System.NotImplementedException();
+        
     }
 
     private bool IsIgnore(string nameOfScene)
@@ -174,7 +177,7 @@ public class ChooseSceneManager : MonoBehaviour
     private IEnumerator LoadingVisualizerCoroutine(SceneObject sceneObject)
     {
         while (true)
-        {
+        {            
             yield return null;
             if (sceneObject.RemoteAssetBundleInstance.loadingOperation != null)
             {
@@ -186,6 +189,13 @@ public class ChooseSceneManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator WaitFor(float second)
+    {
+        yield return new WaitForSeconds(second);
+        MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.PlayerControllerContainer.PlayerControllerType.VRPlayerController);
+        UnityEngine.XR.XRSettings.enabled = true;
     }
 
     private string NameFromIndex(int BuildIndex)

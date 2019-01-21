@@ -231,6 +231,7 @@ public class SceneLoaderManager : MonoBehaviour
                 }
             }
         }
+        StartCoroutine(WaitFor(2));
         #endregion
     }
     
@@ -288,9 +289,21 @@ public class SceneLoaderManager : MonoBehaviour
 
             #endregion
 
-            isInit = true;
+            isInit = true;           
         }
     }
 
     #endregion
+
+    #region Coroutines
+
+    private IEnumerator WaitFor(float second)
+    {
+        yield return new WaitForSeconds(second);
+        MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.PlayerControllerContainer.PlayerControllerType.VRPlayerController);
+        UnityEngine.XR.XRSettings.enabled = true;
+    }
+
+    #endregion
+
 }

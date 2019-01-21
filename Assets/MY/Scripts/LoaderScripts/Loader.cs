@@ -12,8 +12,6 @@ public class Loader : MonoBehaviour
     /// </summary>
     public static Loader Instance { get; private set; }
 
-    public bool IsLoadSceneFromBundle;
-
     /// <summary>
     /// Setting class for JSONMainManager
     /// </summary>
@@ -40,6 +38,11 @@ public class Loader : MonoBehaviour
     public GameObject SceneLoaderManagerGameObject;
 
     /// <summary>
+    /// Manager, dat can spawn da pleya in carent sene. And dat gud u`l sho leta
+    /// </summary>
+    public GameObject PlayerManager;
+
+    /// <summary>
     /// Name of scene, that will be loaded after loading
     /// </summary>
     public string SceneLoadAfterLoading;
@@ -60,6 +63,8 @@ public class Loader : MonoBehaviour
 
     private IEnumerator LoadingCoroutine()
     {
+        UnityEngine.XR.XRSettings.enabled = false;
+
         Initialize();
 
         yield return null;
@@ -98,6 +103,7 @@ public class Loader : MonoBehaviour
         remoteImageLoaderManager.transform.parent = managersMainGameObject.transform;
         AllManagersForScene.transform.parent = managersMainGameObject.transform;
         SceneLoaderManagerGameObject.transform.parent = managersMainGameObject.transform;
+        PlayerManager.transform.parent = managersMainGameObject.transform;
         this.transform.parent = managersMainGameObject.transform;
 
         while (!JSONMainManager.Instance.IsReady)
@@ -114,18 +120,8 @@ public class Loader : MonoBehaviour
         LoadingVisualizer.Instance.counter += 100;
 
         yield return new WaitForSeconds(1);
-
-        if (IsLoadSceneFromBundle)
-        {
-            AssetBundle bundle = AssetBundle.LoadFromFile(Application.dataPath + "/" + SceneLoadAfterLoading);
-            string[] scenePaths = bundle.GetAllScenePaths();
-            string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePaths[0]);
-            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
-        }
-        else
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneLoadAfterLoading);
-        }
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneLoadAfterLoading);
+        
     }
 
     private void ErrorEvent(string Responce)

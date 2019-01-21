@@ -5,7 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Places
-  - SceneManagers
+  - teleport
+  - Undefined
   layers:
   - Default
   - TransparentFX

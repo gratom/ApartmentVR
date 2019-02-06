@@ -31,6 +31,29 @@ public class MouseControllerManager : MonoBehaviour
 
     #region public functions
 
+    /// <summary>
+    /// Stop controller coroutine, if its work now
+    /// </summary>
+    public void StopController()
+    {
+        if(TrackingInputEventCoroutineInstance != null)
+        {
+            StopCoroutine(TrackingInputEventCoroutineInstance);
+            TrackingInputEventCoroutineInstance = null;
+        }
+    }
+
+    /// <summary>
+    /// Start controller coroutine, if its dont work now
+    /// </summary>
+    public void StartController()
+    {
+        if(TrackingInputEventCoroutineInstance == null)
+        {
+            StartCoroutine(TrackingInputEventCoroutine());
+        }
+    }
+
     #endregion
     
     #region private functions
@@ -38,23 +61,23 @@ public class MouseControllerManager : MonoBehaviour
     private void Initialize()
     {
         InputData = new ControlInputData();
-        InputData.ControlEventType = ClickManager.ControlEvent.chooseEvent;
+        InputData.ControlEventType = ClickManager.ControlEvent.activeActionEvent;
         InputData.Param = 0;
-        InputData.ClickedObject = null;
+        InputData.interactiveObject = null;
         TrackingInputEventCoroutineInstance = StartCoroutine(TrackingInputEventCoroutine());
     }
 
-    private void SelectButtonClick(GameObject hit)
+    private void SelectButtonClick(InteractiveObject interactiveObject)
     {
-        InputData.ControlEventType = ClickManager.ControlEvent.chooseEvent;
+        InputData.ControlEventType = ClickManager.ControlEvent.activeActionEvent;
         InputData.Param = 0;
-        if (hit.transform.parent == null)
+        if (interactiveObject)
         {
-            InputData.ClickedObject = null;
+            InputData.interactiveObject = null;
         }
         else
         {
-            InputData.ClickedObject = hit.transform.parent.gameObject;
+            InputData.interactiveObject = interactiveObject;
         }
         ClickManager.Instance.ControlEventHappend(InputData);
     }
@@ -65,29 +88,29 @@ public class MouseControllerManager : MonoBehaviour
         {
             if(menuItem.typeOfObject == MyVRMenu.MenuLine.TypeOfLine.firstLine)
             {
-                MenuDebugger.Instance.SetText(((SceneChangebleObject)menuItem.ItemInstance).ToString());
+                MenuDebugger.Instance.SetText(((SceneChangebleObject)menuItem.AttachedObject).ToString());
                 return;
             }
             if (menuItem.typeOfObject == MyVRMenu.MenuLine.TypeOfLine.secondLine)
             {
-                MenuDebugger.Instance.SetText(((LoadedMaterial)menuItem.ItemInstance).ToString());
+                MenuDebugger.Instance.SetText(((LoadedMaterial)menuItem.AttachedObject).ToString());
                 return;
             }
         }
         MenuDebugger.Instance.EraseText();
     }
 
-    private void MenuRotate(GameObject hit)
+    private void MenuRotate(InteractiveObject interactiveObject)
     {
         InputData.ControlEventType = ClickManager.ControlEvent.menuRotate;
         InputData.Param = Input.mouseScrollDelta.y * Sensitivity;
-        if (hit.transform.parent == null)
+        if (interactiveObject.transform.parent == null)
         {
-            InputData.ClickedObject = null;
+            InputData.interactiveObject = null;
         }
         else
         {
-            InputData.ClickedObject = hit.transform.parent.gameObject;
+            InputData.interactiveObject = interactiveObject;
         }
         ClickManager.Instance.ControlEventHappend(InputData);
     }
@@ -102,63 +125,66 @@ public class MouseControllerManager : MonoBehaviour
         {//Tracking the click...                 
             yield return null;
 
-            Ray ray;
-            RaycastHit hit;
-            ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-
-            if (Physics.Raycast(ray, out hit, 100)) //рисуем лучик
+            if (Camera.main != null)
             {
-                //LinePointer.SetPosition(1, hit.point);
+                Ray ray;
+                RaycastHit hit;
+                ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
 
-                if (hit.collider.gameObject.transform.parent != null)
+                if (Physics.Raycast(ray, out hit, 100)) //рисуем лучик
                 {
-                    if (hit.collider.gameObject.transform.parent.gameObject.GetComponent<MyVRMenu.MenuItem>() != null)
-                    {
-                        LastPointedItem = hit.collider.gameObject.transform.parent.gameObject.GetComponent<MyVRMenu.MenuItem>();
-                        LastPointedItem.onPoint(LastPointedItem, true);
+                    //LinePointer.SetPosition(1, hit.point);
 
-                        LastPointedGameObject = hit.collider.gameObject;
-                    }
-                    else
+                    if (hit.collider.gameObject.transform.parent != null)
                     {
-                        if (LastPointedItem != null)
+                        if (hit.collider.gameObject.transform.parent.gameObject.GetComponent<MyVRMenu.MenuItem>() != null)
                         {
-                            LastPointedItem.onPoint(LastPointedItem, false);
+                            LastPointedItem = hit.collider.gameObject.transform.parent.gameObject.GetComponent<MyVRMenu.MenuItem>();
+                            //LastPointedItem.onPoint(LastPointedItem, true);
+
+                            LastPointedGameObject = hit.collider.gameObject;
+                        }
+                        else
+                        {
+                            if (LastPointedItem != null)
+                            {
+                                //LastPointedItem.onPoint(LastPointedItem, false);
+                            }
                         }
                     }
+
+                }
+                else
+                {
+                    continue;
                 }
 
-            }
-            else
-            {
-                continue;
-            }
+                #region select button click
+                if (Input.GetMouseButtonDown(0))
+                {
+                    SelectButtonClick(hit.collider.gameObject.GetComponent<InteractiveObject>()); //TODO переделать
+                    continue;
+                }
+                #endregion
 
-            #region select button click
-            if (Input.GetMouseButtonDown(0))
-            {
-                SelectButtonClick(hit.collider.gameObject);
-                continue;
-            }
-            #endregion
+                #region rotate menu
+                if (Input.mouseScrollDelta.y != 0 && LastPointedGameObject != null)
+                {
+                    MenuRotate(LastPointedGameObject.GetComponent<InteractiveObject>()); //TODO переделать
+                    continue;
+                }
+                #endregion
 
-            #region rotate menu
-            if (Input.mouseScrollDelta.y != 0 && LastPointedGameObject != null)
-            {
-                MenuRotate(LastPointedGameObject);
-                continue;
-            }
-            #endregion
+                #region show debug
+                if (Input.GetMouseButtonDown(1))
+                {
+                    ShowDebug(LastPointedItem);
+                    continue;
+                }
+                #endregion
 
-            #region show debug
-            if (Input.GetMouseButtonDown(1))
-            {
-                ShowDebug(LastPointedItem);
-                continue;
+                //дописать еще другие клики, и события       
             }
-            #endregion
-
-            //дописать еще другие клики, и события            
         }
     }
 

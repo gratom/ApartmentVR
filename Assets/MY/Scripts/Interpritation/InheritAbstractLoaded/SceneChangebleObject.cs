@@ -11,7 +11,7 @@ public enum SceneChangebleObjectTypes
     nameObject,
     typeObject,
     AssetBundleURL,
-    PreImage
+    thumbnail
 }
 
 /// <summary>
@@ -24,7 +24,7 @@ public class SettingForFieldsInSceneChangebleObject : AbstractObjectConstructabl
 /// Class for changeble object on scene.
 /// </summary>
 [System.Serializable]
-public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleObjectTypes>, ISceneClickable, IMenuClickable
+public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleObjectTypes>, ISceneClickable
 {
     /// <summary>
     /// Its the name of object. The name is not unique
@@ -35,16 +35,6 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
     /// The type of this object. ChangebleObject type is needed to determine what can be replaced
     /// </summary>
     public string ChangebleObjectType { get; private set; }
-
-    /// <summary>
-    /// This is URL for downloading assetbundle, that will be used
-    /// </summary>
-    public string RealGudHubURL { get; private set; }
-
-    /// <summary>
-    /// It is the name of assetbundle on disk
-    /// </summary>
-    public string URLName { get; private set; }
 
     /// <summary>
     /// Sprite image, that loaded before real model or texture was loaded
@@ -59,6 +49,10 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
 
     [SerializeField]
     private GameObject AssetGameObject;
+
+    /// <summary>
+    /// Remote assetbundle of big object model
+    /// </summary>
     public RemoteAssetBundle RemoteAssetBundleInstance
     {
         get
@@ -73,9 +67,24 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
     [SerializeField]
     private RemoteAssetBundle _remoteAssetBundleInstance;
 
-    public AbstractObjectConstructableComponentData<int>listOfRemote;
+    /// <summary>
+    /// Remote assetbundle of mitiature of big object model
+    /// </summary>
+    public RemoteAssetBundle RemoteAssetBundleThumbnailInstance
+    {
+        get
+        {
+            return _RemoteAssetBundleThumbnailInstance;
+        }
+        private set
+        {
+            _RemoteAssetBundleThumbnailInstance = value;
+        }
+    }
+    [SerializeField]
+    private RemoteAssetBundle _RemoteAssetBundleThumbnailInstance;
 
-    public int itemID { get { return ID; } }    
+    public AbstractObjectConstructableComponentData<int> listOfRemote;
 
     #region public functions
 
@@ -88,6 +97,7 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
         FunctionsDictionary.Add(SceneChangebleObjectTypes.nameObject, InitName);
         FunctionsDictionary.Add(SceneChangebleObjectTypes.AssetBundleURL, InitURL);
         FunctionsDictionary.Add(SceneChangebleObjectTypes.typeObject, InitTypeObject);
+        FunctionsDictionary.Add(SceneChangebleObjectTypes.thumbnail, IniThumbnail);
 
         if (ComponentsDataList == null)
         {
@@ -158,8 +168,8 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
         {
             BoxCollider[] boxColliders = AssetGameObject.GetComponents<BoxCollider>();
             {
-                for(int i = 0; i < boxColliders.Length; i++)
-                Destroy(boxColliders[i]);
+                for (int i = 0; i < boxColliders.Length; i++)
+                    Destroy(boxColliders[i]);
             }
         }
     }
@@ -172,6 +182,11 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
         if (RemoteAssetBundleInstance.IsReady && AssetGameObject == null)
         {
             AssetGameObject = Instantiate((GameObject)RemoteAssetBundleInstance.RemoteItemInstance.LoadAsset(RemoteAssetBundleInstance.RemoteItemInstance.GetAllAssetNames()[0]), this.transform);
+            InteractiveObject tempInteractiveObject = AssetGameObject.AddComponent<InteractiveObject>();
+            tempInteractiveObject.OnActiveAction = () => 
+            {
+                MenuManager.Instance.ClickedOnClickable(this);
+            };
             //поворот бандла определяется здесь, так как сам ChangableObject не повернут относительно точки спавна
             AssetGameObject.transform.localPosition = new Vector3(0, 0, 0);
             LoadedMaterial tempLoadedMaterial = SceneLoaderManager.Instance.GetMaterialForThat(this);
@@ -192,16 +207,26 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
     /// Called on menu Draw
     /// </summary>
     /// <param name="menuItem">menu item, that called this function</param>
-    public void OnMenuDraw(MenuItem menuItem)
+    public void onDrawFunction(MenuItem menuItem)
     {
         if (menuItem)
         {
-            //get the real size
-            SpawnBundle();
+            if (RemoteAssetBundleThumbnailInstance != null)
+            {
+                SpawnThumbnail();
+            }
+            else
+            {
+                SpawnBundle();
+            }
+
             if (AssetGameObject != null)
             {
                 DestroyAssetCollider();
-                float r = 0.075f; //расстояние стороны куба, в который модель вписывается. Эту переменную стоит перенести в настройки меню
+                float r = 0.085f; //расстояние стороны куба, в который модель вписывается. Эту переменную стоит перенести в настройки меню
+
+                Quaternion tempQuaternion = AssetGameObject.transform.rotation;
+                AssetGameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
                 MeshRenderer coolMesh = AssetGameObject.GetComponent<MeshRenderer>();
                 Vector3 vmin = coolMesh.bounds.min;
@@ -210,16 +235,25 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
                 float f = 0;
                 if (f < vmax.x - vmin.x) { f = vmax.x - vmin.x; }
                 if (f < vmax.y - vmin.y) { f = vmax.y - vmin.y; }
-                if (f < vmax.z - vmin.z) { f = vmax.z - vmin.z; }
+                //if (f < vmax.z - vmin.z) { f = vmax.z - vmin.z; }
                 float scale = f / r;
                 AssetGameObject.transform.localScale /= scale;
+                AssetGameObject.transform.rotation = tempQuaternion;
                 Vector3 vTemp = AssetGameObject.transform.position - coolMesh.bounds.center;
                 AssetGameObject.transform.position += new Vector3(vTemp.x, vTemp.y + ((coolMesh.bounds.max.y - coolMesh.bounds.min.y) / 2), vTemp.z);
             }
             else
             {
-                RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
-                    new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableDelegate(x => { OnMenuDraw(menuItem); }));
+                if(RemoteAssetBundleThumbnailInstance != null)
+                {
+                    RemoteAssetBundleThumbnailInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
+                    new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableDelegate(x => { onDrawFunction(menuItem); }));
+                }
+                else
+                {
+                    RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
+                    new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableDelegate(x => { onDrawFunction(menuItem); }));
+                }                
             }
         }
     }
@@ -235,7 +269,6 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
         sReturned += "gudhub name: " + ChangebleObjectName + "\n";
         sReturned += "gudhub item ID: " + ID + "\n";
         sReturned += "type of object: " + ChangebleObjectType.ToString() + "\n";
-        sReturned += "ID of AssetBundle: " + URLName;
         return sReturned;
     }
 
@@ -260,9 +293,10 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
     {
         try
         {
-            URLName = ComponentsDataList[num].StringValue;
-            RealGudHubURL = JSONMainManager.Instance.GetRealFileURLById(URLName);
-            RemoteAssetBundleInstance = new RemoteAssetBundle(RealGudHubURL, URLName, JSONMainManager.Instance.GetRealItemURLByID(ID));
+            RemoteAssetBundleInstance = new RemoteAssetBundle(
+                JSONMainManager.Instance.GetRealFileURLById(ComponentsDataList[num].StringValue),
+                ComponentsDataList[num].StringValue,
+                JSONMainManager.Instance.GetRealItemURLByID(ID));
         }
         catch (System.Exception e)
         {
@@ -270,9 +304,19 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
         }
     }
 
-    private void ItitPreImage(int num)
+    private void IniThumbnail(int num)
     {
-
+        try
+        {
+            RemoteAssetBundleThumbnailInstance = new RemoteAssetBundle(
+                JSONMainManager.Instance.GetRealFileURLById(ComponentsDataList[num].StringValue),
+                ComponentsDataList[num].StringValue,
+                JSONMainManager.Instance.GetRealItemURLByID(ID));
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
     }
 
     private void InitName(int num)
@@ -287,13 +331,20 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
 
     #endregion    
 
+    private void SpawnThumbnail()
+    {
+        if (RemoteAssetBundleThumbnailInstance.IsReady && AssetGameObject == null)
+        {
+            AssetGameObject = Instantiate((GameObject)RemoteAssetBundleThumbnailInstance.RemoteItemInstance.LoadAsset(RemoteAssetBundleThumbnailInstance.RemoteItemInstance.GetAllAssetNames()[0]), this.transform);
+            //поворот бандла определяется здесь, так как сам ChangableObject не повернут относительно точки спавна
+            AssetGameObject.transform.localPosition = new Vector3(0, 0, 0);
+        }
+    }
+
     private void MaterialReady(LoadedMaterial item)
     {
-        //Debug.Log(URLName + "destr!  " + (item == null) + "\n" + item.loadedMaterial.name);
         ChangeMaterialTo(item.loadedMaterial);
-        //Debug.Log("try to destroy : " + item.name);
         Destroy(item.gameObject);
-        //Debug.Log("item destroyed : " + item.name);
     }
 
     #endregion
@@ -314,38 +365,10 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
     /// <param name="itemInstance">object, on which cliked</param>
     public void OnMenuClick(MonoBehaviour itemInstance)
     {
-        //TODO
-        //Spawn here new object
         SceneChangebleObject tempSceneChangable = SceneLoaderManager.Instance.SpawnSceneChangableHere(((SceneChangebleObject)MenuManager.Instance.ObjectSelected).gameObject.transform.parent, ((SceneChangebleObject)itemInstance).ID);
         tempSceneChangable.StartLoadAssetBundle();
-        //Click on this new object
-
         Destroy(((SceneChangebleObject)MenuManager.Instance.ObjectSelected).gameObject);
-        //Rework this later! 
-        ClickManager.Instance.ImitateClick(tempSceneChangable.gameObject);
-    }
-
-    /// <summary>
-    /// Call when menu item is point
-    /// </summary>
-    /// <param name="menuItem"></param>
-    public void OnPointFunction(MenuItem menuItem, bool isPointed)
-    {
-        if (menuItem)
-        {
-            if (menuItem.Illumination)
-            {
-                if (isPointed)
-                {
-                    menuItem.gameObject.transform.Rotate(new Vector3(0, 50 * Time.deltaTime, 0)); //TODO : remove this
-                    menuItem.Illumination.PlayEffect();
-                }
-                else
-                {
-                    menuItem.Illumination.StopEffect();
-                }
-            }
-        }
+        ClickManager.Instance.ImitateClick(tempSceneChangable.AssetGameObject.GetComponent<InteractiveObject>()); //TODO переделать
     }
 
     /// <summary>
@@ -360,10 +383,26 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
         List<SceneChangebleObject> tempSceneObjectChangeble = SceneLoaderManager.Instance.GetItemsLikeThat(this);
         for (int i = 0; i < tempSceneObjectChangeble.Count; i++)
         {
-            GameObject gameObjectMenuObject = new GameObject("MemuElementObject" + i.ToString());
-            MenuItem menuObject = gameObjectMenuObject.AddComponent<MenuItem>();
-            menuObject.SetMenuObject(MenuLine.TypeOfLine.firstLine, tempSceneObjectChangeble[i]);
-            menuObject.onDrawFunction = tempSceneObjectChangeble[i].OnMenuDraw;
+            int j = i;
+            MenuItem menuObject = MenuItemFactory.Instance.GetMenuItem(MenuLine.TypeOfLine.firstLine, tempSceneObjectChangeble[i]);
+            menuObject.onDrawFunction = () =>
+            {                
+                tempSceneObjectChangeble[j].onDrawFunction(menuObject);
+            };
+            menuObject.OnActiveAction = () =>
+            {
+                tempSceneObjectChangeble[j].OnMenuClick(menuObject.AttachedObject);
+            };
+            menuObject.OnPointerHover = () =>
+            {
+                menuObject.effectGameObject.SetActive(true);
+                menuObject.animator.SetBool("isBig", true);
+            };
+            menuObject.OnPointerLeft = () =>
+            {
+                menuObject.effectGameObject.SetActive(false);
+                menuObject.animator.SetBool("isBig", false);
+            };
             returnedList.Add(menuObject);
         }
 
@@ -371,19 +410,29 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
         List<LoadedMaterial> tempLoadedMeterial = SceneLoaderManager.Instance.GetMaterialsForThat(this);
         for (int i = 0; i < tempLoadedMeterial.Count; i++)
         {
-            GameObject gameObjectMenuObject = new GameObject("MemuElementMaterial" + i.ToString());
-            MenuItem menuObject = gameObjectMenuObject.AddComponent<MenuItem>();
-            menuObject.SetMenuObject(MenuLine.TypeOfLine.secondLine, tempLoadedMeterial[i]);
-            menuObject.onDrawFunction = tempLoadedMeterial[i].OnMenuDraw;
+            MenuItem menuObject = MenuItemFactory.Instance.GetMenuItem(MenuLine.TypeOfLine.secondLine, tempLoadedMeterial[i]);
+            menuObject.AttachedObject = tempLoadedMeterial[i];
+            int j = i;
+            menuObject.onDrawFunction = () =>
+            {
+                tempLoadedMeterial[j].OnMenuDraw(menuObject);
+            };
+            menuObject.OnActiveAction = () =>
+            {
+                tempLoadedMeterial[j].OnMenuClick(menuObject.AttachedObject);
+            };
+            menuObject.OnPointerHover = () =>
+            {
+                menuObject.effectGameObject.SetActive(true);
+            };
+            menuObject.OnPointerLeft = () =>
+            {
+                menuObject.effectGameObject.SetActive(false);
+            };
             returnedList.Add(menuObject);
         }
 
         return returnedList;
-    }
-
-    public string getTypeClickable()
-    {
-        return ChangebleObjectType;
     }
 
     #endregion

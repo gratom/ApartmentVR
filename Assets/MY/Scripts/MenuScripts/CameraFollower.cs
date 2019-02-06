@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraFollower : MonoBehaviour {
+public class CameraFollower : MonoBehaviour
+{
 
     public GameObject follow;
 
@@ -14,8 +15,19 @@ public class CameraFollower : MonoBehaviour {
 
     public void UpdatePosition()
     {
-        gameObject.transform.position = follow.transform.position;
-        gameObject.transform.rotation = Quaternion.Euler(0, follow.transform.rotation.eulerAngles.y, 0);
+        if (follow == null)
+        {
+            if (Camera.main != null)
+            {
+                follow = Camera.main.gameObject;
+            }
+        }
+        if (follow != null)
+        {
+            gameObject.transform.position = follow.transform.position - new Vector3(0,0.35f,0);
+            gameObject.transform.rotation = Quaternion.Euler(0, follow.transform.rotation.eulerAngles.y, 0);
+        }
+        
     }
 
 }

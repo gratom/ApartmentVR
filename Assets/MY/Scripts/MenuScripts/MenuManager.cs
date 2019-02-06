@@ -10,69 +10,10 @@ namespace MyVRMenu
     /// </summary>
     public interface ISceneClickable
     {
+
         List<MenuItem> GetListOfMenuObject();
 
-        string getTypeClickable();
-
-    }
-
-    /// <summary>
-    /// inteface for every object that will be shown on menu
-    /// </summary>
-    public interface IMenuClickable
-    {
-
-        void OnMenuClick(MonoBehaviour itemInstance);
-
-        void OnPointFunction(MenuItem menuItem, bool isPointed);
-
-    }
-
-    /// <summary>
-    /// Class for menu object. All menu items are such classes
-    /// </summary>
-    public class MenuItem : MonoBehaviour
-    {
-
-        public delegate void OnClickDelegate(MonoBehaviour item);
-
-        public delegate void OnPoint(MenuItem menuItem, bool isPointed);
-
-        public delegate void OnDraw(MenuItem menuItem);
-
-        public MenuLine.TypeOfLine typeOfObject;
-        public OnClickDelegate onClick;
-        public OnPoint onPoint;
-        public OnDraw onDrawFunction;
-        public float CurrentRotation;
-        public MonoBehaviour ItemInstance { get; private set; }
-        public GameObject VisualGameObject;
-        public LineEffects Illumination;
-
-        public void SetMenuObject(MenuLine.TypeOfLine menuItemType, MonoBehaviour referenceItem)
-        {
-            typeOfObject = menuItemType;
-            ItemInstance = referenceItem;
-            onClick = ((IMenuClickable)referenceItem).OnMenuClick;
-            onPoint = ((IMenuClickable)referenceItem).OnPointFunction;
-        }
-
-        public void DeleteThis()
-        {
-            Destroy(this.gameObject);
-        }
-
-        public void HideElement()
-        {
-            gameObject.SetActive(false);
-        }
-
-        public void ShowElement()
-        {
-            gameObject.SetActive(true);
-        }
-
-    }
+    }    
 
     /// <summary>
     /// Class for lines of menu
@@ -80,7 +21,9 @@ namespace MyVRMenu
     [System.Serializable]
     public class MenuLine
     {
-
+        /// <summary>
+        /// Line types
+        /// </summary>
         public enum TypeOfLine
         {
             firstLine,
@@ -122,11 +65,29 @@ namespace MyVRMenu
         /// </summary>
         public TypeOfLine typeLine;
 
+        /// <summary>
+        /// Scale for all items in this line
+        /// </summary>
         public float scaleForItems;
 
-        [SerializeField]
-        private float _CurrentLineRotation;
+        /// <summary>
+        /// Rotation coroutine instance. That coroutine every frame apply current RotatingImpuls to this line and decreace impuls.
+        /// </summary>
+        public Coroutine RotationCoroutine;
 
+        /// <summary>
+        /// Current rotating impuls
+        /// </summary>
+        public float RotationImpuls;
+
+        /// <summary>
+        /// Decreasing curve for RotationImpuls
+        /// </summary>
+        public AnimationCurve DecreaseImpulsCurve;
+                              
+        /// <summary>
+        /// Curretn rotation of this line
+        /// </summary>
         public float CurrentLineRotation
         {
             get
@@ -138,6 +99,8 @@ namespace MyVRMenu
                 _CurrentLineRotation = value;
             }
         }
+        [SerializeField]
+        private float _CurrentLineRotation;
 
         private List<MenuItem> MenuItems;
 
@@ -181,31 +144,36 @@ namespace MyVRMenu
             }
         }
 
+        /// <summary>
+        /// Rotate this line to current angle
+        /// </summary>
+        /// <param name="angle"></param>
         public void ScrollLine(float angle)
         {
-            CurrentLineRotation += angle;            
-            if (CurrentLineRotation < (-MenuItems.Count + 1) * AngleForEachSegment + FinishAngle - StartAngle)
+            if (MenuItems != null)
             {
-                CurrentLineRotation = (-MenuItems.Count + 1) * AngleForEachSegment + FinishAngle - StartAngle;
+                CurrentLineRotation += angle;
+                if (CurrentLineRotation < (-MenuItems.Count + 1) * AngleForEachSegment + FinishAngle - StartAngle)
+                {
+                    CurrentLineRotation = (-MenuItems.Count + 1) * AngleForEachSegment + FinishAngle - StartAngle;
+                }
+                if (CurrentLineRotation > 0)
+                {
+                    CurrentLineRotation = 0;
+                }
+                UpdateLine();
             }
-            if (CurrentLineRotation > 0)
-            {
-                CurrentLineRotation = 0;
-            }
-            UpdateLine();
         }
 
+        /// <summary>
+        /// Updating visibility all items. Need for normal display items
+        /// </summary>
         public void UpdateLineVisible()
         {
             for(int i = 0; i < MenuItems.Count; i++)
             {
                 UpdateItemVisible(MenuItems[i]);
             }
-        }
-
-        public void SelectItem(int num)
-        {
-
         }
 
         public void HideLine()
@@ -253,25 +221,17 @@ namespace MyVRMenu
 
         private void CreateMenuObjectAtPosition(MenuItem menuObject, int pos, Transform ZepoPoint)
         {
+            menuObject.onDrawFunction();
             menuObject.transform.parent = ZepoPoint; //перемещаем объект в меню. Делаем его дочерним
             menuObject.CurrentRotation = (StartAngle + AngleForEachSegment * pos); //главный угол
             Vector3 realPosition = new Vector3(Mathf.Cos(menuObject.CurrentRotation * Mathf.Deg2Rad) * LineDistance, Mathf.Sin(Mathf.Deg2Rad * LineAngle) * LineDistance, Mathf.Sin(menuObject.CurrentRotation * Mathf.Deg2Rad) * LineDistance);
-            menuObject.transform.localPosition = realPosition;
+            menuObject.transform.localPosition = realPosition;            
 
-            //создаем префаб объекта и помещаем его MenuObject
-            menuObject.VisualGameObject = GameObject.Instantiate(PrefabLine, menuObject.transform);
-            menuObject.VisualGameObject.transform.localPosition = new Vector3(0, 0, 0);
-
-            menuObject.ItemInstance.gameObject.transform.parent = menuObject.transform;
-            menuObject.ItemInstance.gameObject.transform.localPosition = new Vector3(0, 0, 0);
+            menuObject.AttachedObject.gameObject.transform.parent = menuObject.transform;
+            menuObject.AttachedObject.gameObject.transform.localPosition = new Vector3(0, 0, 0);
             menuObject.transform.LookAt(ZepoPoint);
-
-            if (menuObject.onDrawFunction != null)
-            {
-                menuObject.onDrawFunction(menuObject);
-            }
-
-            menuObject.Illumination = menuObject.VisualGameObject.GetComponent<MenuFirstLineEffects>();
+            
+                               
         }
 
         #endregion
@@ -299,16 +259,19 @@ namespace MyVRMenu
         /// </summary>
         public ISceneClickable ObjectSelected { get; private set; }
 
-        [SerializeField]
-        private GameObject MenuPosition;
-
+        /// <summary>
+        /// Current position of menu center
+        /// </summary>
         public Transform menuPosition
         {
             get
-            {                
+            {
                 return MenuPosition.transform;
             }
         }
+
+        [SerializeField]
+        private GameObject MenuPosition;        
 
         [SerializeField]
         private List<MenuLine> MenuLines;
@@ -321,24 +284,21 @@ namespace MyVRMenu
             {
                 Instance = this;
             }
-            IsShown = true;
-            HideMenu();
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                
-                HideMenu();
-                UnityEngine.SceneManagement.SceneManager.LoadScene("TestMenuScene");
-                GameObject.FindGameObjectWithTag("SceneManagers").SetActive(false);
-            }
         }
 
         #endregion
 
         #region public functions
+
+        public void Initialize()
+        {
+            for (int i = 0; i < MenuLines.Count; i++)
+            {
+                MenuLines[i].RotationCoroutine = StartCoroutine(RotationLineCoroutine(MenuLines[i]));
+            }
+            IsShown = true;
+            HideMenu();
+        }
 
         /// <summary>
         /// Of someone click on clickable object, the click-manager is should call this function. Also, if you want simulate the click of any object,
@@ -346,27 +306,28 @@ namespace MyVRMenu
         /// </summary>
         /// <param name="clickableObject"></param>
         public void ClickedOnClickable(ISceneClickable clickableObject)
-        {
-            if (ObjectSelected != null)
-            {
-                if (ObjectSelected.getTypeClickable() != clickableObject.getTypeClickable() || clickableObject.getTypeClickable() == "1")
-                {
-                    MenuPosition.GetComponent<CameraFollower>().UpdatePosition();
-                }
-            }
-            else
-            {
-                MenuPosition.GetComponent<CameraFollower>().UpdatePosition();
-            }
+        {           
             ObjectSelected = clickableObject; //назначаем выбранный объект
             CleanMenu();
             List<MenuItem> tempList = ObjectSelected.GetListOfMenuObject(); //получаем от него список объектов для меню            
             RefreshMenu(tempList);
         }
 
+        /// <summary>
+        /// You can call this funtions if something click to element of menu
+        /// </summary>
+        /// <param name="menuItem">Item, on which clicked</param>
         public void ClickedOnMenuElement(MenuItem menuItem)
         {
-            menuItem.onClick(menuItem.ItemInstance);
+            menuItem.OnActiveAction();
+        }
+
+        /// <summary>
+        /// Update position of menu center point
+        /// </summary>
+        public void UpdateMenuPosition()
+        {
+            MenuPosition.GetComponent<CameraFollower>().UpdatePosition();
         }
 
         /// <summary>
@@ -374,14 +335,7 @@ namespace MyVRMenu
         /// </summary>
         public void ShowMenu()
         {
-            if (!IsShown) //если меню не показано
-            {
-                //IsShown = true;
-                //Setting.MenuPosition.SetActive(true);
-                //Setting.MenuPosition.GetComponent<CameraFollower>().UpdatePosition();
-                //Setting.MenuPosition.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
-                //TODO: animation
-            }
+
         }
 
         /// <summary>
@@ -416,6 +370,11 @@ namespace MyVRMenu
             IsShown = true;
         }
 
+        /// <summary>
+        /// Rotate one of menu line to current angle
+        /// </summary>
+        /// <param name="typeLine">Type of line which need to rotate</param>
+        /// <param name="angle">Rotation angle</param>
         public void RotateMenuLine(MenuLine.TypeOfLine typeLine, float angle)
         {
             for(int i = 0; i < MenuLines.Count; i++)
@@ -423,6 +382,22 @@ namespace MyVRMenu
                 if(MenuLines[i].typeLine == typeLine)
                 {
                     MenuLines[i].ScrollLine(angle);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Rotate one of menu line with impuls
+        /// </summary>
+        /// <param name="typeLine">Type of line which need to rotate</param>
+        /// <param name="Impuls">Rotation impuls</param>
+        public void RotateMenuLineWithImpuls(MenuLine.TypeOfLine typeLine, float Impuls)
+        {
+            for (int i = 0; i < MenuLines.Count; i++)
+            {
+                if (MenuLines[i].typeLine == typeLine)
+                {
+                    MenuLines[i].RotationImpuls += Impuls;
                 }
             }
         }
@@ -436,6 +411,25 @@ namespace MyVRMenu
             for (int i = 0; i < MenuLines.Count; i++)
             {
                 MenuLines[i].DestroyAllMenuItems();
+            }
+        }
+
+        #endregion
+
+        #region Coroutines
+
+        private IEnumerator RotationLineCoroutine(MenuLine menuLineObject)
+        {
+            while (true)
+            {
+                yield return null;
+                if (Mathf.Abs(menuLineObject.RotationImpuls) > 0)
+                {
+                    //rotate
+                    menuLineObject.ScrollLine(menuLineObject.RotationImpuls);
+                    //decreace impuls
+                    menuLineObject.RotationImpuls *= menuLineObject.DecreaseImpulsCurve.Evaluate(Mathf.Abs(menuLineObject.RotationImpuls));
+                }
             }
         }
 

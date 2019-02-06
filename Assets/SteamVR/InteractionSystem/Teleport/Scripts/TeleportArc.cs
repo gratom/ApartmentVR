@@ -53,16 +53,17 @@ namespace Valve.VR.InteractionSystem
         void Update()
         {
             //scale arc to match player scale
-            scale = Player.instance.transform.lossyScale.x;
-            if (thickness != prevThickness || segmentCount != prevSegmentCount)
+            if (Player.instance != null)
             {
-                CreateLineRendererObjects();
-                prevThickness = thickness;
-                prevSegmentCount = segmentCount;
+                scale = Player.instance.transform.lossyScale.x;
+                if (thickness != prevThickness || segmentCount != prevSegmentCount)
+                {
+                    CreateLineRendererObjects();
+                    prevThickness = thickness;
+                    prevSegmentCount = segmentCount;
+                }
             }
         }
-
-
 
         //-------------------------------------------------
         private void CreateLineRendererObjects()

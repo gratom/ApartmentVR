@@ -888,7 +888,7 @@ namespace Valve.VR.InteractionSystem
 				}
 			}
 
-			if ( teleportingToMarker.ShouldMovePlayer() )
+			if ( teleportingToMarker.ShouldMovePlayer() && player != null)
 			{
 				Vector3 playerFeetOffset = player.trackingOriginTransform.position - player.feetPositionGuess;
 				player.trackingOriginTransform.position = teleportPosition + playerFeetOffset;

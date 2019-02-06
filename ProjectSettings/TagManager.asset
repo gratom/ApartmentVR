@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Places
   - teleport
-  - Undefined
+  - SceneManagers
   layers:
   - Default
   - TransparentFX

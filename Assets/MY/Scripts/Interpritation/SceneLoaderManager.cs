@@ -103,22 +103,6 @@ public class SceneLoaderManager : MonoBehaviour
         return null;        
     }
 
-    #region non-used function
-
-    /// <summary>
-    /// Change the old object on scene to new object. Replace thoose two items. old object not will be destroed
-    /// </summary>
-    /// <param name="oldObject">old object, that will be deleted</param>
-    /// <param name="newObject">new object, that will be placed</param>
-    public void ChangeObjectOnScene(SceneChangebleObject oldObject, SceneChangebleObject newObject)
-    {
-        Vector3 tempPos = oldObject.gameObject.transform.position;
-        oldObject.gameObject.transform.position = newObject.gameObject.transform.position;
-        newObject.gameObject.transform.position = tempPos;
-    }
-
-    #endregion
-
     /// <summary>
     /// Spawn new <code>SceneChangableObject</code> in <paramref name="parent"/> position
     /// </summary>
@@ -172,6 +156,10 @@ public class SceneLoaderManager : MonoBehaviour
         sceneChangableCopy.InitDictionary();
         sceneChangableCopy.InitConstruct();
         sceneChangableCopy.RemoteAssetBundleInstance.CopyItemFrom(originalSceneChangable.RemoteAssetBundleInstance, AssetBundleLoaderManager.Instance);
+        if (sceneChangableCopy.RemoteAssetBundleThumbnailInstance != null)
+        {
+            sceneChangableCopy.RemoteAssetBundleThumbnailInstance.CopyItemFrom(originalSceneChangable.RemoteAssetBundleThumbnailInstance, AssetBundleLoaderManager.Instance);
+        }
         return sceneChangableCopy;
     }
 
@@ -300,8 +288,16 @@ public class SceneLoaderManager : MonoBehaviour
     private IEnumerator WaitFor(float second)
     {
         yield return new WaitForSeconds(second);
-        MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.PlayerControllerContainer.PlayerControllerType.VRPlayerController);
-        UnityEngine.XR.XRSettings.enabled = true;
+        MyVRMenu.MenuManager.Instance.Initialize();
+        if (UnityEngine.XR.XRDevice.isPresent)
+        {
+            MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.PlayerControllerContainer.PlayerControllerType.VRPlayerController);
+            UnityEngine.XR.XRSettings.enabled = true;
+        }
+        else
+        {
+            MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.PlayerControllerContainer.PlayerControllerType.DefaultPlayerController);
+        }        
     }
 
     #endregion

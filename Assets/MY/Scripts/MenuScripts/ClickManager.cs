@@ -8,13 +8,15 @@ public class ControlInputData
 
     public ClickManager.ControlEvent ControlEventType { get; set; }
 
-    public GameObject ClickedObject { get; set; }
+    public InteractiveObject interactiveObject { get; set; }
 
     public float Param { get; set; }
 
+    public bool isFakeClick = false;
+
     public override string ToString()
     {
-        return "Control input data:\n__type:" + ControlEventType.ToString() + "\n__param:" + Param.ToString() + "\n__clicked object:" + ClickedObject.name;
+        return "Control input data:\n__type:" + ControlEventType.ToString() + "\n__param:" + Param.ToString() + "\n__clicked object:" + interactiveObject.name;
     }
 
 }
@@ -25,11 +27,16 @@ public class ControlInputData
 public class ClickManager : MonoBehaviour
 {
 
+    /// <summary>
+    /// Different events of any control devises
+    /// </summary>
     public enum ControlEvent
     {
-        chooseEvent,
+        activeActionEvent,
         menuRotate,
-        menuExit
+        menuAddRotatingImpuls,        
+        menuClose,
+        exitToMainMenu
     }
     
     /// <summary>
@@ -56,12 +63,13 @@ public class ClickManager : MonoBehaviour
 
     #region public functions
 
-    public void ImitateClick(GameObject target)
+    public void ImitateClick(InteractiveObject target)
     {
         ControlInputData tempData = new ControlInputData();
-        tempData.ClickedObject = target;
-        tempData.ControlEventType = ControlEvent.chooseEvent;
+        tempData.interactiveObject = target;
+        tempData.ControlEventType = ControlEvent.activeActionEvent;
         tempData.Param = 0;
+        tempData.isFakeClick = true;
         ControlEventHappend(tempData);
     }
 
@@ -74,55 +82,71 @@ public class ClickManager : MonoBehaviour
 
     #region private functions
 
-    private void ChooseEventDelegate(ControlInputData controlData)
+    private void ActiveActionsDelegate(ControlInputData controlData)
     {
-        //Debug.Log(controlData.ToString());
-        if(controlData.ClickedObject != null)
+        if(controlData.interactiveObject != null)
         {
-            if (controlData.ClickedObject.GetComponent<MenuItem>() != null)
+            if (controlData.interactiveObject.GetComponent<MenuItem>() != null) //если элемент меню
             {
-                MenuManager.Instance.ClickedOnMenuElement(controlData.ClickedObject.GetComponent<MenuItem>());                
+                if (MenuManager.Instance != null && MenuManager.Instance.isActiveAndEnabled)
+                {
+                    MenuManager.Instance.ClickedOnMenuElement(controlData.interactiveObject.GetComponent<MenuItem>());
+                }
                 return;
             }
-            else
+            else //если не элемент меню
             {
-                if (controlData.ClickedObject.GetComponent<ISceneClickable>() != null)
+                if (!controlData.isFakeClick && MenuManager.Instance != null && MenuManager.Instance.isActiveAndEnabled)
                 {
-                    MenuManager.Instance.ClickedOnClickable(controlData.ClickedObject.GetComponent<ISceneClickable>());
-                    return;
+                    MenuManager.Instance.UpdateMenuPosition();
                 }
-                else
-                {
-                    MenuManager.Instance.HideMenu();
-                    MenuDebugger.Instance.EraseText();
-                }
+                controlData.interactiveObject.OnActiveAction();
             }
         }        
     }
 
     private void MenuRotateDelegate(ControlInputData controlData)
     {
-        if (controlData.ClickedObject != null)
+        if (controlData.interactiveObject != null)
         {
-            if (controlData.ClickedObject.GetComponent<MenuItem>() != null)
+            if (controlData.interactiveObject.GetComponent<MenuItem>() != null)
             {
-                MenuManager.Instance.RotateMenuLine(controlData.ClickedObject.GetComponent<MenuItem>().typeOfObject, controlData.Param);
+                MenuManager.Instance.RotateMenuLine(controlData.interactiveObject.GetComponent<MenuItem>().typeOfObject, controlData.Param);
                 return;
             }
         }
     }
 
-    private void MenuExitDelegate(ControlInputData controlData)
+    private void MenuAddRotatingImpulsDelegate(ControlInputData controlData)
+    {
+        if (controlData.interactiveObject != null)
+        {
+            if (controlData.interactiveObject.GetComponent<MenuItem>() != null)
+            {
+                MenuManager.Instance.RotateMenuLineWithImpuls(controlData.interactiveObject.GetComponent<MenuItem>().typeOfObject, controlData.Param);
+                return;
+            }
+        }
+    }
+
+    private void MenuCloseDelegate(ControlInputData controlData)
     {
         MenuManager.Instance.HideMenu();
+    }
+
+    private void ExitToMainMenuDelegate(ControlInputData controlData)
+    {
+
     }
 
     private void Initialize()
     {
         EventDelegateDictionary = new Dictionary<ControlEvent, ControlDelegate>();
-        EventDelegateDictionary.Add(ControlEvent.chooseEvent, ChooseEventDelegate);
+        EventDelegateDictionary.Add(ControlEvent.activeActionEvent, ActiveActionsDelegate);
         EventDelegateDictionary.Add(ControlEvent.menuRotate, MenuRotateDelegate);
-        EventDelegateDictionary.Add(ControlEvent.menuExit, MenuExitDelegate);
+        EventDelegateDictionary.Add(ControlEvent.menuAddRotatingImpuls, MenuAddRotatingImpulsDelegate);
+        EventDelegateDictionary.Add(ControlEvent.menuClose, MenuCloseDelegate);
+        EventDelegateDictionary.Add(ControlEvent.exitToMainMenu, ExitToMainMenuDelegate);
     }
 
     #endregion

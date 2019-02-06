@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneChoosingEffect : BaseEffect
+public class SceneChoosingEffect : InteractiveObject
 {
 
     public GameObject ObjectForSelection;

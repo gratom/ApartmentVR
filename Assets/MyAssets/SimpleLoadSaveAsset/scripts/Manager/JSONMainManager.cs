@@ -84,7 +84,7 @@ public class AppSetting
     /// </summary>
     public void TryLoadLocalStorage()
     {        
-        LocalStorageString = SaverLoaderModule.LoadMyDataFromFile(Application.dataPath.Substring(0, Application.dataPath.LastIndexOf("/")) + JSONMainManager.Instance.AppDataLoaderInstance.JSONFolder + FileName);
+        LocalStorageString = SaverLoaderModule.LoadMyDataFrom(Application.dataPath.Substring(0, Application.dataPath.LastIndexOf("/")) + JSONMainManager.Instance.AppDataLoaderInstance.JSONFolder + FileName);
     }
 
     /// <summary>
@@ -328,7 +328,6 @@ public class JSONMainManager : MonoBehaviour
             {
                 if (AppDataLoaderInstance.ListOfAppsSetting[i].StorageIs)
                 {
-                    Debug.Log(AppDataLoaderInstance.ListOfAppsSetting[i].LocalStorageString);
                     AppDataLoadEnd(AppDataLoaderInstance.ListOfAppsSetting[i].LocalStorageString);
                     //AppDataLoaderInstance.ListOfAppsSetting[i].AppData = JSONModule.StringToAppData(AppDataLoaderInstance.ListOfAppsSetting[i].LocalStorageString);
                 }
@@ -376,9 +375,9 @@ public class JSONMainManager : MonoBehaviour
                     //}                    
                     //reload all, because the server is wrong
                     #endregion
-
                     AppDataLoaderInstance.ListOfAppsSetting[j].requestsModule.AddDelegate(RequestsModule.RequestEvents.AppDataOK, AppDataLoadEnd);
                     AppDataLoaderInstance.ListOfAppsSetting[j].requestsModule.AddDelegate(RequestsModule.RequestEvents.AppDataFailed, ErrorFunc);
+                    AppDataLoaderInstance.ListOfAppsSetting[j].LocalStorageString = ""; // clean string for ready function work correct
                     AppDataLoaderInstance.ListOfAppsSetting[j].requestsModule.AppDataStart(AppDataLoaderInstance.ListOfAppsSetting[j].AppID, AppDataLoaderInstance.AccessToken);
                 }
             }
@@ -442,7 +441,7 @@ public class JSONMainManager : MonoBehaviour
         {
             AppDataLoaderInstance.ListOfAppsSetting[i].TryLoadLocalStorage();
         }
-
+        
         // проверка интернета, проводится для всех, используем нулевой элемент
         // делаем нулевой элемент главным
         requestModuleInstance = AppDataLoaderInstance.ListOfAppsSetting[0].requestsModule;

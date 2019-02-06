@@ -25,7 +25,7 @@ public class SettingForFieldsInLoadedMaterial : AbstractObjectConstructableCompo
 /// Class for dynamic loaded materials
 /// </summary>
 [System.Serializable]
-public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTypes>, IMenuClickable
+public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTypes>
 {
     /// <summary>
     /// Name of material, name of this item in GudHub
@@ -146,7 +146,10 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
         {
             if (menuItem)
             {
-                menuItem.VisualGameObject.GetComponent<MeshRenderer>().material = loadedMaterial;
+                if (menuItem.GetComponent<MeshRenderer>() != null)
+                {
+                    menuItem.GetComponent<MeshRenderer>().material = loadedMaterial;
+                }
             }
         }
         else
@@ -252,29 +255,6 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
         catch (System.Exception e)
         {
             Debug.Log(e.ToString());
-        }
-    }
-
-    /// <summary>
-    /// Call when menu item is point
-    /// </summary>
-    /// <param name="menuItem">Item, that pointed</param>
-    /// <param name="isPointed">Parametr, that controling animation</param>
-    public void OnPointFunction(MenuItem menuItem, bool isPointed)
-    {
-        if (menuItem)
-        {
-            if (menuItem.Illumination)
-            {
-                if (isPointed)
-                {
-                    menuItem.Illumination.PlayEffect();
-                }
-                else
-                {
-                    menuItem.Illumination.StopEffect();
-                }
-            }
         }
     }
 

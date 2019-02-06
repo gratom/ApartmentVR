@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UniversalAssetBundleLoader;
-using Valve.VR;
-using Valve.VR.InteractionSystem;
 
 public class ChooseSceneManager : MonoBehaviour
 {
@@ -38,12 +36,7 @@ public class ChooseSceneManager : MonoBehaviour
     }
 
     private void Initialize()
-    {
-        #region Creating the SceneClickTracker
-
-        new GameObject("SimpleTracker").AddComponent<SceneClickTracker>();
-
-        #endregion        
+    {      
 
         #region Scenes from JSON
         //третье приложение это приложение с данными сцен
@@ -73,8 +66,8 @@ public class ChooseSceneManager : MonoBehaviour
                 });
             ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemotePreviewInstance.StartLoad(AssetBundleLoaderManager.Instance);
 
-            UncashedAppDataOfSceneObjects[i].gameObject.AddComponent<SimpleAction>().simpleActionDelegate = new SimpleAction.SimpleActionDelegate(() =>
-            {
+            UncashedAppDataOfSceneObjects[i].gameObject.GetComponent<InteractiveObject>().OnActiveAction = new SimpleActionDelegate(() =>
+            {                
                 ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
                     x =>
                     {                        
@@ -82,17 +75,24 @@ public class ChooseSceneManager : MonoBehaviour
                         string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePaths[0]);
                         MyPlayerControllers.PlayerManager.Instance.DestroyCurrentController();
                         UnityEngine.XR.XRSettings.enabled = false;
-                        AsyncOperation asyncOperation = UnityEditor.SceneManagement.EditorSceneManager.LoadSceneAsync(sceneName);
+                        AsyncOperation asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
                         asyncOperation.completed += y =>
                         {
                             Loader.Instance.AllManagersForScene.SetActive(true);
                             ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemoteAssetBundleInstance.RemoteItemInstance.Unload(false);
-                            ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemotePreviewInstance.RemoteItemInstance.Unload(false);
+                            for (int n = 0; n < UncashedAppDataOfSceneObjects.Count; n++)
+                            {
+                                ((SceneObject)UncashedAppDataOfSceneObjects[n]).RemotePreviewInstance.RemoteItemInstance.Unload(false);
+                            }
                             SceneLoaderManager.Instance.LoadSceneObjects();                            
                         };                        
                     });
                 StartCoroutine(LoadingVisualizerCoroutine(((SceneObject)UncashedAppDataOfSceneObjects[j])));
                 ((SceneObject)UncashedAppDataOfSceneObjects[j]).RemoteAssetBundleInstance.StartLoad(AssetBundleLoaderManager.Instance);
+                for (int n = 0; n < UncashedAppDataOfSceneObjects.Count; n++)
+                {
+                    UncashedAppDataOfSceneObjects[n].gameObject.GetComponent<InteractiveObject>().OnActiveAction = () => { };
+                }
             });
         }
 
@@ -130,7 +130,7 @@ public class ChooseSceneManager : MonoBehaviour
                     iRealPos++;
                     //attach the delegate
                     int j = i;
-                    gTemp.AddComponent<SimpleAction>().simpleActionDelegate = new SimpleAction.SimpleActionDelegate(() =>
+                    gTemp.AddComponent<InteractiveObject>().OnActiveAction = new SimpleActionDelegate(() =>
                     {
                         AsyncOperation asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(NameFromIndex(j));
                         asyncOperation.completed += y =>
@@ -181,7 +181,7 @@ public class ChooseSceneManager : MonoBehaviour
             yield return null;
             if (sceneObject.RemoteAssetBundleInstance.loadingOperation != null)
             {
-                sceneObject.textMestName.text = Mathf.RoundToInt(sceneObject.RemoteAssetBundleInstance.loadingOperation.progress * 100).ToString() + "%";
+                sceneObject.textMestName.text = Mathf.RoundToInt(sceneObject.RemoteAssetBundleInstance.loadingOperation.progress * 110).ToString() + "%";
                 if (sceneObject.RemoteAssetBundleInstance.loadingOperation.isDone)
                 {
                     sceneObject.textMestName.text = "Scene fully loaded. Wait a couple of seconds...";
@@ -194,8 +194,16 @@ public class ChooseSceneManager : MonoBehaviour
     private IEnumerator WaitFor(float second)
     {
         yield return new WaitForSeconds(second);
-        MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.PlayerControllerContainer.PlayerControllerType.VRPlayerController);
-        UnityEngine.XR.XRSettings.enabled = true;
+        if (UnityEngine.XR.XRDevice.isPresent)
+        {
+            MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.PlayerControllerContainer.PlayerControllerType.VRPlayerController);
+            UnityEngine.XR.XRSettings.enabled = true;
+        }
+        else
+        {
+            MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.PlayerControllerContainer.PlayerControllerType.DefaultPlayerController);
+        }
+        
     }
 
     private string NameFromIndex(int BuildIndex)

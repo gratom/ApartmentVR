@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class MenuFirstLineEffects : LineEffects
+public class MenuFirstLineEffects : InteractiveObject
 {
-    public override void PlayEffect()
-    {
-        effectGameObject.SetActive(true);
-    }
 
-    public override void StopEffect()
-    {
-        effectGameObject.SetActive(false);
-    }
+    public GameObject effectGameObject;
+    public Animation animationObject;
+
 }

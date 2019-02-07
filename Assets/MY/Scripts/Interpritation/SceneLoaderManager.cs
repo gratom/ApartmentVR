@@ -24,6 +24,9 @@ public class SceneLoaderManager : MonoBehaviour
     [SerializeField]
     private GameObject loadedMaterialPrefab;
 
+    [SerializeField]
+    private bool IsReinit;
+
     private List<AbstractObjectConstructable<SceneChangebleObjectTypes>> UncashedAppDataOfSceneItems;
     private List<AbstractObjectConstructable<LoadedMaterialClassTypes>> UncashedAppDataOfMaterials;
     private bool isInit = false;
@@ -50,12 +53,14 @@ public class SceneLoaderManager : MonoBehaviour
     public List<SceneChangebleObject> GetItemsLikeThat(SceneChangebleObject item)
     {
         List<SceneChangebleObject> returnedList = new List<SceneChangebleObject>();
-
-        for (int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
+        if (item.ChangebleObjectType != "1")
         {
-            if (((SceneChangebleObject)UncashedAppDataOfSceneItems[i]).ChangebleObjectType == item.ChangebleObjectType && ((SceneChangebleObject)UncashedAppDataOfSceneItems[i]).ChangebleObjectType != "1")
+            for (int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
             {
-                returnedList.Add(GetCopyOf((SceneChangebleObject)UncashedAppDataOfSceneItems[i]));
+                if (((SceneChangebleObject)UncashedAppDataOfSceneItems[i]).ChangebleObjectType == item.ChangebleObjectType)
+                {
+                    returnedList.Add(GetCopyOf((SceneChangebleObject)UncashedAppDataOfSceneItems[i]));
+                }
             }
         }
         return returnedList;
@@ -140,6 +145,44 @@ public class SceneLoaderManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Replace sceneChangebleObject to new same object.
+    /// </summary>
+    /// <param name="sceneChangebleObject">SceneChangebleObject, that will be replaced to new same object</param>
+    public void Reinit(SceneChangebleObject sceneChangebleObject)
+    {
+        SceneChangebleObject tempSceneChangableObject = GetCopyOf(sceneChangebleObject.ID);
+        if (tempSceneChangableObject != null)
+        {
+            sceneChangebleObject.ComponentsDataList = tempSceneChangableObject.ComponentsDataList;
+            sceneChangebleObject.InitDictionary();
+            sceneChangebleObject.InitConstruct();
+            sceneChangebleObject.AttachInteractive();
+            Destroy(tempSceneChangableObject.gameObject);
+        }
+        else
+        {
+            Debug.LogError("ID of " + sceneChangebleObject.name + " is not correct! It is not exist in database.");
+        }
+    }
+
+    /// <summary>
+    /// Return the full copy of sceneChangable with <paramref name="ID">of</paramref> object
+    /// </summary>
+    /// <param name="ID">The ID of original object from which the copy will be made</param>
+    /// <returns>Correctly made copy</returns>
+    public SceneChangebleObject GetCopyOf(int ID)
+    {
+        for (int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
+        {
+            if (UncashedAppDataOfSceneItems[i].ID == ID)
+            {
+                return GetCopyOf((SceneChangebleObject)UncashedAppDataOfSceneItems[i]);
+            }
+        }
+        return null;
+    }
+
+    /// <summary>
     /// Return the full copy of <paramref name="originalSceneChangable">original</paramref> object
     /// </summary>
     /// <param name="originalSceneChangable">The original of the object from which the copy will be made</param>
@@ -171,7 +214,7 @@ public class SceneLoaderManager : MonoBehaviour
     public LoadedMaterial GetCopyOf(LoadedMaterial originalLoadedMaterial)
     {
         //сначала создаем объект и позиционируем его
-        GameObject gTemp = new GameObject("CopyOf_" + originalLoadedMaterial.name);       
+        GameObject gTemp = new GameObject("CopyOf_" + originalLoadedMaterial.name);
 
         //теперь можно сделать копию LoadedMaterialObject
         LoadedMaterial loadedMaterialCopy = gTemp.AddComponent<LoadedMaterial>();
@@ -213,8 +256,15 @@ public class SceneLoaderManager : MonoBehaviour
             {//перебираем все скачанные и инициализированные итемы
                 if (tempSceneChangeble[i].ID == ((SceneChangebleObject)UncashedAppDataOfSceneItems[j]).ID)
                 {
-                    SpawnSceneChangableHere(tempSceneChangeble[i].transform.parent, (SceneChangebleObject)UncashedAppDataOfSceneItems[j]);
-                    Destroy(tempSceneChangeble[i].gameObject);
+                    if (IsReinit)
+                    {
+                        Reinit(tempSceneChangeble[i]);
+                    }
+                    else
+                    {
+                        SpawnSceneChangableHere(tempSceneChangeble[i].transform.parent, (SceneChangebleObject)UncashedAppDataOfSceneItems[j]);
+                        Destroy(tempSceneChangeble[i].gameObject);
+                    }
                     break;
                 }
             }

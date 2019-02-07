@@ -84,7 +84,7 @@ public class ClickManager : MonoBehaviour
 
     private void ActiveActionsDelegate(ControlInputData controlData)
     {
-        if(controlData.interactiveObject != null)
+        if (controlData.interactiveObject != null)
         {
             if (controlData.interactiveObject.GetComponent<MenuItem>() != null) //если элемент меню
             {

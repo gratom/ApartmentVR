@@ -144,6 +144,7 @@ MonoBehaviour:
     type: 2}
   loadedMaterialPrefab: {fileID: 1850653123339418, guid: 70203aae64240b04c8b5bddf926aa190,
     type: 2}
+  IsReinit: 0
 --- !u!4 &3611948
 Transform:
   m_ObjectHideFlags: 0

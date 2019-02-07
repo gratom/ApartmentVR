@@ -175,6 +175,30 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
     }
 
     /// <summary>
+    /// Adds the InteractiveObject to own AssetGameObject, if it exist
+    /// </summary>
+    public void AttachInteractive()
+    {
+        if (AssetGameObject != null)
+        {
+            if (AssetGameObject.GetComponent<InteractiveObject>() != null)
+            {
+                AssetGameObject.GetComponent<InteractiveObject>().OnActiveAction = () =>
+                {
+                    MenuManager.Instance.ClickedOnClickable(this);
+                };
+            }
+            else
+            {
+                AssetGameObject.AddComponent<InteractiveObject>().OnActiveAction = () =>
+                {
+                    MenuManager.Instance.ClickedOnClickable(this);
+                };
+            }
+        }
+    }
+
+    /// <summary>
     /// Spawn the GameObject from AssetBundle
     /// </summary>
     public void SpawnBundle()
@@ -182,11 +206,7 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
         if (RemoteAssetBundleInstance.IsReady && AssetGameObject == null)
         {
             AssetGameObject = Instantiate((GameObject)RemoteAssetBundleInstance.RemoteItemInstance.LoadAsset(RemoteAssetBundleInstance.RemoteItemInstance.GetAllAssetNames()[0]), this.transform);
-            InteractiveObject tempInteractiveObject = AssetGameObject.AddComponent<InteractiveObject>();
-            tempInteractiveObject.OnActiveAction = () => 
-            {
-                MenuManager.Instance.ClickedOnClickable(this);
-            };
+            AttachInteractive();
             //поворот бандла определяется здесь, так как сам ChangableObject не повернут относительно точки спавна
             AssetGameObject.transform.localPosition = new Vector3(0, 0, 0);
             LoadedMaterial tempLoadedMaterial = SceneLoaderManager.Instance.GetMaterialForThat(this);
@@ -236,6 +256,7 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
                 if (f < vmax.x - vmin.x) { f = vmax.x - vmin.x; }
                 if (f < vmax.y - vmin.y) { f = vmax.y - vmin.y; }
                 //if (f < vmax.z - vmin.z) { f = vmax.z - vmin.z; }
+                //так как все модели после 3D-макса криво повернуты, то высота в моделях меряется не по Y-координате, а по Z-координате.
                 float scale = f / r;
                 AssetGameObject.transform.localScale /= scale;
                 AssetGameObject.transform.rotation = tempQuaternion;

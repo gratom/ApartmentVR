@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class MenuSecondLineEffects : InteractiveObject
+public class ExtendedInteractive : InteractiveObject
 {
 
     public GameObject effectGameObject;
+    public Animator animationObject;
 
 }

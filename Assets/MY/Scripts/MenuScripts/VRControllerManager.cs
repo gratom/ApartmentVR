@@ -50,6 +50,10 @@ public class VRControllerManager : MonoBehaviour
     private PointerVisualizer pointerVisualizerInstance;
 
     [SerializeField]
+    private GameObject ExitConfirmation;
+    private GameObject CurrentConfirmationInstance;
+
+    [SerializeField]
     private SteamVR_Action_Vector2 TouchPad;
     [SerializeField]
     private SteamVR_ActionSet TouchPadGroupAction;
@@ -194,6 +198,10 @@ public class VRControllerManager : MonoBehaviour
                 {
                     MyVRMenu.MenuManager.Instance.HideMenu();
                 }
+                if (CurrentConfirmationInstance != null)
+                {
+                    Destroy(CurrentConfirmationInstance);
+                }
                 pointerVisualizerInstance.IsShowing = false;
             }
             if (SteamVR_Input._default.inActions.Teleport.GetStateUp(hand.handType))
@@ -205,13 +213,52 @@ public class VRControllerManager : MonoBehaviour
 
             #region toMainMenuClick
 
-            if (MainMenuButton.GetStateDown(hand.handType) && MyVRMenu.MenuManager.Instance != null && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "TestMenuScene")
+            if (MainMenuButton.GetStateDown(hand.handType) && MyVRMenu.MenuManager.Instance != null && CurrentConfirmationInstance == null && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "TestMenuScene")
             {
-                MyVRMenu.MenuManager.Instance.HideMenu();                
-                UnityEngine.XR.XRSettings.enabled = false;
-                GameObject.FindGameObjectWithTag("SceneManagers").SetActive(false);
-                MyPlayerControllers.PlayerManager.Instance.DestroyCurrentController();
-                UnityEngine.SceneManagement.SceneManager.LoadScene("TestMenuScene");                
+                CurrentConfirmationInstance = Instantiate(ExitConfirmation, transform.position, Quaternion.Euler(new Vector3(0, transform.rotation.eulerAngles.y, 0)));
+                ExtendedInteractive ExtInt0 = CurrentConfirmationInstance.transform.GetChild(0).GetComponent<ExtendedInteractive>();
+                ExtInt0.OnPointerHover = () =>
+                {
+                    if (!ExtInt0.effectGameObject.activeSelf)
+                    {
+                        ExtInt0.effectGameObject.SetActive(true);
+                    }
+                };
+                ExtInt0.OnPointerLeft = () =>
+                {
+                    if (ExtInt0.effectGameObject.activeSelf)
+                    {
+                        ExtInt0.effectGameObject.SetActive(false);
+                    }
+                };
+                ExtInt0.OnActiveAction = () =>
+                {
+                    MyVRMenu.MenuManager.Instance.HideMenu();
+                    UnityEngine.XR.XRSettings.enabled = false;
+                    GameObject.FindGameObjectWithTag("SceneManagers").SetActive(false);
+                    MyPlayerControllers.PlayerManager.Instance.DestroyCurrentController();
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("TestMenuScene");
+                };
+
+                ExtendedInteractive ExtInt1 = CurrentConfirmationInstance.transform.GetChild(1).GetComponent<ExtendedInteractive>();
+                ExtInt1.OnPointerHover = () =>
+                {
+                    if (!ExtInt1.effectGameObject.activeSelf)
+                    {
+                        ExtInt1.effectGameObject.SetActive(true);
+                    }
+                };
+                ExtInt1.OnPointerLeft = () =>
+                {
+                    if (ExtInt1.effectGameObject.activeSelf)
+                    {
+                        ExtInt1.effectGameObject.SetActive(false);
+                    }
+                };
+                ExtInt1.OnActiveAction = () =>
+                {
+                    Destroy(CurrentConfirmationInstance);
+                };
             }
 
             #endregion

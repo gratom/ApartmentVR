@@ -79,20 +79,23 @@ public class PointerVisualizer : MonoBehaviour
         {
             if (oldBaseActionObject != null)
             {
-                oldBaseActionObject.OnPointerLeft();
+                if (oldBaseActionObject != newBaseActionObject)
+                {
+                    oldBaseActionObject.OnPointerLeft();
+                }
             }
             if (newBaseActionObject != null)
             {
                 newBaseActionObject.OnPointerHover();
-                if (newBaseActionObject.GetComponent<MyVRMenu.MenuItem>() != null)
-                {
-                    pointingAnimation.SetActive(false);
-                }
-                else
+                if (newBaseActionObject.GetComponent<MyVRMenu.MenuItem>() == null && newBaseActionObject.GetComponent<ExtendedInteractive>() == null)
                 {
                     pointingAnimation.transform.position = PointerInstance.LastHitPoint;
                     pointingAnimation.transform.LookAt(PointerInstance.LastHitPoint - PointerInstance.LastHitNormal);
                     pointingAnimation.SetActive(true);
+                }
+                else
+                {                    
+                    pointingAnimation.SetActive(false);
                 }
             }
             LinePointer.SetPosition(1, new Vector3(0, 0, Vector3.Distance(PointerInstance.LastHitPoint, LinePointer.transform.position)));

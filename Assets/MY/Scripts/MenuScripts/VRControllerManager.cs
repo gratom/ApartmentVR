@@ -24,7 +24,7 @@ public class VRControllerManager : MonoBehaviour
     {
         get
         {
-            return TouchPad.GetAxis(hand.handType) != new Vector2(0, 0) && !SteamVR_Input._default.inActions.Teleport.GetState(hand.handType);
+            return TouchPad.GetAxis(SteamVR_Input_Sources.Any) != new Vector2(0, 0) && !SteamVR_Input._default.inActions.Teleport.GetState(SteamVR_Input_Sources.Any);
         }
     }
 
@@ -143,7 +143,7 @@ public class VRControllerManager : MonoBehaviour
 
     private void OnSelectButtonClick(InteractiveObject oldBaseActionObject, InteractiveObject newBaseActionObject)
     {
-        if (SteamVR_Input._default.inActions.GrabPinch.GetStateDown(hand.handType))
+        if (SteamVR_Input._default.inActions.GrabPinch.GetStateDown(SteamVR_Input_Sources.Any))
         {
             SelectButtonClick(newBaseActionObject);
         }
@@ -172,14 +172,14 @@ public class VRControllerManager : MonoBehaviour
             if (!FirstTouchHappend)
             {//при первом касании сбрасываем значения.
                 FirstTouchHappend = true; //первое касание произошло
-                LastTouchPosition = TouchPad.GetAxis(hand.handType);
-                CurrentTouchPosition = TouchPad.GetAxis(hand.handType);
+                LastTouchPosition = TouchPad.GetAxis(SteamVR_Input_Sources.Any);
+                CurrentTouchPosition = TouchPad.GetAxis(SteamVR_Input_Sources.Any);
                 InputData.Param = 0;
             }
             else
             {
                 LastTouchPosition = CurrentTouchPosition;
-                CurrentTouchPosition = TouchPad.GetAxis(hand.handType);
+                CurrentTouchPosition = TouchPad.GetAxis(SteamVR_Input_Sources.Any);
                 CurrentImpuls = (LastTouchPosition.x - CurrentTouchPosition.x) * ImpulsMultiplier;
                 InputData.Param = CurrentImpuls;
             }
@@ -196,7 +196,7 @@ public class VRControllerManager : MonoBehaviour
 
             #region teleportClick
 
-            if (SteamVR_Input._default.inActions.Teleport.GetStateDown(hand.handType))
+            if (SteamVR_Input._default.inActions.Teleport.GetStateDown(SteamVR_Input_Sources.Any))
             {
                 if (MyVRMenu.MenuManager.Instance != null)
                 {
@@ -208,7 +208,7 @@ public class VRControllerManager : MonoBehaviour
                 }
                 pointerVisualizerInstance.IsShowing = false;
             }
-            if (SteamVR_Input._default.inActions.Teleport.GetStateUp(hand.handType))
+            if (SteamVR_Input._default.inActions.Teleport.GetStateUp(SteamVR_Input_Sources.Any))
             {
                 pointerVisualizerInstance.IsShowing = true;
             }
@@ -217,7 +217,7 @@ public class VRControllerManager : MonoBehaviour
 
             #region toMainMenuClick
             
-            if (MainMenuButton.GetStateDown(hand.handType) && MyVRMenu.MenuManager.Instance != null && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "TestMenuScene")
+            if (MainMenuButton.GetStateDown(SteamVR_Input_Sources.Any) && MyVRMenu.MenuManager.Instance != null && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "TestMenuScene")
             {
                 MyVRMenu.MenuManager.Instance.HideMenu();                
                 if (CurrentConfirmationInstance != null)
@@ -288,10 +288,22 @@ public class VRControllerManager : MonoBehaviour
             else
             {
                 FirstTouchHappend = false;
-            }           
+            }
 
             #endregion
 
+            if (SteamVR_Input._default.inActions.GrabGrip.GetStateDown(SteamVR_Input_Sources.Any))
+            {
+                if (hand.trackedObject.inputSource == SteamVR_Input_Sources.LeftHand)
+                {
+                    hand.trackedObject.inputSource = SteamVR_Input_Sources.RightHand;
+                }
+                else
+                {
+                    hand.trackedObject.inputSource = SteamVR_Input_Sources.LeftHand;
+                }
+                hand.handType = hand.trackedObject.inputSource;
+            }
         }
     }
 

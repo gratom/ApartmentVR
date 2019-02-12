@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a3bdb2cd68f901469e7cc149151eb49, type: 3}
-  m_Name: CustomMotionVectorDebugProfile
+  m_Name: AnotherOnePostProcessing
   m_EditorClassIdentifier: 
   debugViews:
     m_Enabled: 1
@@ -33,7 +33,7 @@ MonoBehaviour:
     m_Settings:
       method: 0
       fxaaSettings:
-        preset: 4
+        preset: 2
       taaSettings:
         jitterSpread: 0.75
         sharpen: 0.3
@@ -55,9 +55,9 @@ MonoBehaviour:
       reflection:
         blendType: 0
         reflectionQuality: 0
-        maxDistance: 43
-        iterationCount: 242
-        stepSize: 1
+        maxDistance: 63
+        iterationCount: 412
+        stepSize: 2
         widthModifier: 0.01
         reflectionBlur: 1.2
         reflectBackfaces: 1
@@ -83,19 +83,19 @@ MonoBehaviour:
       sampleCount: 15
       frameBlending: 0
   eyeAdaptation:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
-      lowPercent: 16.343435
-      highPercent: 66.82828
-      minLuminance: -5
-      maxLuminance: -2
+      lowPercent: 34.140255
+      highPercent: 65.35838
+      minLuminance: -13.4
+      maxLuminance: -3.46
       keyValue: 0.25
       dynamicKeyValue: 1
       adaptationType: 0
       speedUp: 2
       speedDown: 1
-      logMin: -4
-      logMax: 1
+      logMin: -7
+      logMax: 8
   bloom:
     m_Enabled: 1
     m_Settings:
@@ -113,24 +113,24 @@ MonoBehaviour:
     m_Settings:
       tonemapping:
         tonemapper: 1
-        neutralBlackIn: 0.075
-        neutralWhiteIn: 11.2
+        neutralBlackIn: -0.001
+        neutralWhiteIn: 10
         neutralBlackOut: 0
         neutralWhiteOut: 10
         neutralWhiteLevel: 5.3
         neutralWhiteClip: 10
       basic:
-        postExposure: -0.2
-        temperature: 0
+        postExposure: -1
+        temperature: 6
         tint: 0
         hueShift: 0
         saturation: 1
-        contrast: 1.61
+        contrast: 1.36
       channelMixer:
         red: {x: 1, y: 0.05, z: 0}
         green: {x: -0.03, y: 1.03, z: 0}
         blue: {x: 0, y: 0, z: 1}
-        currentEditingChannel: 2
+        currentEditingChannel: 1
       colorWheels:
         mode: 0
         log:
@@ -138,7 +138,7 @@ MonoBehaviour:
           power: {r: 1, g: 1, b: 1, a: 0}
           offset: {r: 1, g: 1, b: 1, a: 0}
         linear:
-          lift: {r: 1, g: 1, b: 1, a: 0}
+          lift: {r: 1, g: 1, b: 1, a: -3.1261177e-10}
           gamma: {r: 1, g: 1, b: 1, a: 0.055944055}
           gain: {r: 1, g: 1, b: 1, a: -0.25174826}
       curves:
@@ -149,8 +149,8 @@ MonoBehaviour:
             - serializedVersion: 2
               time: 0
               value: 0
-              inSlope: 0.50354433
-              outSlope: 0.50354433
+              inSlope: 0
+              outSlope: 1
               tangentMode: 0
             - serializedVersion: 2
               time: 1
@@ -182,7 +182,7 @@ MonoBehaviour:
               tangentMode: 0
             m_PreInfinity: 2
             m_PostInfinity: 2
-            m_RotationOrder: 0
+            m_RotationOrder: 4
           m_Loop: 0
           m_ZeroValue: 0
           m_Range: 1
@@ -204,7 +204,7 @@ MonoBehaviour:
               tangentMode: 0
             m_PreInfinity: 2
             m_PostInfinity: 2
-            m_RotationOrder: 0
+            m_RotationOrder: 4
           m_Loop: 0
           m_ZeroValue: 0
           m_Range: 1
@@ -226,7 +226,7 @@ MonoBehaviour:
               tangentMode: 0
             m_PreInfinity: 2
             m_PostInfinity: 2
-            m_RotationOrder: 0
+            m_RotationOrder: 4
           m_Loop: 0
           m_ZeroValue: 0
           m_Range: 1

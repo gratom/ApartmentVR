@@ -34,6 +34,10 @@ namespace MyVRMenu
         public MenuItem GetMenuItem(MenuLine.TypeOfLine typeOfLine, MonoBehaviour AttachedObject)
         {
             MenuItem menuObject = Instantiate(DictionatyOfStandartItems[typeOfLine]);
+            if (typeOfLine == MenuLine.TypeOfLine.secondLine)
+            {
+                menuObject.effectGameObject.transform.GetChild(0).GetComponent<TextMesh>().text = ((LoadedMaterial)AttachedObject).LoadedMaterialName; // ужасный костыль, убрать
+            }
             menuObject.typeOfObject = typeOfLine;
             menuObject.AttachedObject = AttachedObject;
             return menuObject;

@@ -151,12 +151,16 @@ public class VRControllerManager : MonoBehaviour
 
     private void SelectButtonClick(InteractiveObject interactiveObject)
     {
+        if (CurrentConfirmationInstance != null)
+        {
+            Destroy(CurrentConfirmationInstance);
+        }
         if (ClickManager.Instance != null)
         {
             InputData.ControlEventType = ClickManager.ControlEvent.activeActionEvent;
-            InputData.Param = 0;            
+            InputData.Param = 0;
             InputData.interactiveObject = interactiveObject;
-            ClickManager.Instance.ControlEventHappend(InputData);            
+            ClickManager.Instance.ControlEventHappend(InputData);
         }
     }
 
@@ -212,53 +216,62 @@ public class VRControllerManager : MonoBehaviour
             #endregion
 
             #region toMainMenuClick
-
-            if (MainMenuButton.GetStateDown(hand.handType) && MyVRMenu.MenuManager.Instance != null && CurrentConfirmationInstance == null && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "TestMenuScene")
+            
+            if (MainMenuButton.GetStateDown(hand.handType) && MyVRMenu.MenuManager.Instance != null && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "TestMenuScene")
             {
-                CurrentConfirmationInstance = Instantiate(ExitConfirmation, transform.position, Quaternion.Euler(new Vector3(0, transform.rotation.eulerAngles.y, 0)));
-                ExtendedInteractive ExtInt0 = CurrentConfirmationInstance.transform.GetChild(0).GetComponent<ExtendedInteractive>();
-                ExtInt0.OnPointerHover = () =>
+                MyVRMenu.MenuManager.Instance.HideMenu();                
+                if (CurrentConfirmationInstance != null)
                 {
-                    if (!ExtInt0.effectGameObject.activeSelf)
+                    CurrentConfirmationInstance.transform.position = transform.position;
+                    CurrentConfirmationInstance.transform.rotation = Quaternion.Euler(new Vector3(0, transform.rotation.eulerAngles.y, 0));
+                }
+                else
+                {
+                    CurrentConfirmationInstance = Instantiate(ExitConfirmation, transform.position, Quaternion.Euler(new Vector3(0, transform.rotation.eulerAngles.y, 0)));
+                    ExtendedInteractive ExtInt0 = CurrentConfirmationInstance.transform.GetChild(0).GetComponent<ExtendedInteractive>();
+                    ExtInt0.OnPointerHover = () =>
                     {
-                        ExtInt0.effectGameObject.SetActive(true);
-                    }
-                };
-                ExtInt0.OnPointerLeft = () =>
-                {
-                    if (ExtInt0.effectGameObject.activeSelf)
+                        if (!ExtInt0.effectGameObject.activeSelf)
+                        {
+                            ExtInt0.effectGameObject.SetActive(true);
+                        }
+                    };
+                    ExtInt0.OnPointerLeft = () =>
                     {
-                        ExtInt0.effectGameObject.SetActive(false);
-                    }
-                };
-                ExtInt0.OnActiveAction = () =>
-                {
-                    MyVRMenu.MenuManager.Instance.HideMenu();
-                    UnityEngine.XR.XRSettings.enabled = false;
-                    GameObject.FindGameObjectWithTag("SceneManagers").SetActive(false);
-                    MyPlayerControllers.PlayerManager.Instance.DestroyCurrentController();
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("TestMenuScene");
-                };
+                        if (ExtInt0.effectGameObject.activeSelf)
+                        {
+                            ExtInt0.effectGameObject.SetActive(false);
+                        }
+                    };
+                    ExtInt0.OnActiveAction = () =>
+                    {
+                        MyVRMenu.MenuManager.Instance.HideMenu();
+                        UnityEngine.XR.XRSettings.enabled = false;
+                        GameObject.FindGameObjectWithTag("SceneManagers").SetActive(false);
+                        MyPlayerControllers.PlayerManager.Instance.DestroyCurrentController();
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("TestMenuScene");
+                    };
 
-                ExtendedInteractive ExtInt1 = CurrentConfirmationInstance.transform.GetChild(1).GetComponent<ExtendedInteractive>();
-                ExtInt1.OnPointerHover = () =>
-                {
-                    if (!ExtInt1.effectGameObject.activeSelf)
+                    ExtendedInteractive ExtInt1 = CurrentConfirmationInstance.transform.GetChild(1).GetComponent<ExtendedInteractive>();
+                    ExtInt1.OnPointerHover = () =>
                     {
-                        ExtInt1.effectGameObject.SetActive(true);
-                    }
-                };
-                ExtInt1.OnPointerLeft = () =>
-                {
-                    if (ExtInt1.effectGameObject.activeSelf)
+                        if (!ExtInt1.effectGameObject.activeSelf)
+                        {
+                            ExtInt1.effectGameObject.SetActive(true);
+                        }
+                    };
+                    ExtInt1.OnPointerLeft = () =>
                     {
-                        ExtInt1.effectGameObject.SetActive(false);
-                    }
-                };
-                ExtInt1.OnActiveAction = () =>
-                {
-                    Destroy(CurrentConfirmationInstance);
-                };
+                        if (ExtInt1.effectGameObject.activeSelf)
+                        {
+                            ExtInt1.effectGameObject.SetActive(false);
+                        }
+                    };
+                    ExtInt1.OnActiveAction = () =>
+                    {
+                        Destroy(CurrentConfirmationInstance);
+                    };
+                }
             }
 
             #endregion
@@ -269,7 +282,7 @@ public class VRControllerManager : MonoBehaviour
             {
                 if (LastPointedMenuItem != null)
                 {
-                    MenuRotate(LastPointedMenuItem); // просто брать объект из Pointer`а и проверять, не объект меню ли. В целом просто переписать с использованием Pointer`а
+                    MenuRotate(LastPointedMenuItem);
                 }
             }
             else

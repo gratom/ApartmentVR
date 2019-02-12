@@ -102,6 +102,21 @@ namespace MyVRMenu
         [SerializeField]
         private float _CurrentLineRotation;
 
+        /// <summary>
+        /// Current count of items, type of this line
+        /// </summary>
+        public int ItemsCount
+        {
+            get
+            {
+                if (MenuItems != null)
+                {
+                    return MenuItems.Count;
+                }
+                return 0;
+            }
+        }
+
         private List<MenuItem> MenuItems;
 
         #region public function
@@ -229,9 +244,7 @@ namespace MyVRMenu
 
             menuObject.AttachedObject.gameObject.transform.parent = menuObject.transform;
             menuObject.AttachedObject.gameObject.transform.localPosition = new Vector3(0, 0, 0);
-            menuObject.transform.LookAt(ZepoPoint);
-            
-                               
+            menuObject.transform.LookAt(ZepoPoint);                               
         }
 
         #endregion
@@ -364,8 +377,27 @@ namespace MyVRMenu
                     {
                         MenuLines[i].SetLine(tempList, menuPosition);
                     }
-                }
-                
+                    bool isNeedToCentrate = MenuPosition.GetComponent<CameraFollower>().GetCentrateState();
+                    int lineWithMostElements = 0;
+                    for (int i = 0; i < MenuLines.Count; i++)
+                    {
+                        if(MenuLines[i].ItemsCount > (MenuLines[i].FinishAngle - MenuLines[i].StartAngle) / MenuLines[i].AngleForEachSegment)
+                        {
+                            isNeedToCentrate = false;
+                            break;
+                        }
+                        if(MenuLines[lineWithMostElements].ItemsCount < MenuLines[i].ItemsCount)
+                        {
+                            lineWithMostElements = i;
+                        }
+                    }
+                    if (isNeedToCentrate)
+                    {
+                        MenuPosition.transform.Rotate(0,
+                            -(((MenuLines[lineWithMostElements].FinishAngle - MenuLines[lineWithMostElements].StartAngle) / MenuLines[lineWithMostElements].AngleForEachSegment) - MenuLines[lineWithMostElements].ItemsCount) / 2 * MenuLines[lineWithMostElements].AngleForEachSegment, 
+                            0);
+                    }
+                }                
             }
             IsShown = true;
         }

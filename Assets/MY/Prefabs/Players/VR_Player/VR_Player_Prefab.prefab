@@ -994,7 +994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poseAction: {fileID: 11400000, guid: 973eb16a0f8fd4742a679994dc1b3519, type: 2}
-  inputSource: 2
+  inputSource: 0
   origin: {fileID: 0}
   onTransformUpdated:
     m_PersistentCalls:
@@ -1027,7 +1027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: f51f948181064334ea604291f9d85b0b, type: 2}
+  profile: {fileID: 11400000, guid: e19b62e9131db38419db9a12c47ae7c9, type: 2}
 --- !u!114 &114298937028672574
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1119,9 +1119,7 @@ MonoBehaviour:
   - {fileID: 4193734281689228}
   - {fileID: 4382182831355202}
   hands:
-  - {fileID: 0}
   - {fileID: 114353824897263402}
-  - {fileID: 114152051027803588}
   headCollider: {fileID: 135977002651131594}
   rigSteamVR: {fileID: 1652833754602692}
   rig2DFallback: {fileID: 1416387759187786}

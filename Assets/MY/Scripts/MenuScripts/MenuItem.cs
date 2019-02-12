@@ -8,13 +8,19 @@ namespace MyVRMenu
     /// </summary>
     public class MenuItem : InteractiveObject
     {
+        /// <summary>
+        /// Size of side of cube in which MenuItem will be inscribed
+        /// </summary>
+        public float MenuItemSize = 0.085f;
 
         public float CurrentRotation;
+
         public MenuLine.TypeOfLine typeOfObject;
 
         public MonoBehaviour AttachedObject;
 
         public GameObject effectGameObject;
+
         public Animator animator;
 
         #region Delegates

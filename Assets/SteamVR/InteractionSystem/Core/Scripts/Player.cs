@@ -111,7 +111,12 @@ namespace Valve.VR.InteractionSystem
 			{
 				for ( int j = 0; j < hands.Length; j++ )
 				{
-					if ( !hands[j].gameObject.activeInHierarchy )
+                    if (hands[j].gameObject == null)
+                    {
+                        continue;
+                    }
+
+                    if (!hands[j].gameObject.activeInHierarchy)
 					{
 						continue;
 					}
@@ -136,7 +141,12 @@ namespace Valve.VR.InteractionSystem
 			{
 				for ( int j = 0; j < hands.Length; j++ )
 				{
-					if ( !hands[j].gameObject.activeInHierarchy )
+                    if (hands[j].gameObject == null)
+                    {
+                        continue;
+                    }
+
+                    if ( !hands[j].gameObject.activeInHierarchy )
 					{
 						continue;
 					}

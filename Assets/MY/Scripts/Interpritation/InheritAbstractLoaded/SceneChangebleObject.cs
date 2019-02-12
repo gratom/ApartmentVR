@@ -4,7 +4,7 @@ using MyVRMenu;
 using UniversalAssetBundleLoader;
 
 /// <summary>
-/// Class 
+/// Class
 /// </summary>
 public enum SceneChangebleObjectTypes
 {
@@ -243,7 +243,7 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
             if (AssetGameObject != null)
             {
                 DestroyAssetCollider();
-                float r = 0.085f; //расстояние стороны куба, в который модель вписывается. Эту переменную стоит перенести в настройки меню
+                float r = menuItem.MenuItemSize;
 
                 Quaternion tempQuaternion = AssetGameObject.transform.rotation;
                 AssetGameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
@@ -386,10 +386,17 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
     /// <param name="itemInstance">object, on which cliked</param>
     public void OnMenuClick(MonoBehaviour itemInstance)
     {
-        SceneChangebleObject tempSceneChangable = SceneLoaderManager.Instance.SpawnSceneChangableHere(((SceneChangebleObject)MenuManager.Instance.ObjectSelected).gameObject.transform.parent, ((SceneChangebleObject)itemInstance).ID);
-        tempSceneChangable.StartLoadAssetBundle();
-        Destroy(((SceneChangebleObject)MenuManager.Instance.ObjectSelected).gameObject);
-        ClickManager.Instance.ImitateClick(tempSceneChangable.AssetGameObject.GetComponent<InteractiveObject>()); //TODO переделать
+        SceneChangebleObject sTemp = itemInstance as SceneChangebleObject;
+        if (sTemp != null)
+        {
+            if (sTemp.AssetGameObject != null)
+            {
+                SceneChangebleObject tempSceneChangable = SceneLoaderManager.Instance.SpawnSceneChangableHere(((SceneChangebleObject)MenuManager.Instance.ObjectSelected).gameObject.transform.parent, ((SceneChangebleObject)itemInstance).ID);
+                tempSceneChangable.StartLoadAssetBundle();
+                Destroy(((SceneChangebleObject)MenuManager.Instance.ObjectSelected).gameObject);
+                ClickManager.Instance.ImitateClick(tempSceneChangable.AssetGameObject.GetComponent<InteractiveObject>());
+            }
+        }
     }
 
     /// <summary>

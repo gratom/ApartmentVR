@@ -64,6 +64,8 @@ public class VRControllerManager : MonoBehaviour
     private SteamVR_ActionSet MainMenuButtonGroupAction;
 
     private MyVRMenu.MenuItem LastPointedMenuItem; //for rotation only
+    
+    private int LastCountOfControllers = -1;
 
     private Coroutine TrackingInputEventCoroutineInstance;
 
@@ -188,6 +190,18 @@ public class VRControllerManager : MonoBehaviour
         }
     }
 
+    private void SwapControl()
+    {
+        if (hand.trackedObject.inputSource == SteamVR_Input_Sources.LeftHand)
+        {
+            hand.trackedObject.inputSource = SteamVR_Input_Sources.RightHand;
+        }
+        else
+        {
+            hand.trackedObject.inputSource = SteamVR_Input_Sources.LeftHand;
+        }
+    }
+
     private IEnumerator TrackingInputEventCoroutine()
     {
         while (true)
@@ -292,16 +306,42 @@ public class VRControllerManager : MonoBehaviour
 
             #endregion
 
-            if (SteamVR_Input._default.inActions.GrabGrip.GetStateDown(SteamVR_Input_Sources.Any))
+            string[] arrayOfString = Input.GetJoystickNames();
+            List<string> ListOfString = new List<string>();
+            for (int i = 0; i < arrayOfString.Length; i++)
             {
-                if (hand.trackedObject.inputSource == SteamVR_Input_Sources.LeftHand)
+                if (arrayOfString[i].IndexOf("Vive.") > 0)
                 {
-                    hand.trackedObject.inputSource = SteamVR_Input_Sources.RightHand;
+                    ListOfString.Add(arrayOfString[i]);
+                }
+            }
+            if (ListOfString.Count != LastCountOfControllers)
+            {
+                LastCountOfControllers = ListOfString.Count;
+                if (LastCountOfControllers == 2)
+                {
+                    SwapControl();
                 }
                 else
                 {
-                    hand.trackedObject.inputSource = SteamVR_Input_Sources.LeftHand;
+                    if (LastCountOfControllers > 0)
+                    {
+                        if (ListOfString[0].IndexOf("Right") > 0)
+                        {
+                            hand.trackedObject.inputSource = SteamVR_Input_Sources.RightHand;
+                        }
+                        if (ListOfString[0].IndexOf("Left") > 0)
+                        {
+                            hand.trackedObject.inputSource = SteamVR_Input_Sources.LeftHand;
+                        }
+                        hand.handType = hand.trackedObject.inputSource;
+                    }
                 }
+            }         
+
+            if (SteamVR_Input._default.inActions.GrabGrip.GetStateDown(SteamVR_Input_Sources.Any))
+            {
+                SwapControl();
                 hand.handType = hand.trackedObject.inputSource;
             }
         }

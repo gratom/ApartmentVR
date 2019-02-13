@@ -79,8 +79,11 @@ namespace Valve.VR
                     if (deviceIndex != currentDeviceIndex)
                     {
                         deviceIndex = currentDeviceIndex;
-                        this.gameObject.BroadcastMessage("SetInputSource", inputSource, SendMessageOptions.DontRequireReceiver);
-                        this.gameObject.BroadcastMessage("SetDeviceIndex", deviceIndex, SendMessageOptions.DontRequireReceiver);
+                        if (this != null)
+                        {
+                            gameObject.BroadcastMessage("SetInputSource", inputSource, SendMessageOptions.DontRequireReceiver);
+                            gameObject.BroadcastMessage("SetDeviceIndex", deviceIndex, SendMessageOptions.DontRequireReceiver);
+                        }
                     }
                 }
             }

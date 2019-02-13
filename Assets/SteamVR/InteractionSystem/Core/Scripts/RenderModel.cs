@@ -47,6 +47,7 @@ namespace Valve.VR.InteractionSystem
             if (handPrefab != null)
             {
                 handInstance = GameObject.Instantiate(handPrefab);
+                if(this != null)
                 handInstance.transform.parent = this.transform;
                 handInstance.transform.localPosition = Vector3.zero;
                 handInstance.transform.localRotation = Quaternion.identity;

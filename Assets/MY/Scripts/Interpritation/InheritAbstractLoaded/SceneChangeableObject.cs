@@ -30,12 +30,14 @@ public class SceneChangeableObject : AbstractObjectConstructable<SceneChangeable
     /// <summary>
     /// Its the name of object. The name is not unique
     /// </summary>
-    public string ChangeableObjectName { get; set; }
+    [SerializeField]
+    public string ChangeableObjectName;
 
     /// <summary>
     /// The type of this object. ChangebleObject type is needed to determine what can be replaced
     /// </summary>
-    public string ChangeableObjectType { get; set; }
+    [SerializeField]
+    public string ChangeableObjectType;
 
     /// <summary>
     /// List of ID of material group, that can apply to this sceneChangeable
@@ -88,7 +90,8 @@ public class SceneChangeableObject : AbstractObjectConstructable<SceneChangeable
     /// <summary>
     /// 
     /// </summary>
-    public AbstractObjectConstructableComponentData<int> listOfRemote;    
+    public AbstractObjectConstructableComponentData<int> listOfRemote;
+    
 
     #region public functions
 

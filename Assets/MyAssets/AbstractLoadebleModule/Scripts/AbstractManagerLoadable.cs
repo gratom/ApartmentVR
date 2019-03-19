@@ -136,7 +136,7 @@ namespace AbstractRemoteLoadable
                 }
                 else
                 {
-                    yield return new WaitForSeconds(0.2f);
+                    yield return null;
                 }
             }
         }

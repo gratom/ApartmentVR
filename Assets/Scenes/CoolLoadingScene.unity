@@ -521,6 +521,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114043341630297878, guid: e6c37bd67c688fa4cad3213376475d2f,
+        type: 2}
+      propertyPath: Setting._MaxCountOfLoadingTread
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e6c37bd67c688fa4cad3213376475d2f, type: 2}
   m_IsPrefabParent: 0
@@ -1315,6 +1320,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1496443770634092, guid: 882ac7a19e635f148ad4bcf9be7407c4, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 882ac7a19e635f148ad4bcf9be7407c4, type: 2}
   m_IsPrefabParent: 0
@@ -1506,7 +1515,7 @@ MonoBehaviour:
       ViewID: 0
       LocalStorageString: 
     JSONFolder: /JsonFiles/
-    Key: yanWiGutidv7I2%2FbzFlg%2BFcPWNrRbQwvM%2Foli%2BXPQdN1lA6ENtCuHGMHtcFXyJay9j9gmUBFHEnmYYfYNOkPig%3D%3D
+    Key: kOPaTTOdljIlA1eQxxPPbhJLEYi/FWELnQyFDcwnj4gnc5EmY6ht8TfT3VTuJJH/T8/Y/BNVPK7pLthKCYVU7g==
     IsLoadSettingFromDisk: 1
     AccessToken: 
     settingClassInstance:

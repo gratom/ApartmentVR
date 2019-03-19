@@ -145,6 +145,7 @@ MonoBehaviour:
   loadedMaterialPrefab: {fileID: 1850653123339418, guid: 70203aae64240b04c8b5bddf926aa190,
     type: 2}
   IsReinit: 1
+  ImportSetting: 1
 --- !u!4 &3611948
 Transform:
   m_ObjectHideFlags: 0
@@ -985,6 +986,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1150767971755590, guid: d18fa15f7a208d14c99ecc8ae3a98c17, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d18fa15f7a208d14c99ecc8ae3a98c17, type: 2}
   m_IsPrefabParent: 0
@@ -1335,7 +1340,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1607410244
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1436,7 +1441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TagOfPlayerControllerPlace: Respawn
   PlayerControllersList:
-  - {fileID: 114308437442957056, guid: 2aa0fd70ce6900c49a480678e7cba299, type: 2}
+  - {fileID: 114889963102822562, guid: 2aa0fd70ce6900c49a480678e7cba299, type: 2}
   - {fileID: 114853185412397954, guid: a76c05866e0ad8240a00dbf9a6d4b82c, type: 2}
 --- !u!1 &1952623260
 GameObject:
@@ -1480,69 +1485,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AppDataLoaderInstance:
     ListOfAppsSetting:
-    - FileName: VRApartmentObjects.txt
+    - _appType: 0
+      FileName: VRApartmentObjects.txt
       AppID: 11487
-      viewID: 222643
-      AppData:
-        app_id: 0
-        app_name: 
-        icon:
-          id: 0
-          icon_id: 
-          icon_color: 
-          gradient_up: 
-          gradient_down: 
-        group_id: 0
-        trash: 0
-        last_update: 0
-        items_list: []
-        view_list: []
-        field_list: []
-        file_list: []
+      ViewID: 0
       LocalStorageString: 
-    - FileName: VRApartmentMaterials.txt
+    - _appType: 1
+      FileName: VRApartmentMaterials.txt
       AppID: 11477
-      viewID: 222383
-      AppData:
-        app_id: 0
-        app_name: 
-        icon:
-          id: 0
-          icon_id: 
-          icon_color: 
-          gradient_up: 
-          gradient_down: 
-        group_id: 0
-        trash: 0
-        last_update: 0
-        items_list: []
-        view_list: []
-        field_list: []
-        file_list: []
+      ViewID: 0
       LocalStorageString: 
-    - FileName: VRScenes.txt
+    - _appType: 2
+      FileName: VRScenes.txt
       AppID: 11381
-      viewID: 219889
-      AppData:
-        app_id: 0
-        app_name: 
-        icon:
-          id: 0
-          icon_id: 
-          icon_color: 
-          gradient_up: 
-          gradient_down: 
-        group_id: 0
-        trash: 0
-        last_update: 0
-        items_list: []
-        view_list: []
-        field_list: []
-        file_list: []
+      ViewID: 0
+      LocalStorageString: 
+    - _appType: 3
+      FileName: VRMaterialsGroup.txt
+      AppID: 12727
+      ViewID: 0
       LocalStorageString: 
     JSONFolder: /JsonFiles/
     Key: yanWiGutidv7I2%2FbzFlg%2BFcPWNrRbQwvM%2Foli%2BXPQdN1lA6ENtCuHGMHtcFXyJay9j9gmUBFHEnmYYfYNOkPig%3D%3D
+    IsLoadSettingFromDisk: 1
     AccessToken: 
+    settingClassInstance:
+      Apps: []
+      AuthKey: 
   assetBundleLoaderManager: {fileID: 507405344}
   remoteImageLoaderManager: {fileID: 1561207734}
   AllManagersForScene: {fileID: 1482687275}

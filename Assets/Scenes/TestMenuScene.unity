@@ -146,7 +146,7 @@ MonoBehaviour:
   - TestMenuScene
   - LoadingScene
   IsBuildFromProjectScenes: 0
-  IsBuildFromDiskScenes: 0
+  ImportSetting: 1
 --- !u!4 &324730800
 Transform:
   m_ObjectHideFlags: 0

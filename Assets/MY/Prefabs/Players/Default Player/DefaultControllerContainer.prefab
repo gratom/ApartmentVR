@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4773819833296732}
-  - component: {fileID: 114308437442957056}
+  - component: {fileID: 114889963102822562}
   m_Layer: 0
   m_Name: DefaultControllerContainer
   m_TagString: Untagged
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114308437442957056
+--- !u!114 &114889963102822562
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,9 +48,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1855910209900522}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 842e46a29cb332a4092664e8e7225581, type: 3}
+  m_Script: {fileID: 11500000, guid: d87b110b320a4a34787a264a1318136c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerControllerPrefab: {fileID: 1249957305210492, guid: d25f563d05d95e94aba04150b37d2d4d,
     type: 2}
   controllerType: 2
+  TelepostSurfaceTag: teleport

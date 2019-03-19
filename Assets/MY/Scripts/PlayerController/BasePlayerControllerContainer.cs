@@ -9,7 +9,7 @@ namespace MyPlayerControllers
     /// Class for 
     /// </summary>
     [System.Serializable]
-    public class PlayerControllerContainer : MonoBehaviour
+    public class BasePlayerControllerContainer : MonoBehaviour
     {
         /// <summary>
         /// Type of PlayerController

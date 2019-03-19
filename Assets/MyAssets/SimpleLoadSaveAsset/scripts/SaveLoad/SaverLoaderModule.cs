@@ -9,6 +9,7 @@ using System;
 /// </summary>
 public static class SaverLoaderModule 
 {
+    #region public functions
 
     /// <summary>
     /// Saves data to a file with the specified name. Remember that this function saves the file in a standard folder.
@@ -19,7 +20,9 @@ public static class SaverLoaderModule
     {
         try
         {
-            string AppPath = Application.dataPath.Substring(0, Application.dataPath.LastIndexOf("/")) + "/Saves";
+            FileName = Normalizer(FileName);
+            string AppPath = Application.dataPath.Substring(0, Application.dataPath.LastIndexOf("/")) + "/Standart_Saves";
+            OverGeneratePath(AppPath + FileName);
             FileStream fileStream = new FileStream(AppPath + FileName, FileMode.Create);
             StreamWriter MyFile = new StreamWriter(fileStream);
             MyFile.Write(StringData);
@@ -37,10 +40,11 @@ public static class SaverLoaderModule
     /// <param name="FileName">Name of file</param>
     /// <returns>String data or "", if file don`t exist</returns>
     public static string LoadMyDataFromFile(string FileName)
-    {
-        string AppPath = Application.dataPath.Substring(0, Application.dataPath.LastIndexOf("/")) + "/Saves";
+    {        
         try
         {
+            FileName = Normalizer(FileName);
+            string AppPath = Application.dataPath.Substring(0, Application.dataPath.LastIndexOf("/")) + "/Standart_Saves";            
             if (File.Exists(AppPath + FileName))
             {
                 StreamReader MyFile = new StreamReader(AppPath + FileName);
@@ -65,6 +69,7 @@ public static class SaverLoaderModule
     {
         try
         {
+            OverGeneratePath(FullPath);
             FileStream fileStream = new FileStream(FullPath, FileMode.Create);
             StreamWriter MyFile = new StreamWriter(fileStream);
             MyFile.Write(StringData);
@@ -99,5 +104,65 @@ public static class SaverLoaderModule
         }
         return "";
     }
+
+    #endregion
+
+    #region private functions
+
+    private static string Normalizer(string fileName)
+    {
+        if (fileName.IndexOf('/') == 0)
+        {
+            return fileName;
+        }
+        else
+        {
+            return "/" + fileName;
+        }
+    }
+
+    private static string OverGeneratePath(string fileName)
+    {
+        string[] tempArray = fileName.Split('/');
+        List<string> finalListOfPathParts = new List<string>();
+
+        #region delete extra "/"
+
+        for (int i = 0; i < tempArray.Length; i++)
+        {
+            if (tempArray[i] != "")
+            {
+                finalListOfPathParts.Add(tempArray[i]);
+            }
+        }
+
+        #endregion
+
+        #region create returned string and overGenerating path
+
+        string returnedPath = "";
+        for(int i = 0; i < finalListOfPathParts.Count - 1; i++)
+        {
+            returnedPath += finalListOfPathParts[i] + "/";
+            if (!Directory.Exists(returnedPath))
+            {
+                try
+                {
+                    Directory.CreateDirectory(returnedPath);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                }
+            }
+        }
+        returnedPath += finalListOfPathParts[finalListOfPathParts.Count - 1];
+
+        #endregion
+
+        return returnedPath;
+    }
+
+    #endregion
 
 }

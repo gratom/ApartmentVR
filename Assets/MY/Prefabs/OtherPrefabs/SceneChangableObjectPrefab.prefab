@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2677a2869c2154641bfde9b46c21ead2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 0
+  ID: 548361
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -64,6 +64,9 @@ MonoBehaviour:
     StringValue: 
   - valueType: 3
     IdField: 179901
+    StringValue: 
+  - valueType: 4
+    IdField: 181164
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:

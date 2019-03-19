@@ -18,7 +18,7 @@ public class ChooseSceneManager : MonoBehaviour
     private bool IsBuildFromProjectScenes;
 
     [SerializeField]
-    private bool IsBuildFromDiskScenes;
+    private bool ImportSetting;
 
     private List<AbstractObjectConstructable<SceneObjectTypes>> UncashedAppDataOfSceneObjects;
 
@@ -36,22 +36,61 @@ public class ChooseSceneManager : MonoBehaviour
     }
 
     private void Initialize()
-    {      
+    {
+
+        #region Import setting from JSON
+
+        if (ImportSetting)
+        {
+            int SceneApplicationIndex = 0;
+            for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps.Count; i++)
+            {
+                if (JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[i].AppType == AppSetting.AppType.scenes.ToString())
+                {
+                    SceneApplicationIndex = i;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < sceneObjectPrefab.GetComponent<SceneObject>().settingFieldList.Count; i++)
+            {
+                for (int j = 0; j < JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[SceneApplicationIndex].Fields.Count; j++)
+                {
+                    if (sceneObjectPrefab.GetComponent<SceneObject>().settingFieldList[i].valueType.ToString() == JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[SceneApplicationIndex].Fields[j].Name)
+                    {
+                        sceneObjectPrefab.GetComponent<SceneObject>().settingFieldList[i].IdField = JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[SceneApplicationIndex].Fields[j].ID;
+                        break;
+                    }
+                }
+            }
+        }
+
+        #endregion
 
         #region Scenes from JSON
-        //третье приложение это приложение с данными сцен
+
+        int sceneObjectIndex = 0;
+        for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting.Count; i++)
+        {
+            if (JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[i].appType == AppSetting.AppType.scenes)
+            {
+                sceneObjectIndex = i;
+                break;
+            }
+        }
+
         UncashedAppDataOfSceneObjects = new List<AbstractObjectConstructable<SceneObjectTypes>>();
-        for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[2].AppData.items_list.Count; i++)
+        for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[sceneObjectIndex].AppData.items_list.Count; i++)
         {
             //создаем тут итемы, по количеству в App
             GameObject gTemp = Instantiate(sceneObjectPrefab, this.transform);
             gTemp.name = "SceneObject" + i.ToString();
-            gTemp.transform.position = new Vector3(i * 2 - (JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[2].AppData.items_list.Count - 1) / 2.0f, sceneObjectPrefab.transform.position.y, 1);
+            gTemp.transform.position = new Vector3(i * 2 - (JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[sceneObjectIndex].AppData.items_list.Count - 1) / 2.0f, sceneObjectPrefab.transform.position.y, 1);
             UncashedAppDataOfSceneObjects.Add(gTemp.GetComponent<SceneObject>());
             UncashedAppDataOfSceneObjects[i].InitDictionary();
         }
 
-        JSONMainManager.Instance.FillDataToList(UncashedAppDataOfSceneObjects, JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[2].AppID);
+        JSONMainManager.Instance.FillDataToList(UncashedAppDataOfSceneObjects, JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[sceneObjectIndex].AppID);
 
         for (int i = 0; i < UncashedAppDataOfSceneObjects.Count; i++)
         {
@@ -143,22 +182,6 @@ public class ChooseSceneManager : MonoBehaviour
             }
         }
         #endregion
-
-        //dont working code
-        #region Scenes from disk
-
-        if (IsBuildFromDiskScenes)
-        {
-
-            //get all scenes from disk (bundled)
-
-            //spawn all
-
-            //attach the delegate
-
-        }
-
-        #endregion
         
     }
 
@@ -196,12 +219,12 @@ public class ChooseSceneManager : MonoBehaviour
         yield return new WaitForSeconds(second);
         if (UnityEngine.XR.XRDevice.isPresent)
         {
-            MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.PlayerControllerContainer.PlayerControllerType.VRPlayerController);
+            MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.BasePlayerControllerContainer.PlayerControllerType.VRPlayerController);
             UnityEngine.XR.XRSettings.enabled = true;
         }
         else
         {
-            MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.PlayerControllerContainer.PlayerControllerType.DefaultPlayerController);
+            MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.BasePlayerControllerContainer.PlayerControllerType.DefaultPlayerController);
         }
         
     }

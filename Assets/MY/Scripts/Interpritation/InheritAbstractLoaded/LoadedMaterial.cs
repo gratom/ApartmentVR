@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using System;
 using MyVRMenu;
 using UniversalAssetBundleLoader;
 
@@ -11,8 +10,9 @@ public enum LoadedMaterialClassTypes
 {
     nameMaterial,
     AssetBundleURL,
-    ForItemsWithID,
-    PreImage
+    refToObjects,
+    thumbnail,
+    materialGroupReference
 }
 
 /// <summary>
@@ -39,18 +39,17 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
     public int[] ListOfItemsFor { get; private set; }
 
     /// <summary>
-    /// A link where you can download this item from GudHub
-    /// </summary>
-    public string RealGudHubURL { get; private set; }
-
-    /// <summary>
     /// Unique ID file in GudHub
     /// </summary>
     public string URLName { get; private set; }
 
+    /// <summary>
+    /// List of ID of material group in which this material added
+    /// </summary>
+    public int[] MaterialGroupsID { get; private set; }
+
     [Tooltip("This is a list of settings for the correct operation of the internal functions for initializing an item.\nThese settings are used to determine how to process data from JSON.")]
-    [SerializeField]
-    private List<SettingForFieldsInLoadedMaterial> settingFieldList;
+    public List<SettingForFieldsInLoadedMaterial> settingFieldList;
 
     /// <summary>
     /// Material that loaded from AssetBundle
@@ -86,8 +85,6 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
     [SerializeField]
     private RemoteAssetBundle _remoteAssetBundleInstance;
 
-    public int itemID { get { return ID; } }    
-
     #region public functions
 
     /// <summary>
@@ -99,7 +96,8 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
         {
             { LoadedMaterialClassTypes.nameMaterial, InitName },
             { LoadedMaterialClassTypes.AssetBundleURL, InitURL },
-            { LoadedMaterialClassTypes.ForItemsWithID, InitListOfItemsFor }
+            { LoadedMaterialClassTypes.refToObjects, InitListOfItemsFor },
+            { LoadedMaterialClassTypes.materialGroupReference, InitMaterialGroup }
         };
 
         if (ComponentsDataList == null)
@@ -139,6 +137,10 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
         }
     }
 
+    /// <summary>
+    /// Function, that used for draw this item in menu
+    /// </summary>
+    /// <param name="menuItem"></param>
     public void OnMenuDraw(MenuItem menuItem)
     {
         LoadMaterial();
@@ -169,7 +171,7 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
         sReturned += "name on scene: " + name + "\n";
         sReturned += "gudhub name: " + LoadedMaterialName + "\n";
         sReturned += "gudhub item ID: " + ID + "\n";
-        sReturned += "ID of AssetBundle: " + URLName + "\n";
+        sReturned += "ID of AssetBundle: " + RemoteAssetBundleInstance.Name + "\n";
         sReturned += "item reference: \n{\n";
         for (int i = 0; i < ListOfItemsFor.Length; i++)
         {
@@ -196,9 +198,10 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
     {
         try
         {
-            URLName = ComponentsDataList[num].StringValue;
-            RealGudHubURL = JSONMainManager.Instance.GetRealFileURLById(URLName);
-            RemoteAssetBundleInstance = new RemoteAssetBundle(RealGudHubURL, URLName, JSONMainManager.Instance.GetRealItemURLByID(ID));
+            RemoteAssetBundleInstance = new RemoteAssetBundle(
+                JSONMainManager.Instance.GetRealFileURLById(ComponentsDataList[num].StringValue),
+                ComponentsDataList[num].StringValue,
+                JSONMainManager.Instance.GetRealItemURLByID(ID));
         }
         catch (System.Exception e)
         {
@@ -213,11 +216,35 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
 
     private void InitListOfItemsFor(int num)
     {
-        string[] temp = ComponentsDataList[num].StringValue.Split(',');
-        ListOfItemsFor = new int[temp.Length];
-        for (int i = 0; i < ListOfItemsFor.Length; i++)
+        if (ComponentsDataList[num] != null && ComponentsDataList[num].StringValue != null && ComponentsDataList[num].StringValue != "")
         {
-            ListOfItemsFor[i] = int.Parse(temp[i].Substring(temp[i].IndexOf('.') + 1));
+            string[] temp = ComponentsDataList[num].StringValue.Split(',');
+            ListOfItemsFor = new int[temp.Length];
+            for (int i = 0; i < ListOfItemsFor.Length; i++)
+            {
+                ListOfItemsFor[i] = int.Parse(temp[i].Substring(temp[i].IndexOf('.') + 1));
+            }
+        }
+        else
+        {
+            ListOfItemsFor = new int[0];
+        }
+    }
+
+    private void InitMaterialGroup(int num)
+    {
+        if (ComponentsDataList[num] != null && ComponentsDataList[num].StringValue != null && ComponentsDataList[num].StringValue != "")
+        {
+            string[] temp = ComponentsDataList[num].StringValue.Split(',');
+            MaterialGroupsID = new int[temp.Length];
+            for (int i = 0; i < MaterialGroupsID.Length; i++)
+            {
+                MaterialGroupsID[i] = int.Parse(temp[i].Substring(temp[i].IndexOf('.') + 1));
+            }
+        }
+        else
+        {
+            MaterialGroupsID = new int[0];
         }
     }
 
@@ -249,7 +276,7 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
             LoadMaterial();
             if (loadedMaterial)
             {
-                ((SceneChangebleObject)MenuManager.Instance.ObjectSelected).ChangeMaterialTo(loadedMaterial);
+                ((SceneChangeableObject)MenuManager.Instance.ObjectSelected).ChangeMaterialTo(loadedMaterial);
             }
         }
         catch (System.Exception e)

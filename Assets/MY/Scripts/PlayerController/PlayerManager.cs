@@ -24,7 +24,7 @@ namespace MyPlayerControllers {
         /// List of all controllers that can be spawned
         /// </summary>
         [SerializeField]
-        private List<PlayerControllerContainer> PlayerControllersList;
+        private List<BasePlayerControllerContainer> PlayerControllersList;
 
         /// <summary>
         /// Current working controller, that spawned and placing on scene
@@ -45,7 +45,7 @@ namespace MyPlayerControllers {
         /// <summary>
         /// Type of last spawned controller
         /// </summary>
-        public PlayerControllerContainer.PlayerControllerType CurrentControllerType
+        public BasePlayerControllerContainer.PlayerControllerType CurrentControllerType
         {
             get
             {
@@ -56,7 +56,7 @@ namespace MyPlayerControllers {
                 _currentControllerType = value;
             }
         }
-        private PlayerControllerContainer.PlayerControllerType _currentControllerType = PlayerControllerContainer.PlayerControllerType.None;
+        private BasePlayerControllerContainer.PlayerControllerType _currentControllerType = BasePlayerControllerContainer.PlayerControllerType.None;
 
         /// <summary>
         /// Position, where is spawned last controller, and where be spanw next, if you called 'SpawnNewPlayerController' function
@@ -103,7 +103,7 @@ namespace MyPlayerControllers {
         /// <param name="isRespawn">Should the function create a new object instead of the old one that could have been created earlier. If its 'true', the old controller will be destroyed</param>
         /// <param name="isUpdateSpawnPosition">Should the function update the position of Special place, in which PlayerControlled will be spawned?(true if yes, false if not) The position will be updated, only if controller will be succesfully created</param>
         /// <returns>Return the new created GameObject of PlayerController, or, if </returns>
-        public GameObject SpawnNewPlayerController(PlayerControllerContainer.PlayerControllerType typeOfNewController, bool isRespawn = true, bool isUpdateSpawnPosition = true)
+        public GameObject SpawnNewPlayerController(BasePlayerControllerContainer.PlayerControllerType typeOfNewController, bool isRespawn = true, bool isUpdateSpawnPosition = true)
         {
             if (isInitComplete)
             {
@@ -145,7 +145,7 @@ namespace MyPlayerControllers {
             {
                 Destroy(CurrentWorkingController);
                 CurrentWorkingController = null;
-                CurrentControllerType = PlayerControllerContainer.PlayerControllerType.None;
+                CurrentControllerType = BasePlayerControllerContainer.PlayerControllerType.None;
             }
         }
 

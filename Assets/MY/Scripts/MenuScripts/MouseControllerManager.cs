@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Pointer))]
+[RequireComponent(typeof(PointerVisualizer))]
 public class MouseControllerManager : MonoBehaviour
 {
 
@@ -14,15 +16,17 @@ public class MouseControllerManager : MonoBehaviour
     [SerializeField]
     private float Sensitivity;
 
-    private MyVRMenu.MenuItem LastPointedItem;
+    private MyVRMenu.MenuItem LastPointedMenuItem;
 
     private GameObject LastPointedGameObject;
+
+    private Pointer PointerInstance;
 
     private Coroutine TrackingInputEventCoroutineInstance;
 
     #region Unity functions
 
-    void OnEnable()
+    private void Start()
     {
         Initialize();
     }
@@ -60,59 +64,87 @@ public class MouseControllerManager : MonoBehaviour
 
     private void Initialize()
     {
+        PointerInstance = GetComponent<Pointer>();
+        if (PointerInstance == null)
+        {
+            Debug.LogError("Can`t find require component typeof<Pointer> for VRControllerManager! VRControllerManager will not work.");
+        }
+
+        PointerInstance.AddDelegate(Pointer.PointerEvents.HitActionObject, UpdateLastPointedItem);
+        PointerInstance.AddDelegate(Pointer.PointerEvents.HitActionObject, OnSelectButtonClick);
+
         InputData = new ControlInputData();
         InputData.ControlEventType = ClickManager.ControlEvent.activeActionEvent;
         InputData.Param = 0;
         InputData.interactiveObject = null;
+
         TrackingInputEventCoroutineInstance = StartCoroutine(TrackingInputEventCoroutine());
+    }
+
+    private void UpdateLastPointedItem(InteractiveObject oldBaseActionObject, InteractiveObject newBaseActionObject)
+    {
+        if (newBaseActionObject.GetComponent<MyVRMenu.MenuItem>() != null)
+        {
+            LastPointedMenuItem = newBaseActionObject.GetComponent<MyVRMenu.MenuItem>();
+        }
+    }
+
+    private void OnSelectButtonClick(InteractiveObject oldBaseActionObject, InteractiveObject newBaseActionObject)
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            SelectButtonClick(newBaseActionObject);
+        }
     }
 
     private void SelectButtonClick(InteractiveObject interactiveObject)
     {
-        InputData.ControlEventType = ClickManager.ControlEvent.activeActionEvent;
-        InputData.Param = 0;
-        if (interactiveObject)
+        if (ClickManager.Instance != null)
         {
-            InputData.interactiveObject = null;
-        }
-        else
-        {
+            InputData.ControlEventType = ClickManager.ControlEvent.activeActionEvent;
+            InputData.Param = 0;
             InputData.interactiveObject = interactiveObject;
+            ClickManager.Instance.ControlEventHappend(InputData);
         }
-        ClickManager.Instance.ControlEventHappend(InputData);
     }
 
     private void ShowDebug(MyVRMenu.MenuItem menuItem)
     {
-        if(menuItem != null)
+        if (MenuDebugger.Instance != null)
         {
-            if(menuItem.typeOfObject == MyVRMenu.MenuLine.TypeOfLine.firstLine)
+            if (menuItem != null)
             {
-                MenuDebugger.Instance.SetText(((SceneChangebleObject)menuItem.AttachedObject).ToString());
-                return;
+                if (menuItem.typeOfObject == MyVRMenu.MenuLine.TypeOfLine.firstLine)
+                {
+                    MenuDebugger.Instance.SetText(((SceneChangeableObject)menuItem.AttachedObject).ToString());
+                    return;
+                }
+                if (menuItem.typeOfObject == MyVRMenu.MenuLine.TypeOfLine.secondLine)
+                {
+                    MenuDebugger.Instance.SetText(((LoadedMaterial)menuItem.AttachedObject).ToString());
+                    return;
+                }
             }
-            if (menuItem.typeOfObject == MyVRMenu.MenuLine.TypeOfLine.secondLine)
-            {
-                MenuDebugger.Instance.SetText(((LoadedMaterial)menuItem.AttachedObject).ToString());
-                return;
-            }
+            MenuDebugger.Instance.EraseText();
         }
-        MenuDebugger.Instance.EraseText();
     }
 
     private void MenuRotate(InteractiveObject interactiveObject)
     {
-        InputData.ControlEventType = ClickManager.ControlEvent.menuRotate;
-        InputData.Param = Input.mouseScrollDelta.y * Sensitivity;
-        if (interactiveObject.transform.parent == null)
+        if (ClickManager.Instance != null)
         {
-            InputData.interactiveObject = null;
+            InputData.ControlEventType = ClickManager.ControlEvent.menuRotate;
+            InputData.Param = Input.mouseScrollDelta.y * Sensitivity;
+            if (interactiveObject.transform.parent == null)
+            {
+                InputData.interactiveObject = null;
+            }
+            else
+            {
+                InputData.interactiveObject = interactiveObject;
+            }
+            ClickManager.Instance.ControlEventHappend(InputData);
         }
-        else
-        {
-            InputData.interactiveObject = interactiveObject;
-        }
-        ClickManager.Instance.ControlEventHappend(InputData);
     }
 
     #endregion
@@ -125,52 +157,10 @@ public class MouseControllerManager : MonoBehaviour
         {//Tracking the click...                 
             yield return null;
 
-            if (Camera.main != null)
-            {
-                Ray ray;
-                RaycastHit hit;
-                ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-
-                if (Physics.Raycast(ray, out hit, 100)) //рисуем лучик
-                {
-                    //LinePointer.SetPosition(1, hit.point);
-
-                    if (hit.collider.gameObject.transform.parent != null)
-                    {
-                        if (hit.collider.gameObject.transform.parent.gameObject.GetComponent<MyVRMenu.MenuItem>() != null)
-                        {
-                            LastPointedItem = hit.collider.gameObject.transform.parent.gameObject.GetComponent<MyVRMenu.MenuItem>();
-                            //LastPointedItem.onPoint(LastPointedItem, true);
-
-                            LastPointedGameObject = hit.collider.gameObject;
-                        }
-                        else
-                        {
-                            if (LastPointedItem != null)
-                            {
-                                //LastPointedItem.onPoint(LastPointedItem, false);
-                            }
-                        }
-                    }
-
-                }
-                else
-                {
-                    continue;
-                }
-
-                #region select button click
-                if (Input.GetMouseButtonDown(0))
-                {
-                    SelectButtonClick(hit.collider.gameObject.GetComponent<InteractiveObject>()); //TODO переделать
-                    continue;
-                }
-                #endregion
-
                 #region rotate menu
-                if (Input.mouseScrollDelta.y != 0 && LastPointedGameObject != null)
+                if (Input.mouseScrollDelta.y != 0 && LastPointedMenuItem != null)
                 {
-                    MenuRotate(LastPointedGameObject.GetComponent<InteractiveObject>()); //TODO переделать
+                    MenuRotate(LastPointedMenuItem); //TODO переделать
                     continue;
                 }
                 #endregion
@@ -178,13 +168,13 @@ public class MouseControllerManager : MonoBehaviour
                 #region show debug
                 if (Input.GetMouseButtonDown(1))
                 {
-                    ShowDebug(LastPointedItem);
+                    ShowDebug(LastPointedMenuItem);
                     continue;
                 }
                 #endregion
 
                 //дописать еще другие клики, и события       
-            }
+            
         }
     }
 

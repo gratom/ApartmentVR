@@ -104,7 +104,7 @@ public class Loader : MonoBehaviour
         AllManagersForScene.transform.parent = managersMainGameObject.transform;
         SceneLoaderManagerGameObject.transform.parent = managersMainGameObject.transform;
         PlayerManager.transform.parent = managersMainGameObject.transform;
-        this.transform.parent = managersMainGameObject.transform;
+        transform.parent = managersMainGameObject.transform;
 
         while (!JSONMainManager.Instance.IsReady)
         {
@@ -154,7 +154,7 @@ public class Loader : MonoBehaviour
     {
         string s = Responce.Substring(Responce.IndexOf("app_name") + 11, Responce.IndexOf("\"", Responce.IndexOf("app_name") + 11) - (Responce.IndexOf("app_name") + 11));
         LoadingVisualizer.Instance.StatusBarText += "App loaded:" + s + "\n";
-        LoadingVisualizer.Instance.counter += 22;
+        LoadingVisualizer.Instance.counter += 15;
     }
 
 }

@@ -63,7 +63,7 @@ public class VRControllerManager : MonoBehaviour
     [SerializeField]
     private SteamVR_ActionSet MainMenuButtonGroupAction;
 
-    private MyVRMenu.MenuItem LastPointedMenuItem; //for rotation only
+    private MyVRMenu.MenuItem LastPointedMenuItem;
     
     private int LastCountOfControllers = -1;
 
@@ -128,10 +128,12 @@ public class VRControllerManager : MonoBehaviour
         InputData.ControlEventType = ClickManager.ControlEvent.activeActionEvent;
         InputData.Param = 0;
         InputData.interactiveObject = null;
+
         SteamVR_Input.platformer.Initialize();
         SteamVR_Input.buggy.Initialize();
         MainMenuButtonGroupAction.ActivatePrimary();
         TouchPadGroupAction.ActivatePrimary();
+
         TrackingInputEventCoroutineInstance = StartCoroutine(TrackingInputEventCoroutine());
     }
 

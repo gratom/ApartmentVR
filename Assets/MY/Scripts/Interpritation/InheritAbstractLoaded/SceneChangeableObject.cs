@@ -6,46 +6,47 @@ using UniversalAssetBundleLoader;
 /// <summary>
 /// Class
 /// </summary>
-public enum SceneChangebleObjectTypes
+public enum SceneChangeableObjectTypes
 {
     nameObject,
     typeObject,
     AssetBundleURL,
-    thumbnail
+    thumbnail,
+    materialGroupReference
 }
 
 /// <summary>
 /// Serializeble class for start setting
 /// </summary>
 [System.Serializable]
-public class SettingForFieldsInSceneChangebleObject : AbstractObjectConstructableComponentData<SceneChangebleObjectTypes> { }
+public class SettingForFieldsInSceneChangebleObject : AbstractObjectConstructableComponentData<SceneChangeableObjectTypes> { }
 
 /// <summary>
 /// Class for changeble object on scene.
 /// </summary>
 [System.Serializable]
-public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleObjectTypes>, ISceneClickable
+public class SceneChangeableObject : AbstractObjectConstructable<SceneChangeableObjectTypes>, ISceneClickable
 {
     /// <summary>
     /// Its the name of object. The name is not unique
     /// </summary>
-    public string ChangebleObjectName { get; private set; }
+    public string ChangeableObjectName { get; set; }
 
     /// <summary>
     /// The type of this object. ChangebleObject type is needed to determine what can be replaced
     /// </summary>
-    public string ChangebleObjectType { get; private set; }
+    public string ChangeableObjectType { get; set; }
 
     /// <summary>
-    /// Sprite image, that loaded before real model or texture was loaded
+    /// List of ID of material group, that can apply to this sceneChangeable
     /// </summary>
-    public Sprite PreImage { get; private set; }
+    public int[] MaterialGroupsID { get; private set; }
 
     /// <summary>
     /// Setting for initializing fields value
     /// </summary>
     [SerializeField]
-    private List<SettingForFieldsInSceneChangebleObject> settingFieldList;
+    public List<SettingForFieldsInSceneChangebleObject> settingFieldList;
 
     [SerializeField]
     private GameObject AssetGameObject;
@@ -84,7 +85,10 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
     [SerializeField]
     private RemoteAssetBundle _RemoteAssetBundleThumbnailInstance;
 
-    public AbstractObjectConstructableComponentData<int> listOfRemote;
+    /// <summary>
+    /// 
+    /// </summary>
+    public AbstractObjectConstructableComponentData<int> listOfRemote;    
 
     #region public functions
 
@@ -93,11 +97,14 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
     /// </summary>
     public override void InitDictionary()
     {
-        FunctionsDictionary = new Dictionary<SceneChangebleObjectTypes, InitFunctions>();
-        FunctionsDictionary.Add(SceneChangebleObjectTypes.nameObject, InitName);
-        FunctionsDictionary.Add(SceneChangebleObjectTypes.AssetBundleURL, InitURL);
-        FunctionsDictionary.Add(SceneChangebleObjectTypes.typeObject, InitTypeObject);
-        FunctionsDictionary.Add(SceneChangebleObjectTypes.thumbnail, IniThumbnail);
+        FunctionsDictionary = new Dictionary<SceneChangeableObjectTypes, InitFunctions>()
+        {
+            { SceneChangeableObjectTypes.nameObject, InitName },
+            { SceneChangeableObjectTypes.AssetBundleURL, InitURL },
+            { SceneChangeableObjectTypes.typeObject, InitTypeObject },
+            { SceneChangeableObjectTypes.thumbnail, InitThumbnail },
+            { SceneChangeableObjectTypes.materialGroupReference, InitMaterialGroup }
+        };
 
         if (ComponentsDataList == null)
         {
@@ -145,15 +152,6 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
     {
         if (AssetGameObject != null)
         {
-            #region debug
-
-            GameObject cord1 = new GameObject("Cub center");
-            cord1.transform.position = AssetGameObject.GetComponent<BoxCollider>().center;
-            GameObject cord2 = new GameObject("Bound center");
-            cord2.transform.position = AssetGameObject.GetComponent<Renderer>().bounds.center - AssetGameObject.transform.position;
-
-            #endregion
-
             return AssetGameObject.GetComponent<BoxCollider>().center;
         }
         return new Vector3();
@@ -243,7 +241,6 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
             if (AssetGameObject != null)
             {
                 DestroyAssetCollider();
-                float r = menuItem.MenuItemSize;
 
                 Quaternion tempQuaternion = AssetGameObject.transform.rotation;
                 AssetGameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
@@ -257,7 +254,7 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
                 if (f < vmax.y - vmin.y) { f = vmax.y - vmin.y; }
                 //if (f < vmax.z - vmin.z) { f = vmax.z - vmin.z; }
                 //так как все модели после 3D-макса криво повернуты, то высота в моделях меряется не по Y-координате, а по Z-координате.
-                float scale = f / r;
+                float scale = f / menuItem.MenuItemSize;
                 AssetGameObject.transform.localScale /= scale;
                 AssetGameObject.transform.rotation = tempQuaternion;
                 Vector3 vTemp = AssetGameObject.transform.position - coolMesh.bounds.center;
@@ -265,7 +262,7 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
             }
             else
             {
-                if(RemoteAssetBundleThumbnailInstance != null)
+                if (RemoteAssetBundleThumbnailInstance != null)
                 {
                     RemoteAssetBundleThumbnailInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
                     new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableDelegate(x => { onDrawFunction(menuItem); }));
@@ -274,7 +271,7 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
                 {
                     RemoteAssetBundleInstance.AddDelegateToEvent(AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableEvent.OnReady,
                     new AbstractRemoteLoadable.RemoteLoadable<AssetBundle>.RemoteLoadableDelegate(x => { onDrawFunction(menuItem); }));
-                }                
+                }
             }
         }
     }
@@ -287,9 +284,9 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
     {
         string sReturned = "";
         sReturned += "name on scene: " + name + "\n";
-        sReturned += "gudhub name: " + ChangebleObjectName + "\n";
+        sReturned += "gudhub name: " + ChangeableObjectName + "\n";
         sReturned += "gudhub item ID: " + ID + "\n";
-        sReturned += "type of object: " + ChangebleObjectType.ToString() + "\n";
+        sReturned += "type of object: " + ChangeableObjectType.ToString() + "\n";
         return sReturned;
     }
 
@@ -301,10 +298,10 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
 
     private void SettingListFieldToRealFields()
     {
-        ComponentsDataList = new List<AbstractObjectConstructableComponentData<SceneChangebleObjectTypes>>();
+        ComponentsDataList = new List<AbstractObjectConstructableComponentData<SceneChangeableObjectTypes>>();
         for (int i = 0; i < settingFieldList.Count; i++)
         {
-            ComponentsDataList.Add(new AbstractObjectConstructableComponentData<SceneChangebleObjectTypes>());
+            ComponentsDataList.Add(new AbstractObjectConstructableComponentData<SceneChangeableObjectTypes>());
             ComponentsDataList[i].IdField = settingFieldList[i].IdField;
             ComponentsDataList[i].valueType = settingFieldList[i].valueType;
         }
@@ -325,7 +322,7 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
         }
     }
 
-    private void IniThumbnail(int num)
+    private void InitThumbnail(int num)
     {
         try
         {
@@ -342,15 +339,32 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
 
     private void InitName(int num)
     {
-        ChangebleObjectName = ComponentsDataList[num].StringValue;
+        ChangeableObjectName = ComponentsDataList[num].StringValue;
     }
 
     private void InitTypeObject(int num)
     {
-        ChangebleObjectType = ComponentsDataList[num].StringValue;
+        ChangeableObjectType = ComponentsDataList[num].StringValue;
     }
 
-    #endregion    
+    private void InitMaterialGroup(int num)
+    {
+        if (ComponentsDataList[num] != null && ComponentsDataList[num].StringValue != null && ComponentsDataList[num].StringValue != "")
+        {
+            string[] temp = ComponentsDataList[num].StringValue.Split(',');
+            MaterialGroupsID = new int[temp.Length];
+            for (int i = 0; i < MaterialGroupsID.Length; i++)
+            {
+                MaterialGroupsID[i] = int.Parse(temp[i].Substring(temp[i].IndexOf('.') + 1));
+            }
+        }
+        else
+        {
+            MaterialGroupsID = new int[0];
+        }
+    }
+
+    #endregion
 
     private void SpawnThumbnail()
     {
@@ -386,14 +400,14 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
     /// <param name="itemInstance">object, on which cliked</param>
     public void OnMenuClick(MonoBehaviour itemInstance)
     {
-        SceneChangebleObject sTemp = itemInstance as SceneChangebleObject;
+        SceneChangeableObject sTemp = itemInstance as SceneChangeableObject;
         if (sTemp != null)
         {
             if (sTemp.AssetGameObject != null)
             {
-                SceneChangebleObject tempSceneChangable = SceneLoaderManager.Instance.SpawnSceneChangableHere(((SceneChangebleObject)MenuManager.Instance.ObjectSelected).gameObject.transform.parent, ((SceneChangebleObject)itemInstance).ID);
+                SceneChangeableObject tempSceneChangable = SceneLoaderManager.Instance.SpawnSceneChangableHere(((SceneChangeableObject)MenuManager.Instance.ObjectSelected).gameObject.transform.parent, ((SceneChangeableObject)itemInstance).ID);
                 tempSceneChangable.StartLoadAssetBundle();
-                Destroy(((SceneChangebleObject)MenuManager.Instance.ObjectSelected).gameObject);
+                Destroy(((SceneChangeableObject)MenuManager.Instance.ObjectSelected).gameObject);
                 ClickManager.Instance.ImitateClick(tempSceneChangable.AssetGameObject.GetComponent<InteractiveObject>());
             }
         }
@@ -408,13 +422,13 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
         List<MenuItem> returnedList = new List<MenuItem>();
 
         //add the other item, like this item...
-        List<SceneChangebleObject> tempSceneObjectChangeble = SceneLoaderManager.Instance.GetItemsLikeThat(this);
+        List<SceneChangeableObject> tempSceneObjectChangeble = SceneLoaderManager.Instance.GetItemsLikeThat(this);
         for (int i = 0; i < tempSceneObjectChangeble.Count; i++)
         {
             int j = i;
             MenuItem menuObject = MenuItemFactory.Instance.GetMenuItem(MenuLine.TypeOfLine.firstLine, tempSceneObjectChangeble[i]);
             menuObject.onDrawFunction = () =>
-            {                
+            {
                 tempSceneObjectChangeble[j].onDrawFunction(menuObject);
             };
             menuObject.OnActiveAction = () =>
@@ -465,4 +479,25 @@ public class SceneChangebleObject : AbstractObjectConstructable<SceneChangebleOb
 
     #endregion
 
+}
+
+[System.Serializable]
+public class SceneChangeableObjectCashed
+{
+    public string objectType;
+    public string objectName;
+    public int objectID;
+
+    public SceneChangeableObjectCashed(string _objectType, string _objectName, int _objectID)
+    {
+        objectType = _objectType;
+        objectName = _objectName;
+        objectID = _objectID;
+    }
+
+}
+
+public class ListOfSceneChangeableObjectCashed
+{
+    public List<SceneChangeableObjectCashed> sceneChangeableObjectCasheds;
 }

@@ -10,6 +10,31 @@ using System.IO;
 public class AppSetting
 {
 
+    /// <summary>
+    /// Types of loaded app
+    /// </summary>
+    public enum AppType
+    {
+        objects,
+        materials,
+        scenes,
+        materialGroup
+    }
+
+    /// <summary>
+    /// Type of this appSetting
+    /// </summary>
+    public AppType appType
+    {
+        get
+        {
+            return _appType;
+        }
+    }
+    [SerializeField]
+    [Tooltip("Type of this appSetting")]
+    private AppType _appType;
+
     [Tooltip("Name of file, where saved the JSON-data of this App")]
     /// <summary>
     /// Name of file, where be saved the JSON of this Application
@@ -22,23 +47,34 @@ public class AppSetting
     /// </summary>
     public int AppID;
 
-    [Tooltip("View ID used for show the errors in app items")]
     /// <summary>
     /// View ID used for show the errors in app items
     /// </summary>
-    public int viewID;
+    public int ViewID;
 
     /// <summary>
     /// Application data
     /// </summary>
     [HideInInspector]
-    public App AppData;
+    public App AppData
+    {
+        get
+        {
+            return _appData;
+        }
+        set
+        {
+            _appData = value;
+            UpdateViewID();
+        }
+    }
+    private App _appData;
 
     /// <summary>
     /// String for JSONdata
     /// </summary>
     [HideInInspector]
-    public string LocalStorageString;
+    public string LocalStorageString;    
 
     /// <summary>
     /// Get the state of app setting
@@ -69,7 +105,7 @@ public class AppSetting
     /// </summary>
     [HideInInspector]
     public RequestsModule requestsModule { get; private set; }
-    
+
     /// <summary>
     /// Init the request module 
     /// </summary>
@@ -83,7 +119,7 @@ public class AppSetting
     /// Try the load app data in JSON from local file
     /// </summary>
     public void TryLoadLocalStorage()
-    {        
+    {
         LocalStorageString = SaverLoaderModule.LoadMyDataFrom(Application.dataPath.Substring(0, Application.dataPath.LastIndexOf("/")) + JSONMainManager.Instance.AppDataLoaderInstance.JSONFolder + FileName);
     }
 
@@ -95,6 +131,23 @@ public class AppSetting
         SaverLoaderModule.SaveMyDataTo(Application.dataPath.Substring(0, Application.dataPath.LastIndexOf("/")) + JSONMainManager.Instance.AppDataLoaderInstance.JSONFolder + FileName, LocalStorageString);
     }
 
+    #region private functions
+
+    private void UpdateViewID()
+    {
+        if (AppData != null)
+        {
+            for (int i = 0; i < AppData.views_list.Count; i++)
+            {
+                if (AppData.views_list[i].name == "Form")
+                {                    
+                    ViewID = AppData.views_list[i].view_id;
+                }
+            }
+        }
+    }    
+
+    #endregion
 }
 
 /// <summary>
@@ -122,11 +175,24 @@ public class AppDataLoader
     /// </summary>
     public string Key;
 
+    [SerializeField]
+    [Header("Should script load the setting from disk?")]
+    /// <summary>
+    /// Load of not the setting from standart config file
+    /// </summary>
+    private bool IsLoadSettingFromDisk = false;
+
     /// <summary>
     /// Token for get the one-off access to the Application data 
     /// </summary>
     [HideInInspector]
     public string AccessToken;
+
+    /// <summary>
+    /// Setting data loaded from disk
+    /// </summary>
+    [HideInInspector]
+    public SettingFromJson.AppDataSettingJsonClass settingClassInstance;
 
     /// <summary>
     /// Constructor
@@ -142,15 +208,60 @@ public class AppDataLoader
     /// <summary>
     /// Init All request modules in all apps
     /// </summary>
-    public void InitRequestModulesHere(GameObject gameObject)
+    public void InitRequestModulesHere(GameObject gameObjectPlace)
     {
         CreateFolderForJson();
+
+        #region loading settign from config file
+
+        if (IsLoadSettingFromDisk)
+        {
+            string sTemp = SaverLoaderModule.LoadMyDataFromFile("setting.config");
+            settingClassInstance = JsonUtility.FromJson<SettingFromJson.AppDataSettingJsonClass>(sTemp);
+            
+            Key = settingClassInstance.AuthKey;
+
+            for (int i = 0; i < ListOfAppsSetting.Count; i++)
+            {
+                for(int j = 0; j < settingClassInstance.Apps.Count; j++)
+                {
+                    if (ListOfAppsSetting[i].appType.ToString() == settingClassInstance.Apps[j].AppType)
+                    {
+                        ListOfAppsSetting[i].AppID = settingClassInstance.Apps[j].AppID;
+                        break;
+                    }
+                }       
+            }
+        }
+
+        #endregion
+
+        #region saveJson to setting file
+
+        //SettingFromJson.AppDataSettingJsonClass tempSettingClass = new SettingFromJson.AppDataSettingJsonClass();
+        //tempSettingClass.AuthKey = Key;
+        //tempSettingClass.Apps = new List<SettingFromJson.App>();
+        //for (int i = 0; i < ListOfAppsSetting.Count; i++)
+        //{
+        //    tempSettingClass.Apps.Add(new SettingFromJson.App(ListOfAppsSetting[i].appType.ToString(), ListOfAppsSetting[i].AppID));
+        //    tempSettingClass.Apps[i].Fields = new List<SettingFromJson.Field>();
+        //    for (int j = 0; j < 4; j++)
+        //    {
+        //        tempSettingClass.Apps[i].Fields.Add(new SettingFromJson.Field(j * i, "Type of field"));
+        //    }
+        //}
+
+        //SaverLoaderModule.SaveMyDataToFile("setting.config", JsonUtility.ToJson(tempSettingClass));
+
+        #endregion
+
         for (int i = 0; i < ListOfAppsSetting.Count; i++)
         {
             GameObject RequestModuleGameObject = new GameObject("RequestModuleGameObject" + i.ToString());
-            RequestModuleGameObject.transform.parent = gameObject.transform;
+            RequestModuleGameObject.transform.parent = gameObjectPlace.transform;
             ListOfAppsSetting[i].InitRequestModuleHere(RequestModuleGameObject);
-        }
+        }        
+
     }
 
     /// <summary>
@@ -186,6 +297,7 @@ public class AppDataLoader
     #endregion
 
 }
+
 
 /// <summary>
 /// Main Manager for simple getting the value. Need the initialization before using. (placed in awake)
@@ -267,7 +379,7 @@ public class JSONMainManager : MonoBehaviour
                 }
             }
         }
-        Debug.Log("Item is not exist!" + "\nFile ID " + URLID);
+        //Debug.Log("Item is not exist!" + "\nFile ID " + URLID);
         return "";
     }
 
@@ -281,7 +393,7 @@ public class JSONMainManager : MonoBehaviour
                 if(AppDataLoaderInstance.ListOfAppsSetting[i].AppData.items_list[j].item_id == ID)
                 {
                     int appID = AppDataLoaderInstance.ListOfAppsSetting[i].AppData.app_id;
-                    int viewID = AppDataLoaderInstance.ListOfAppsSetting[i].viewID;
+                    int viewID = AppDataLoaderInstance.ListOfAppsSetting[i].ViewID;
                     ReturnedString += appID.ToString() + "/" + viewID.ToString() + "/" + ID.ToString();
                     return ReturnedString;
                 }

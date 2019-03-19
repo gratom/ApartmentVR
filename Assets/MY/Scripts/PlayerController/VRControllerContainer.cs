@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MyPlayerControllers;
 
-public class VRControllerContainer : PlayerControllerContainer
+public class VRControllerContainer : BasePlayerControllerContainer
 {
 
     [SerializeField]

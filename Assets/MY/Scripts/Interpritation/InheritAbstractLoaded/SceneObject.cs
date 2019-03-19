@@ -84,8 +84,7 @@ public class SceneObject : AbstractObjectConstructable<SceneObjectTypes>
     private RemoteAssetBundle _remotePreviewInstance;
 
     [Tooltip("This is a list of settings for the correct operation of the internal functions for initializing an item.\nThese settings are used to determine how to process data from JSON.")]
-    [SerializeField]
-    private List<SettingForFieldsInSceneObject> settingFieldList;
+    public List<SettingForFieldsInSceneObject> settingFieldList;
 
     public GameObject previewGameObject;
 

@@ -27,7 +27,10 @@ public class SceneLoaderManager : MonoBehaviour
     [SerializeField]
     private bool IsReinit;
 
-    private List<AbstractObjectConstructable<SceneChangebleObjectTypes>> UncashedAppDataOfSceneItems;
+    [SerializeField]
+    private bool ImportSetting;
+
+    private List<AbstractObjectConstructable<SceneChangeableObjectTypes>> UncashedAppDataOfSceneItems;
     private List<AbstractObjectConstructable<LoadedMaterialClassTypes>> UncashedAppDataOfMaterials;
     private bool isInit = false;
 
@@ -50,16 +53,16 @@ public class SceneLoaderManager : MonoBehaviour
     /// </summary>
     /// <param name="item">Instance of item for comparison</param>
     /// <returns>List of items with same type like input item</returns>
-    public List<SceneChangebleObject> GetItemsLikeThat(SceneChangebleObject item)
+    public List<SceneChangeableObject> GetItemsLikeThat(SceneChangeableObject item)
     {
-        List<SceneChangebleObject> returnedList = new List<SceneChangebleObject>();
-        if (item.ChangebleObjectType != "1")
+        List<SceneChangeableObject> returnedList = new List<SceneChangeableObject>();
+        if (item.ChangeableObjectType != "1") //TODO rework this!!!
         {
             for (int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
             {
-                if (((SceneChangebleObject)UncashedAppDataOfSceneItems[i]).ChangebleObjectType == item.ChangebleObjectType)
+                if (((SceneChangeableObject)UncashedAppDataOfSceneItems[i]).ChangeableObjectType == item.ChangeableObjectType)
                 {
-                    returnedList.Add(GetCopyOf((SceneChangebleObject)UncashedAppDataOfSceneItems[i]));
+                    returnedList.Add(GetCopyOf((SceneChangeableObject)UncashedAppDataOfSceneItems[i]));
                 }
             }
         }
@@ -71,17 +74,29 @@ public class SceneLoaderManager : MonoBehaviour
     /// </summary>
     /// <param name="item">Instance of item for searching material</param>
     /// <returns>List of LoadedMaterial that can be applyed to this item</returns>
-    public List<LoadedMaterial> GetMaterialsForThat(SceneChangebleObject item)
+    public List<LoadedMaterial> GetMaterialsForThat(SceneChangeableObject item)
     {
         List<LoadedMaterial> returnedList = new List<LoadedMaterial>();
-
-        for (int i = 0; i < UncashedAppDataOfMaterials.Count; i++)
+        if (item.MaterialGroupsID != null)
         {
-            for (int j = 0; j < ((LoadedMaterial)UncashedAppDataOfMaterials[i]).ListOfItemsFor.Length; j++)
+            for (int i = 0; i < UncashedAppDataOfMaterials.Count; i++)
             {
-                if (((LoadedMaterial)UncashedAppDataOfMaterials[i]).ListOfItemsFor[j] == item.ID)
+                for (int j = 0; j < ((LoadedMaterial)UncashedAppDataOfMaterials[i]).MaterialGroupsID.Length; j++)
                 {
-                    returnedList.Add(GetCopyOf((LoadedMaterial)UncashedAppDataOfMaterials[i]));
+                    for (int n = 0; n < item.MaterialGroupsID.Length; n++)
+                    {
+                        if (((LoadedMaterial)UncashedAppDataOfMaterials[i]).MaterialGroupsID[j] == item.MaterialGroupsID[n])
+                        {
+                            returnedList.Add(GetCopyOf((LoadedMaterial)UncashedAppDataOfMaterials[i]));
+                            i++;
+                            j = 0;
+                            break;
+                        }
+                    }
+                    if (i >= UncashedAppDataOfMaterials.Count)
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -93,15 +108,21 @@ public class SceneLoaderManager : MonoBehaviour
     /// </summary>
     /// <param name="item">Instance of item for searching material</param>
     /// <returns>Loaded material copy</returns>
-    public LoadedMaterial GetMaterialForThat(SceneChangebleObject item)
+    public LoadedMaterial GetMaterialForThat(SceneChangeableObject item)
     {
-        for (int i = 0; i < UncashedAppDataOfMaterials.Count; i++)
+        if (item.MaterialGroupsID != null)
         {
-            for (int j = 0; j < ((LoadedMaterial)UncashedAppDataOfMaterials[i]).ListOfItemsFor.Length; j++)
+            for (int i = 0; i < UncashedAppDataOfMaterials.Count; i++)
             {
-                if (((LoadedMaterial)UncashedAppDataOfMaterials[i]).ListOfItemsFor[j] == item.ID)
+                for (int j = 0; j < ((LoadedMaterial)UncashedAppDataOfMaterials[i]).MaterialGroupsID.Length; j++)
                 {
-                    return GetCopyOf((LoadedMaterial)UncashedAppDataOfMaterials[i]);
+                    for (int n = 0; n < item.MaterialGroupsID.Length; n++)
+                    {
+                        if (((LoadedMaterial)UncashedAppDataOfMaterials[i]).MaterialGroupsID[j] == item.MaterialGroupsID[n])
+                        {
+                            return GetCopyOf((LoadedMaterial)UncashedAppDataOfMaterials[i]);
+                        }
+                    }
                 }
             }
         }
@@ -114,13 +135,13 @@ public class SceneLoaderManager : MonoBehaviour
     /// <param name="parent">The Transform in which the subject with <paramref name="ID"/> will be spawned</param>
     /// <param name="ID">ID of item, that will be spawned</param>
     /// <returns>The copy of original object with same ID</returns>
-    public SceneChangebleObject SpawnSceneChangableHere(Transform parent, int ID)
+    public SceneChangeableObject SpawnSceneChangableHere(Transform parent, int ID)
     {
         for(int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
         {
             if(UncashedAppDataOfSceneItems[i].ID == ID)
             {
-                return SpawnSceneChangableHere(parent, (SceneChangebleObject)UncashedAppDataOfSceneItems[i]);
+                return SpawnSceneChangableHere(parent, (SceneChangeableObject)UncashedAppDataOfSceneItems[i]);
             }
         }
         return null;
@@ -132,9 +153,9 @@ public class SceneLoaderManager : MonoBehaviour
     /// <param name="parent">The <c>UnityEngine.Transform</c> in which the subject with <paramref name="ID"/> will be spawned</param>
     /// <param name="originalSceneChangable">The original of the object from which the copy will be made</param>
     /// <returns>The copy of original object</returns>
-    public SceneChangebleObject SpawnSceneChangableHere(Transform parent, SceneChangebleObject originalSceneChangable)
+    public SceneChangeableObject SpawnSceneChangableHere(Transform parent, SceneChangeableObject originalSceneChangable)
     {
-        SceneChangebleObject sceneChangableCopy = GetCopyOf(originalSceneChangable);
+        SceneChangeableObject sceneChangableCopy = GetCopyOf(originalSceneChangable);
         sceneChangableCopy.gameObject.transform.parent = parent;
         sceneChangableCopy.gameObject.transform.localPosition = new Vector3(0, 0, 0);
         sceneChangableCopy.gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
@@ -148,9 +169,9 @@ public class SceneLoaderManager : MonoBehaviour
     /// Replace sceneChangebleObject to new same object.
     /// </summary>
     /// <param name="sceneChangebleObject">SceneChangebleObject, that will be replaced to new same object</param>
-    public void Reinit(SceneChangebleObject sceneChangebleObject)
+    public void Reinit(SceneChangeableObject sceneChangebleObject)
     {
-        SceneChangebleObject tempSceneChangableObject = GetCopyOf(sceneChangebleObject.ID);
+        SceneChangeableObject tempSceneChangableObject = GetCopyOf(sceneChangebleObject.ID);
         if (tempSceneChangableObject != null)
         {
             sceneChangebleObject.ComponentsDataList = tempSceneChangableObject.ComponentsDataList;
@@ -170,13 +191,13 @@ public class SceneLoaderManager : MonoBehaviour
     /// </summary>
     /// <param name="ID">The ID of original object from which the copy will be made</param>
     /// <returns>Correctly made copy</returns>
-    public SceneChangebleObject GetCopyOf(int ID)
+    public SceneChangeableObject GetCopyOf(int ID)
     {
         for (int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
         {
             if (UncashedAppDataOfSceneItems[i].ID == ID)
             {
-                return GetCopyOf((SceneChangebleObject)UncashedAppDataOfSceneItems[i]);
+                return GetCopyOf((SceneChangeableObject)UncashedAppDataOfSceneItems[i]);
             }
         }
         return null;
@@ -187,13 +208,13 @@ public class SceneLoaderManager : MonoBehaviour
     /// </summary>
     /// <param name="originalSceneChangable">The original of the object from which the copy will be made</param>
     /// <returns>Correctly made copy</returns>
-    public SceneChangebleObject GetCopyOf(SceneChangebleObject originalSceneChangable)
+    public SceneChangeableObject GetCopyOf(SceneChangeableObject originalSceneChangable)
     {
         //сначала создаем объект и позиционируем его
         GameObject gTemp = new GameObject("CopyOf_" + originalSceneChangable.name);
 
         //теперь можно сделать копию SceneChangableObject
-        SceneChangebleObject sceneChangableCopy = gTemp.AddComponent<SceneChangebleObject>();
+        SceneChangeableObject sceneChangableCopy = gTemp.AddComponent<SceneChangeableObject>();
         sceneChangableCopy.ComponentsDataList = originalSceneChangable.ComponentsDataList;
         sceneChangableCopy.ID = originalSceneChangable.ID;
         sceneChangableCopy.InitDictionary();
@@ -232,11 +253,11 @@ public class SceneLoaderManager : MonoBehaviour
     public void LoadSceneObjects()
     {
         #region find sceneChangableObjects
-        SceneChangebleObject[] tempSceneChangeble;
+        SceneChangeableObject[] tempSceneChangeble;
         GameObject gPlaces = GameObject.FindGameObjectWithTag("Places");
         if (gPlaces)
         {
-            tempSceneChangeble = gPlaces.transform.GetComponentsInChildren<SceneChangebleObject>();
+            tempSceneChangeble = gPlaces.transform.GetComponentsInChildren<SceneChangeableObject>();
         }
         else
         {
@@ -254,7 +275,7 @@ public class SceneLoaderManager : MonoBehaviour
         {//перебираем все предустановленные итемы
             for (int j = 0; j < UncashedAppDataOfSceneItems.Count; j++)
             {//перебираем все скачанные и инициализированные итемы
-                if (tempSceneChangeble[i].ID == ((SceneChangebleObject)UncashedAppDataOfSceneItems[j]).ID)
+                if (tempSceneChangeble[i].ID == ((SceneChangeableObject)UncashedAppDataOfSceneItems[j]).ID)
                 {
                     if (IsReinit)
                     {
@@ -262,7 +283,7 @@ public class SceneLoaderManager : MonoBehaviour
                     }
                     else
                     {
-                        SpawnSceneChangableHere(tempSceneChangeble[i].transform.parent, (SceneChangebleObject)UncashedAppDataOfSceneItems[j]);
+                        SpawnSceneChangableHere(tempSceneChangeble[i].transform.parent, (SceneChangeableObject)UncashedAppDataOfSceneItems[j]);
                         Destroy(tempSceneChangeble[i].gameObject);
                     }
                     break;
@@ -280,11 +301,82 @@ public class SceneLoaderManager : MonoBehaviour
     {
         if (!isInit)
         {
+
+            #region Import setting from JSON
+
+            if (ImportSetting)
+            {
+
+                #region Material
+
+                int MaterialSettingIndex = 0;
+                for(int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps.Count; i++)
+                {
+                    if (JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[i].AppType == AppSetting.AppType.materials.ToString())
+                    {
+                        MaterialSettingIndex = i;
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < loadedMaterialPrefab.GetComponent<LoadedMaterial>().settingFieldList.Count; i++)
+                {                    
+                    for (int j = 0; j < JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[MaterialSettingIndex].Fields.Count; j++)
+                    {
+                        if (loadedMaterialPrefab.GetComponent<LoadedMaterial>().settingFieldList[i].valueType.ToString() == JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[MaterialSettingIndex].Fields[j].Name)
+                        {
+                            loadedMaterialPrefab.GetComponent<LoadedMaterial>().settingFieldList[i].IdField = JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[MaterialSettingIndex].Fields[j].ID;
+                            break;
+                        }
+                    }
+                }
+
+                #endregion
+
+                #region SceneChangable
+
+                int SceneChangableSettingIndex = 0;
+                for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps.Count; i++)
+                {
+                    if (JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[i].AppType == AppSetting.AppType.objects.ToString())
+                    {
+                        SceneChangableSettingIndex = i;
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < sceneChangebleObjectPrefab.GetComponent<SceneChangeableObject>().settingFieldList.Count; i++)
+                {
+                    for (int j = 0; j < JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[SceneChangableSettingIndex].Fields.Count; j++)
+                    {
+                        if (sceneChangebleObjectPrefab.GetComponent<SceneChangeableObject>().settingFieldList[i].valueType.ToString() == JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[SceneChangableSettingIndex].Fields[j].Name)
+                        {
+                            sceneChangebleObjectPrefab.GetComponent<SceneChangeableObject>().settingFieldList[i].IdField = JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[SceneChangableSettingIndex].Fields[j].ID;
+                            break;
+                        }
+                    }
+                }
+
+                #endregion
+
+            }
+
+            #endregion
+
             #region initializing LoadedMaterials
 
-            //второе приложение должно быть Materials
+            int MaterialAppIndex = 0;
+            for(int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting.Count; i++)
+            {
+                if(JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[i].appType == AppSetting.AppType.materials)
+                {
+                    MaterialAppIndex = i;
+                    break;
+                }
+            }
+
             UncashedAppDataOfMaterials = new List<AbstractObjectConstructable<LoadedMaterialClassTypes>>();
-            for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[1].AppData.items_list.Count; i++)
+            for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[MaterialAppIndex].AppData.items_list.Count; i++)
             {
                 //создаем тут итемы, по количеству в App
                 GameObject gTemp = Instantiate(loadedMaterialPrefab, this.transform);
@@ -294,7 +386,7 @@ public class SceneLoaderManager : MonoBehaviour
                 UncashedAppDataOfMaterials[i].InitDictionary();
             }
 
-            JSONMainManager.Instance.FillDataToList(UncashedAppDataOfMaterials, JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[1].AppID);
+            JSONMainManager.Instance.FillDataToList(UncashedAppDataOfMaterials, JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[MaterialAppIndex].AppID);
 
             for (int i = 0; i < UncashedAppDataOfMaterials.Count; i++)
             {
@@ -305,25 +397,71 @@ public class SceneLoaderManager : MonoBehaviour
 
             #region initializing SceneChangableObjects
 
-            //первое приложение должно быть SceneItems
-            UncashedAppDataOfSceneItems = new List<AbstractObjectConstructable<SceneChangebleObjectTypes>>();
-            for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[0].AppData.items_list.Count; i++)
+            int sceneChangableIndex = 0;
+            for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting.Count; i++)
+            {
+                if (JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[i].appType == AppSetting.AppType.objects)
+                {
+                    sceneChangableIndex = i;
+                    break;
+                }
+            }
+            
+            UncashedAppDataOfSceneItems = new List<AbstractObjectConstructable<SceneChangeableObjectTypes>>();
+            for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[sceneChangableIndex].AppData.items_list.Count; i++)
             {
                 //создаем тут итемы, по количеству в App
                 GameObject gTemp = Instantiate(sceneChangebleObjectPrefab, this.transform);
                 gTemp.name = "SceneChangeble" + i.ToString();
                 gTemp.transform.localPosition = new Vector3(0, 0, 0);
-                UncashedAppDataOfSceneItems.Add(gTemp.GetComponent<SceneChangebleObject>());
+                UncashedAppDataOfSceneItems.Add(gTemp.GetComponent<SceneChangeableObject>());
                 UncashedAppDataOfSceneItems[i].InitDictionary();
             }
             //заполняем данными
-            JSONMainManager.Instance.FillDataToList(UncashedAppDataOfSceneItems, JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[0].AppID);
+            JSONMainManager.Instance.FillDataToList(UncashedAppDataOfSceneItems, JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[sceneChangableIndex].AppID);
             //данные внутри, там, где и должны быть у всех элементов.
             //инициализируем все элементы (пока что не грузим AssetBundle)
             for (int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
             {
                 UncashedAppDataOfSceneItems[i].InitConstruct();
             }
+
+            #endregion
+
+            #region GenerateTypesSettingFile
+
+#if UNITY_EDITOR
+
+            Debug.Log("Try to generate TypesSettingFile...");
+            int typeObjectFieldID = UncashedAppDataOfSceneItems[0].GetComponent<SceneChangeableObject>().GetDataByType(SceneChangeableObjectTypes.typeObject).IdField;
+            string sOptions = "";
+            for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[sceneChangableIndex].AppData.field_list.Count; i++)
+            {
+                if (JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[sceneChangableIndex].AppData.field_list[i].field_id == typeObjectFieldID)
+                {
+                    for (int j = 0; j < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[sceneChangableIndex].AppData.field_list[i].data_model.options.Count; j++)
+                    {
+                        sOptions += float.Parse(JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[sceneChangableIndex].AppData.field_list[i].data_model.options[j].value).ToString() + "." +
+                            JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[sceneChangableIndex].AppData.field_list[i].data_model.options[j].name + ",";
+                    }
+                    Debug.Log("Successfully generated TypesSettingFile.");
+                    break;
+                }
+            }
+            SaverLoaderModule.SaveMyDataToFile("typesSetting.config", sOptions);
+
+            Debug.Log("Try to generate ObjectCasheFile...");
+            ListOfSceneChangeableObjectCashed Box = new ListOfSceneChangeableObjectCashed();
+            Box.sceneChangeableObjectCasheds = new List<SceneChangeableObjectCashed>();
+            for (int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
+            {
+                Box.sceneChangeableObjectCasheds.Add(new SceneChangeableObjectCashed(
+                    UncashedAppDataOfSceneItems[i].GetComponent<SceneChangeableObject>().ChangeableObjectType,
+                    UncashedAppDataOfSceneItems[i].GetComponent<SceneChangeableObject>().ChangeableObjectName,
+                    UncashedAppDataOfSceneItems[i].GetComponent<SceneChangeableObject>().ID));
+            }
+            SaverLoaderModule.SaveMyDataToFile("ObjectCashe.config", JsonUtility.ToJson(Box));
+#endif
 
             #endregion
 
@@ -341,12 +479,12 @@ public class SceneLoaderManager : MonoBehaviour
         MyVRMenu.MenuManager.Instance.Initialize();
         if (UnityEngine.XR.XRDevice.isPresent)
         {
-            MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.PlayerControllerContainer.PlayerControllerType.VRPlayerController);
+            MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.BasePlayerControllerContainer.PlayerControllerType.VRPlayerController);
             UnityEngine.XR.XRSettings.enabled = true;
         }
         else
         {
-            MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.PlayerControllerContainer.PlayerControllerType.DefaultPlayerController);
+            MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.BasePlayerControllerContainer.PlayerControllerType.DefaultPlayerController);
         }        
     }
 

@@ -70,6 +70,9 @@ MonoBehaviour:
   - valueType: 2
     IdField: 161882
     StringValue: 
+  - valueType: 4
+    IdField: 181163
+    StringValue: 
   _loadedMaterial: {fileID: 0}
   _remoteAssetBundleInstance:
     _URL: 

@@ -130,7 +130,7 @@ public class App
     public bool trash;
     public long last_update;
     public List<ItemsList> items_list;
-    public List<ViewList> view_list;
+    public List<ViewList> views_list;
     public List<FieldList> field_list;
     public List<FileList> file_list;
 }

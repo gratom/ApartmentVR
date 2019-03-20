@@ -59,7 +59,7 @@ namespace UniversalAssetBundleLoader
             if (RemoteItemInstance == null)
             {
                 AssetBundleCreateRequest aTemp = AssetBundle.LoadFromFileAsync(path);
-                LoadedFrom = path;                
+                LoadedFrom = path;
                 aTemp.completed += x =>
                 {
                     RemoteItemInstance = aTemp.assetBundle;
@@ -79,7 +79,6 @@ namespace UniversalAssetBundleLoader
         }
 
         #endregion
-
     }
 
 }

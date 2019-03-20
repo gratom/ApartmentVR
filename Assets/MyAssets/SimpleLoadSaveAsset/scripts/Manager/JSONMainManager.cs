@@ -255,6 +255,8 @@ public class AppDataLoader
 
         #endregion
 
+        Key = System.Uri.EscapeDataString(Key);
+
         for (int i = 0; i < ListOfAppsSetting.Count; i++)
         {
             GameObject RequestModuleGameObject = new GameObject("RequestModuleGameObject" + i.ToString());

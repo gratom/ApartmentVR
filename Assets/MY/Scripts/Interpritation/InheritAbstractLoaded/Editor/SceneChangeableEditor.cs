@@ -38,6 +38,8 @@ public class SceneChangeableEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        EditorGUI.BeginChangeCheck();
+
         EditorGUILayout.LabelField("Object ID : " + ((SceneChangeableObject)target).ID);
 
         #region CreateDropDown
@@ -55,7 +57,6 @@ public class SceneChangeableEditor : Editor
                             if (DropDownTypesDictionary[ArrayOfTypeOptions[j]].ToString() == ListBox.sceneChangeableObjectCasheds[i].objectType)
                             {
                                 currentTypeChoise = j;
-
                                 break;
                             }
                         }
@@ -64,7 +65,11 @@ public class SceneChangeableEditor : Editor
                 }
             }
             currentTypeChoise = EditorGUILayout.Popup("Type of object : ", currentTypeChoise, ArrayOfTypeOptions);
-            ((SceneChangeableObject)target).ChangeableObjectType = DropDownTypesDictionary[ArrayOfTypeOptions[currentTypeChoise]].ToString();
+            if (((SceneChangeableObject)target).ChangeableObjectType != DropDownTypesDictionary[ArrayOfTypeOptions[currentTypeChoise]].ToString())
+            {
+                Undo.RecordObject(((SceneChangeableObject)target), "Type changed");
+                ((SceneChangeableObject)target).ChangeableObjectType = DropDownTypesDictionary[ArrayOfTypeOptions[currentTypeChoise]].ToString();                
+            }
         }
         else
         {
@@ -102,8 +107,12 @@ public class SceneChangeableEditor : Editor
             {
                 if (ArrayOfOptions[currentNameChoise] == ListBox.sceneChangeableObjectCasheds[i].objectName)
                 {
-                    ((SceneChangeableObject)target).ChangeableObjectName = ListBox.sceneChangeableObjectCasheds[i].objectName;
-                    ((SceneChangeableObject)target).ID = ListBox.sceneChangeableObjectCasheds[i].objectID;
+                    if (((SceneChangeableObject)target).ID != ListBox.sceneChangeableObjectCasheds[i].objectID)
+                    {
+                        Undo.RecordObject(((SceneChangeableObject)target), "Name changed");
+                        ((SceneChangeableObject)target).ChangeableObjectName = ListBox.sceneChangeableObjectCasheds[i].objectName;
+                        ((SceneChangeableObject)target).ID = ListBox.sceneChangeableObjectCasheds[i].objectID;                        
+                    }
                     break;
                 }
             }
@@ -118,7 +127,8 @@ public class SceneChangeableEditor : Editor
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("AssetGameObject"));
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("_remoteAssetBundleInstance"), true);
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("_RemoteAssetBundleThumbnailInstance"), true);
-
+        EditorGUI.EndChangeCheck();
+        serializedObject.ApplyModifiedProperties();
     }
 
     private void TryInitDisctionary()

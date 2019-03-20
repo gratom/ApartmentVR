@@ -12,12 +12,17 @@ public class VRControllerContainer : BasePlayerControllerContainer
     [SerializeField]
     private string TelepostSurfaceTag;
 
+    [SerializeField]
+    private bool CanChangePostProcessing;
+
     private GameObject TeleportSurfaceGameObject;
 
     public override void Init()
     {
         spawnAction = () =>
         {
+            ChangePostProcessing(CanChangePostProcessing);
+
             if (TeleportingSystem != null)
             {
                 Instantiate(TeleportingSystem);
@@ -35,8 +40,8 @@ public class VRControllerContainer : BasePlayerControllerContainer
             {
                 Debug.LogError("TeleportintSystem is can not be null!");
             }
-            base.Init();
         };
+        base.Init();
     }
 
 }

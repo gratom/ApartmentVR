@@ -524,7 +524,12 @@ Prefab:
     - target: {fileID: 114043341630297878, guid: e6c37bd67c688fa4cad3213376475d2f,
         type: 2}
       propertyPath: Setting._MaxCountOfLoadingTread
-      value: 2
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114043341630297878, guid: e6c37bd67c688fa4cad3213376475d2f,
+        type: 2}
+      propertyPath: Setting._minFrameRateForLoading
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e6c37bd67c688fa4cad3213376475d2f, type: 2}

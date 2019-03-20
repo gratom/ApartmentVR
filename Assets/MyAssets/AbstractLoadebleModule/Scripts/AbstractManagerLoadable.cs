@@ -100,7 +100,7 @@ namespace AbstractRemoteLoadable
         {
             while (true)
             {
-                if (treadInstance.LoadingStack.Count > 0)
+                if (treadInstance.LoadingStack.Count > 0 && Time.unscaledDeltaTime < (1.0f / Setting.MinFrameRateForLoading))
                 {
                     //find the maximum priority
                     int index = 0;
@@ -131,8 +131,9 @@ namespace AbstractRemoteLoadable
                             fs.Close();
                         }
                     }
+                    yield return new WaitForSecondsRealtime(Random.Range(0f, Setting.MaxCountOfLoadingTread / 5f)); //TODO по возможности исправить этот элегантный костыль
                     treadInstance.LoadingStack[index].LoadItemFromFile(filePath);
-                    treadInstance.LoadingStack.RemoveAt(index);
+                    treadInstance.LoadingStack.RemoveAt(index);                    
                 }
                 else
                 {
@@ -500,6 +501,20 @@ namespace AbstractRemoteLoadable
                 return _DataStoragePath;
             }
         }
+                
+        /// <summary>
+        /// The minimum FPS for start loading next RemoteLoadable
+        /// </summary>
+        public float MinFrameRateForLoading
+        {
+            get
+            {
+                return _minFrameRateForLoading;
+            }
+        }
+        [Range(25, 120)]
+        [SerializeField]
+        private float _minFrameRateForLoading;
 
         [Header("Count of loading treads")]
         [Tooltip("Maximum number of threads involved. Some of these threads may not be used if the number of downloaded Images is less than the number of threads.")]
@@ -508,7 +523,7 @@ namespace AbstractRemoteLoadable
         /// <summary>
         /// Maximum number of threads involved.
         /// </summary>
-        private int _MaxCountOfLoadingTread;
+        private int _MaxCountOfLoadingTread;        
 
         /// <summary>
         /// Maximum number of threads involved.

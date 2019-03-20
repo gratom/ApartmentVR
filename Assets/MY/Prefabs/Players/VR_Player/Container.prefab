@@ -57,3 +57,4 @@ MonoBehaviour:
   TeleportingSystem: {fileID: 1738306981882320, guid: eaba6dd868354ad48b5e9bec9fe24a47,
     type: 2}
   TelepostSurfaceTag: teleport
+  CanChangePostProcessing: 1

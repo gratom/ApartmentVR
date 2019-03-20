@@ -55,3 +55,4 @@ MonoBehaviour:
     type: 2}
   controllerType: 2
   TelepostSurfaceTag: teleport
+  CanChangePostProcessing: 1

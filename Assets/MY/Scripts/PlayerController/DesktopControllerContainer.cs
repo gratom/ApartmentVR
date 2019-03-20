@@ -9,12 +9,16 @@ public class DesktopControllerContainer : BasePlayerControllerContainer
     [SerializeField]
     private string TelepostSurfaceTag;
 
+    [SerializeField]
+    private bool CanChangePostProcessing;
+
     private GameObject TeleportSurfaceGameObject;
 
     public override void Init()
     {
         spawnAction = () =>
         {
+            ChangePostProcessing(CanChangePostProcessing);
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -24,8 +28,8 @@ public class DesktopControllerContainer : BasePlayerControllerContainer
             {
                 Destroy(TeleportSurfaceGameObject);
             }
-            base.Init();
         };
+        base.Init();
     }
 
 }

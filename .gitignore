@@ -9,9 +9,6 @@ LoadedAssetBundles/
 ExportedObj/
 obj/
 *.exe
-*.gif
-*.png
-*.svd
 *.userprefs
 /*.csproj
 *.pidb

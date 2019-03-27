@@ -16,9 +16,11 @@ namespace MyVRMenu
         /// </summary>
         public static MenuItemFactory Instance { get; private set; }
 
-        public List<MenuItem> ListOfStandartItems;
+        public List<BaseMenuItemContainer> ListOfStandartItems;
 
-        private Dictionary<MenuLine.TypeOfLine, MenuItem> DictionatyOfStandartItems;
+        private Dictionary<string, BaseMenuItemContainer> DictionatyOfStandartItems;
+
+        private bool IsReady;
 
         #region Unity functions
 
@@ -31,16 +33,19 @@ namespace MyVRMenu
 
         #region public functions
 
-        public MenuItem GetMenuItem(MenuLine.TypeOfLine typeOfLine, MonoBehaviour AttachedObject)
+        public MenuItem GetMenuItem(string ContainerName, MonoBehaviour AttachedObject)
         {
-            MenuItem menuObject = Instantiate(DictionatyOfStandartItems[typeOfLine]);
-            if (typeOfLine == MenuLine.TypeOfLine.secondLine)
+            if (IsReady)
             {
-                menuObject.effectGameObject.transform.GetChild(0).GetComponent<TextMesh>().text = ((LoadedMaterial)AttachedObject).LoadedMaterialName; // ужасный костыль, убрать
+                if (DictionatyOfStandartItems.ContainsKey(ContainerName))
+                {
+                    return DictionatyOfStandartItems[ContainerName].Init(AttachedObject);
+                }
+                Debug.LogError("MenuItem with this name is not exist. Name : " + ContainerName);
+                return null;
             }
-            menuObject.typeOfObject = typeOfLine;
-            menuObject.AttachedObject = AttachedObject;
-            return menuObject;
+            Debug.LogError("You tried to use not ready MenuItemFactory class");
+            return null;
         }
 
         #endregion
@@ -53,11 +58,20 @@ namespace MyVRMenu
             {
                 Instance = this;
             }
-            DictionatyOfStandartItems = new Dictionary<MenuLine.TypeOfLine, MenuItem>();
+            DictionatyOfStandartItems = new Dictionary<string, BaseMenuItemContainer>();
             for (int i = 0; i < ListOfStandartItems.Count; i++)
             {
-                DictionatyOfStandartItems.Add(ListOfStandartItems[i].typeOfObject, ListOfStandartItems[i]);
+                if (!DictionatyOfStandartItems.ContainsKey(ListOfStandartItems[i].ContainerName))
+                {
+                    DictionatyOfStandartItems.Add(ListOfStandartItems[i].ContainerName, ListOfStandartItems[i]);
+                }
+                else
+                {
+                    Debug.LogError("Founded two container with similar names. Change one of this names!");
+                    return;
+                }
             }
+            IsReady = true;
         }
 
         #endregion

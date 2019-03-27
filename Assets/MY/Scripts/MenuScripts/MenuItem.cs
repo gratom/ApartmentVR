@@ -21,6 +21,8 @@ namespace MyVRMenu
 
         public GameObject effectGameObject;
 
+        public TextMesh VisibleName;
+
         public Animator animator;
 
         #region Delegates

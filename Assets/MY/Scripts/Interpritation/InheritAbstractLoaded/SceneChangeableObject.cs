@@ -45,6 +45,11 @@ public class SceneChangeableObject : AbstractObjectConstructable<SceneChangeable
     public int[] MaterialGroupsID { get; private set; }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public int CurrentGroupMaterialID { get; private set; }
+
+    /// <summary>
     /// Setting for initializing fields value
     /// </summary>
     [SerializeField]
@@ -91,7 +96,7 @@ public class SceneChangeableObject : AbstractObjectConstructable<SceneChangeable
     /// 
     /// </summary>
     public AbstractObjectConstructableComponentData<int> listOfRemote;
-    
+
 
     #region public functions
 
@@ -293,6 +298,10 @@ public class SceneChangeableObject : AbstractObjectConstructable<SceneChangeable
         return sReturned;
     }
 
+    public void SetMaterialGroupID(MaterialGroup materialGroupInstance)
+    {
+        CurrentGroupMaterialID = materialGroupInstance.ID;
+    }
     #endregion
 
     #region private functions
@@ -360,6 +369,7 @@ public class SceneChangeableObject : AbstractObjectConstructable<SceneChangeable
             {
                 MaterialGroupsID[i] = int.Parse(temp[i].Substring(temp[i].IndexOf('.') + 1));
             }
+            CurrentGroupMaterialID = MaterialGroupsID[0];
         }
         else
         {
@@ -429,7 +439,7 @@ public class SceneChangeableObject : AbstractObjectConstructable<SceneChangeable
         for (int i = 0; i < tempSceneObjectChangeble.Count; i++)
         {
             int j = i;
-            MenuItem menuObject = MenuItemFactory.Instance.GetMenuItem(MenuLine.TypeOfLine.firstLine, tempSceneObjectChangeble[i]);
+            MenuItem menuObject = MenuItemFactory.Instance.GetMenuItem("menuItemForSceneChangeable", tempSceneObjectChangeble[i]);
             menuObject.onDrawFunction = () =>
             {
                 tempSceneObjectChangeble[j].onDrawFunction(menuObject);
@@ -451,12 +461,40 @@ public class SceneChangeableObject : AbstractObjectConstructable<SceneChangeable
             returnedList.Add(menuObject);
         }
 
+        //group of materials
+        List<MaterialGroup> tempMaterialGroup = SceneLoaderManager.Instance.GetMaterialGroupForThat(this);
+        for (int i = 0; i < tempMaterialGroup.Count; i++)
+        {
+            MenuItem menuObject = MenuItemFactory.Instance.GetMenuItem("menuItemForMaterialGroup", tempMaterialGroup[i]);
+            int j = i;
+            menuObject.onDrawFunction = () =>
+            {
+
+            };
+            menuObject.OnActiveAction = () =>
+            {
+                SetMaterialGroupID(tempMaterialGroup[j]);
+                if (MenuManager.Instance.ObjectSelected as SceneChangeableObject)
+                {
+                    ClickManager.Instance.ImitateClick(((SceneChangeableObject)MenuManager.Instance.ObjectSelected).AssetGameObject.GetComponent<InteractiveObject>());
+                }
+            };
+            menuObject.OnPointerHover = () =>
+            {
+
+            };
+            menuObject.OnPointerLeft = () =>
+            {
+
+            };
+            returnedList.Add(menuObject);
+        }
+
         //add the textures
-        List<LoadedMaterial> tempLoadedMeterial = SceneLoaderManager.Instance.GetMaterialsForThat(this);
+        List<LoadedMaterial> tempLoadedMeterial = SceneLoaderManager.Instance.GetMaterialsForThat(CurrentGroupMaterialID);
         for (int i = 0; i < tempLoadedMeterial.Count; i++)
         {
-            MenuItem menuObject = MenuItemFactory.Instance.GetMenuItem(MenuLine.TypeOfLine.secondLine, tempLoadedMeterial[i]);
-            menuObject.AttachedObject = tempLoadedMeterial[i];
+            MenuItem menuObject = MenuItemFactory.Instance.GetMenuItem("menuItemForLoadedMaterial", tempLoadedMeterial[i]);
             int j = i;
             menuObject.onDrawFunction = () =>
             {

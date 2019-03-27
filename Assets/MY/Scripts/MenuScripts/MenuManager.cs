@@ -27,13 +27,9 @@ namespace MyVRMenu
         public enum TypeOfLine
         {
             firstLine,
-            secondLine
+            secondLine,
+            thirdLine
         }
-
-        /// <summary>
-        /// Prefab for line on menu
-        /// </summary>
-        public GameObject PrefabLine;
 
         /// <summary>
         /// Distance to line
@@ -136,7 +132,7 @@ namespace MyVRMenu
                     if (menuItems[i].typeOfObject == typeLine)
                     {
                         MenuItems.Add(menuItems[i]);
-                        CreateMenuObjectAtPosition(menuItems[i], pos, MenuManager.Instance.menuPosition);
+                        CreateMenuObjectAtPosition(menuItems[i], pos, atPosition);
                         UpdateItemVisible(MenuItems[MenuItems.Count - 1]);
                         pos++;
                     }

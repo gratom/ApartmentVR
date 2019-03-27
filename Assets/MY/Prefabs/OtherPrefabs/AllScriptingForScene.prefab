@@ -337,13 +337,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MenuPosition: {fileID: 1664161085393104}
   MenuLines:
-  - PrefabLine: {fileID: 1513197308583808, guid: d1ecfad1f9b6c2d45b43a0354b9575c0,
-      type: 2}
-    LineDistance: 0.6
+  - LineDistance: 0.6
     StartAngle: 35
     FinishAngle: 145
     AngleForEachSegment: 15
-    LineAngle: 0
+    LineAngle: 8
     typeLine: 0
     scaleForItems: 0.06
     RotationImpuls: 0
@@ -378,14 +376,51 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     _CurrentLineRotation: 0
-  - PrefabLine: {fileID: 1179197410317548, guid: 81d2f4f7d2ea2c24aa5950f2f36680d3,
-      type: 2}
-    LineDistance: 0.5
+  - LineDistance: 0.55
     StartAngle: 35
     FinishAngle: 145
     AngleForEachSegment: 15
-    LineAngle: -23
+    LineAngle: -20
     typeLine: 1
+    scaleForItems: 0.06
+    RotationImpuls: 0
+    DecreaseImpulsCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0.5
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      - serializedVersion: 2
+        time: 0.6
+        value: 0.95
+        inSlope: -0.009014638
+        outSlope: -0.009014638
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 35.099464
+        value: 0.49487102
+        inSlope: -0.05252185
+        outSlope: -0.05252185
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 40
+        value: 0.098077394
+        inSlope: -0.103982374
+        outSlope: -0.103982374
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    _CurrentLineRotation: 0
+  - LineDistance: 0.6
+    StartAngle: 35
+    FinishAngle: 145
+    AngleForEachSegment: 15
+    LineAngle: -5
+    typeLine: 2
     scaleForItems: 0.06
     RotationImpuls: 0
     DecreaseImpulsCurve:
@@ -531,8 +566,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ListOfStandartItems:
-  - {fileID: 114546172019175854, guid: d1ecfad1f9b6c2d45b43a0354b9575c0, type: 2}
-  - {fileID: 114806727747802982, guid: 81d2f4f7d2ea2c24aa5950f2f36680d3, type: 2}
+  - {fileID: 114149438964841906, guid: 8112fb483306a524ebe92a147f7f8ea9, type: 2}
+  - {fileID: 114265019023921262, guid: c6caadc507a380f47ae09cfefd7fc3fc, type: 2}
+  - {fileID: 114860480324342572, guid: e0eba545bf8785544a041c2ce650707c, type: 2}
 --- !u!114 &114946488241790100
 MonoBehaviour:
   m_ObjectHideFlags: 1

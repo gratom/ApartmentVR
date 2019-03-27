@@ -10577,6 +10577,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551600
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -10589,6 +10591,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -10670,6 +10680,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548395
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -10682,6 +10694,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -10887,6 +10907,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548396
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -10906,6 +10928,14 @@ MonoBehaviour:
     _IsReady: 0
     _Priority: 0
     _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
 --- !u!114 &114045729585177130
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10918,6 +10948,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548370
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -10930,6 +10962,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -10980,6 +11020,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551544
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -10992,6 +11034,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -11166,6 +11216,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 549600
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -11178,6 +11230,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -11538,6 +11598,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548358
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -11550,6 +11612,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -11600,6 +11670,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548359
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -11619,6 +11691,14 @@ MonoBehaviour:
     _IsReady: 0
     _Priority: 0
     _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
 --- !u!114 &114114847764461336
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11631,6 +11711,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 549756
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -11643,6 +11725,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -11879,6 +11969,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551229
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -11891,6 +11983,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -11941,6 +12041,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548383
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -11960,6 +12062,14 @@ MonoBehaviour:
     _IsReady: 0
     _Priority: 0
     _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
 --- !u!114 &114158046364229298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11972,6 +12082,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551628
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -11984,6 +12096,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -12065,6 +12185,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548397
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -12084,6 +12206,14 @@ MonoBehaviour:
     _IsReady: 0
     _Priority: 0
     _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
 --- !u!114 &114165013040062190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12096,6 +12226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551230
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -12108,6 +12240,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -12406,6 +12546,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548391
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -12418,6 +12560,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -12946,6 +13096,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548362
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -12958,6 +13110,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -13011,6 +13171,10 @@ MonoBehaviour:
     type: 2}
   loadedMaterialPrefab: {fileID: 1850653123339418, guid: 70203aae64240b04c8b5bddf926aa190,
     type: 2}
+  materialGroupPrefab: {fileID: 1403321705042250, guid: 7521aecd76f7eda4c875290ed24b7598,
+    type: 2}
+  IsReinit: 0
+  ImportSetting: 0
 --- !u!114 &114300947309437262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13209,6 +13373,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548387
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -13221,6 +13387,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -13302,6 +13476,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548361
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -13321,6 +13497,14 @@ MonoBehaviour:
     _IsReady: 0
     _Priority: 0
     _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
 --- !u!114 &114346374319570472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13333,6 +13517,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548351
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -13345,6 +13531,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -13519,6 +13713,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548357
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -13531,6 +13727,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -13612,6 +13816,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548389
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -13624,6 +13830,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -13860,6 +14074,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551150
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -13872,6 +14088,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -14015,6 +14239,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 552422
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -14034,6 +14260,14 @@ MonoBehaviour:
     _IsReady: 0
     _Priority: 0
     _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
 --- !u!114 &114431954338359390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14046,6 +14280,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548381
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -14058,6 +14294,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -14201,6 +14445,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548811
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -14213,6 +14459,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -14263,6 +14517,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551375
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -14282,6 +14538,14 @@ MonoBehaviour:
     _IsReady: 0
     _Priority: 0
     _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
 --- !u!114 &114452162652988584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14294,6 +14558,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 552423
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -14306,6 +14572,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -14356,6 +14630,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548356
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -14368,6 +14644,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -14449,6 +14733,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548812
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -14461,6 +14747,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -14480,6 +14774,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551757
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -14499,6 +14795,14 @@ MonoBehaviour:
     _IsReady: 0
     _Priority: 0
     _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
 --- !u!114 &114471446355641750
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14511,6 +14815,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 552421
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -14523,6 +14829,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -15452,6 +15766,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548382
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -15471,6 +15787,14 @@ MonoBehaviour:
     _IsReady: 0
     _Priority: 0
     _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
 --- !u!114 &114563135405832062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15483,6 +15807,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548380
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -15495,6 +15821,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -15576,6 +15910,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548384
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -15588,6 +15924,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -15681,6 +16025,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551648
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -15693,6 +16039,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -15743,6 +16097,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551376
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -15755,6 +16111,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -15960,6 +16324,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548911
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -15972,6 +16338,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -16084,6 +16458,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551830
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -16096,6 +16472,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -16270,6 +16654,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548369
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -16282,6 +16668,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -16332,6 +16726,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 552416
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -16344,6 +16740,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -16468,6 +16872,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551502
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -16480,6 +16886,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -16654,6 +17068,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548368
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -16666,6 +17082,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -16747,6 +17171,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548392
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -16766,6 +17192,14 @@ MonoBehaviour:
     _IsReady: 0
     _Priority: 0
     _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
 --- !u!114 &114738385770904908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -16778,6 +17212,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 552412
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -16790,6 +17226,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -16819,6 +17263,13 @@ MonoBehaviour:
     LineAngle: 0
     typeLine: 0
     scaleForItems: 0.06
+    RotationImpuls: 0
+    DecreaseImpulsCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     _CurrentLineRotation: 0
   - PrefabLine: {fileID: 1179197410317548, guid: 81d2f4f7d2ea2c24aa5950f2f36680d3,
       type: 2}
@@ -16829,6 +17280,30 @@ MonoBehaviour:
     LineAngle: -25
     typeLine: 1
     scaleForItems: 0.06
+    RotationImpuls: 0
+    DecreaseImpulsCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    _CurrentLineRotation: 0
+  - PrefabLine: {fileID: 1544047122839288, guid: 80a73d20283bfe546af4c6bb8d389bb9,
+      type: 2}
+    LineDistance: 0.4
+    StartAngle: 30
+    FinishAngle: 150
+    AngleForEachSegment: 20
+    LineAngle: -25
+    typeLine: 2
+    scaleForItems: 0.06
+    RotationImpuls: 0
+    DecreaseImpulsCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     _CurrentLineRotation: 0
 --- !u!114 &114743499753868996
 MonoBehaviour:
@@ -17028,6 +17503,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551269
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -17040,6 +17517,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -17152,6 +17637,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548363
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -17164,6 +17651,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -17431,6 +17926,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548379
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -17443,6 +17940,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -17524,6 +18029,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 551406
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -17536,6 +18043,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -17617,6 +18132,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548360
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -17629,6 +18146,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -17865,6 +18390,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548996
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -17877,6 +18404,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -18609,6 +19144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548390
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -18621,6 +19158,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -18733,6 +19278,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548385
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -18745,6 +19292,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -18981,6 +19536,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548386
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -18993,6 +19550,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -19167,6 +19732,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548589
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -19186,6 +19753,14 @@ MonoBehaviour:
     _IsReady: 0
     _Priority: 0
     _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
 --- !u!114 &114980686264771668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19198,6 +19773,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 555151
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -19210,6 +19787,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 
@@ -19384,6 +19969,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 548393
+  ChangeableObjectName: 
+  ChangeableObjectType: 
   settingFieldList:
   - valueType: 0
     IdField: 161875
@@ -19396,6 +19983,14 @@ MonoBehaviour:
     StringValue: 
   AssetGameObject: {fileID: 0}
   _remoteAssetBundleInstance:
+    _URL: 
+    _ParentItemURL: 
+    _Name: 
+    _LoadedFrom: 
+    _IsReady: 0
+    _Priority: 0
+    _RemoteItemInstance: {fileID: 0}
+  _RemoteAssetBundleThumbnailInstance:
     _URL: 
     _ParentItemURL: 
     _Name: 

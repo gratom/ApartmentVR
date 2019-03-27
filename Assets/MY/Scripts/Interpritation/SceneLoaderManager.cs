@@ -6,14 +6,14 @@ using UniversalAssetBundleLoader;
 /// <summary>
 /// Class for managment of scene loading and dynamic creating and replacing items on this scene
 /// </summary>
-public class SceneLoaderManager : MonoBehaviour 
+public class SceneLoaderManager : MonoBehaviour
 {
 
     /// <summary>
     /// Singleton
     /// </summary>
     public static SceneLoaderManager Instance { get; private set; }
-    
+
     [Tooltip("This prefab used for replacing and spawning new items typeof SceneChangableObject")]
     [Header("Prefab for SceneChangableObjects")]
     [SerializeField]
@@ -24,6 +24,11 @@ public class SceneLoaderManager : MonoBehaviour
     [SerializeField]
     private GameObject loadedMaterialPrefab;
 
+    [Tooltip("This prefab used for spawning Materials Group")]
+    [Header("Prefab for MaterialGroup")]
+    [SerializeField]
+    private GameObject materialGroupPrefab;
+
     [SerializeField]
     private bool IsReinit;
 
@@ -32,6 +37,7 @@ public class SceneLoaderManager : MonoBehaviour
 
     private List<AbstractObjectConstructable<SceneChangeableObjectTypes>> UncashedAppDataOfSceneItems;
     private List<AbstractObjectConstructable<LoadedMaterialClassTypes>> UncashedAppDataOfMaterials;
+    private List<AbstractObjectConstructable<MaterialGroupClassTypes>> UncashedAppDataOfMaterialGroups;
     private bool isInit = false;
 
     #region Unity functions
@@ -70,10 +76,35 @@ public class SceneLoaderManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Get the list of materials, typeof(LoadedMaterial), that can be applyed to this item
+    /// Get list of materials group, typeof(MaterialsGroup), that can be applied to this item
+    /// </summary>
+    /// <param name="item">Instance of item for searching material group</param>
+    /// <returns>List of Material Group, that can be applied to this item</returns>
+    public List<MaterialGroup> GetMaterialGroupForThat(SceneChangeableObject item)
+    {
+        List<MaterialGroup> returnedList = new List<MaterialGroup>();
+        if (item.MaterialGroupsID != null)
+        {
+            for (int i = 0; i < UncashedAppDataOfMaterialGroups.Count; i++)
+            {
+                for (int j = 0; j < item.MaterialGroupsID.Length; j++)
+                {
+                    if (UncashedAppDataOfMaterialGroups[i].ID == item.MaterialGroupsID[j])
+                    {
+                        returnedList.Add(GetCopyOf((MaterialGroup)UncashedAppDataOfMaterialGroups[i]));
+                        break;
+                    }
+                }
+            }
+        }
+        return returnedList;
+    }
+
+    /// <summary>
+    /// Get the list of materials, typeof(LoadedMaterial), that can be applied to this item
     /// </summary>
     /// <param name="item">Instance of item for searching material</param>
-    /// <returns>List of LoadedMaterial that can be applyed to this item</returns>
+    /// <returns>List of LoadedMaterial that can be applied to this item</returns>
     public List<LoadedMaterial> GetMaterialsForThat(SceneChangeableObject item)
     {
         List<LoadedMaterial> returnedList = new List<LoadedMaterial>();
@@ -104,6 +135,28 @@ public class SceneLoaderManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Get the list of materials belong unique material group, type(LoadedMaterial)
+    /// </summary>
+    /// <param name="materialGroupID">Unique ID of Material Group</param>
+    /// <returns>List of LoadedMaterial belong unique material group id</returns>
+    public List<LoadedMaterial> GetMaterialsForThat(int materialGroupID)
+    {
+        List<LoadedMaterial> returnedList = new List<LoadedMaterial>();
+        for (int i = 0; i < UncashedAppDataOfMaterials.Count; i++)
+        {
+            for (int j = 0; j < ((LoadedMaterial)UncashedAppDataOfMaterials[i]).MaterialGroupsID.Length; j++)
+            {
+                if(((LoadedMaterial)UncashedAppDataOfMaterials[i]).MaterialGroupsID[j] == materialGroupID)
+                {
+                    returnedList.Add(GetCopyOf((LoadedMaterial)UncashedAppDataOfMaterials[i]));
+                    break;
+                }
+            }
+        }
+        return returnedList;
+    }
+
+    /// <summary>
     /// Returns the first suitable material for this object.
     /// </summary>
     /// <param name="item">Instance of item for searching material</param>
@@ -126,7 +179,7 @@ public class SceneLoaderManager : MonoBehaviour
                 }
             }
         }
-        return null;        
+        return null;
     }
 
     /// <summary>
@@ -137,9 +190,9 @@ public class SceneLoaderManager : MonoBehaviour
     /// <returns>The copy of original object with same ID</returns>
     public SceneChangeableObject SpawnSceneChangableHere(Transform parent, int ID)
     {
-        for(int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
+        for (int i = 0; i < UncashedAppDataOfSceneItems.Count; i++)
         {
-            if(UncashedAppDataOfSceneItems[i].ID == ID)
+            if (UncashedAppDataOfSceneItems[i].ID == ID)
             {
                 return SpawnSceneChangableHere(parent, (SceneChangeableObject)UncashedAppDataOfSceneItems[i]);
             }
@@ -228,6 +281,24 @@ public class SceneLoaderManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="materialGroup"></param>
+    /// <returns></returns>
+    public MaterialGroup GetCopyOf(MaterialGroup originalMaterialGroup)
+    {
+        GameObject gTemp = new GameObject("CopyOf_" + originalMaterialGroup.name);
+
+        MaterialGroup materialGroupCopy = gTemp.AddComponent<MaterialGroup>();
+        materialGroupCopy.ComponentsDataList = originalMaterialGroup.ComponentsDataList;
+        materialGroupCopy.ID = originalMaterialGroup.ID;
+        materialGroupCopy.InitDictionary();
+        materialGroupCopy.InitConstruct();
+
+        return materialGroupCopy;
+    }
+
+    /// <summary>
     /// Return the full copy of <paramref name="originalLoadedMaterial">original</paramref> object
     /// </summary>
     /// <param name="originalLoadedMaterial">The original of the object from which the copy will be made</param>
@@ -293,7 +364,7 @@ public class SceneLoaderManager : MonoBehaviour
         StartCoroutine(WaitFor(2));
         #endregion
     }
-    
+
     /// <summary>
     /// Initiating this manager
     /// </summary>
@@ -310,7 +381,7 @@ public class SceneLoaderManager : MonoBehaviour
                 #region Material
 
                 int MaterialSettingIndex = 0;
-                for(int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps.Count; i++)
+                for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps.Count; i++)
                 {
                     if (JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[i].AppType == AppSetting.AppType.materials.ToString())
                     {
@@ -320,7 +391,7 @@ public class SceneLoaderManager : MonoBehaviour
                 }
 
                 for (int i = 0; i < loadedMaterialPrefab.GetComponent<LoadedMaterial>().settingFieldList.Count; i++)
-                {                    
+                {
                     for (int j = 0; j < JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[MaterialSettingIndex].Fields.Count; j++)
                     {
                         if (loadedMaterialPrefab.GetComponent<LoadedMaterial>().settingFieldList[i].valueType.ToString() == JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[MaterialSettingIndex].Fields[j].Name)
@@ -359,6 +430,30 @@ public class SceneLoaderManager : MonoBehaviour
 
                 #endregion
 
+                #region Material Group
+                int MaterialGroupSettingIndex = 0;
+                for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps.Count; i++)
+                {
+                    if (JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[i].AppType == AppSetting.AppType.materialGroup.ToString())
+                    {
+                        MaterialGroupSettingIndex = i;
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < materialGroupPrefab.GetComponent<MaterialGroup>().settingFieldList.Count; i++)
+                {
+                    for (int j = 0; j < JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[MaterialGroupSettingIndex].Fields.Count; j++)
+                    {
+                        if (materialGroupPrefab.GetComponent<MaterialGroup>().settingFieldList[i].valueType.ToString() == JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[MaterialGroupSettingIndex].Fields[j].Name)
+                        {
+                            materialGroupPrefab.GetComponent<MaterialGroup>().settingFieldList[i].IdField = JSONMainManager.Instance.AppDataLoaderInstance.settingClassInstance.Apps[MaterialGroupSettingIndex].Fields[j].ID;
+                            break;
+                        }
+                    }
+                }
+                #endregion
+
             }
 
             #endregion
@@ -366,9 +461,9 @@ public class SceneLoaderManager : MonoBehaviour
             #region initializing LoadedMaterials
 
             int MaterialAppIndex = 0;
-            for(int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting.Count; i++)
+            for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting.Count; i++)
             {
-                if(JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[i].appType == AppSetting.AppType.materials)
+                if (JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[i].appType == AppSetting.AppType.materials)
                 {
                     MaterialAppIndex = i;
                     break;
@@ -406,7 +501,7 @@ public class SceneLoaderManager : MonoBehaviour
                     break;
                 }
             }
-            
+
             UncashedAppDataOfSceneItems = new List<AbstractObjectConstructable<SceneChangeableObjectTypes>>();
             for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[sceneChangableIndex].AppData.items_list.Count; i++)
             {
@@ -426,6 +521,36 @@ public class SceneLoaderManager : MonoBehaviour
                 UncashedAppDataOfSceneItems[i].InitConstruct();
             }
 
+            #endregion
+
+            #region Initializing Material Group
+            int MaterialGroupAppIndex = 0;
+            for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting.Count; i++)
+            {
+                if (JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[i].appType == AppSetting.AppType.materialGroup)
+                {
+                    MaterialGroupAppIndex = i;
+                    break;
+                }
+            }
+
+            UncashedAppDataOfMaterialGroups = new List<AbstractObjectConstructable<MaterialGroupClassTypes>>();
+            for (int i = 0; i < JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[MaterialGroupAppIndex].AppData.items_list.Count; i++)
+            {
+                //создаем тут итемы, по количеству в App
+                GameObject gTemp = Instantiate(materialGroupPrefab, this.transform);
+                gTemp.name = "MaterialGroup" + i.ToString();
+                gTemp.transform.localPosition = new Vector3(0, 0, 0);
+                UncashedAppDataOfMaterialGroups.Add(gTemp.GetComponent<MaterialGroup>());
+                UncashedAppDataOfMaterialGroups[i].InitDictionary();
+            }
+
+            JSONMainManager.Instance.FillDataToList(UncashedAppDataOfMaterialGroups, JSONMainManager.Instance.AppDataLoaderInstance.ListOfAppsSetting[MaterialGroupAppIndex].AppID);
+
+            for (int i = 0; i < UncashedAppDataOfMaterialGroups.Count; i++)
+            {
+                UncashedAppDataOfMaterialGroups[i].InitConstruct();
+            }
             #endregion
 
             #region GenerateTypesSettingFile
@@ -465,7 +590,7 @@ public class SceneLoaderManager : MonoBehaviour
 
             #endregion
 
-            isInit = true;           
+            isInit = true;
         }
     }
 
@@ -485,7 +610,7 @@ public class SceneLoaderManager : MonoBehaviour
         else
         {
             MyPlayerControllers.PlayerManager.Instance.SpawnNewPlayerController(MyPlayerControllers.BasePlayerControllerContainer.PlayerControllerType.DefaultPlayerController);
-        }        
+        }
     }
 
     #endregion

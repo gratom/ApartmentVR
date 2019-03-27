@@ -46,7 +46,19 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
     /// <summary>
     /// List of ID of material group in which this material added
     /// </summary>
-    public int[] MaterialGroupsID { get; private set; }
+    public int[] MaterialGroupsID
+    {
+        get
+        {
+            return _materialGroupsID;
+        }
+        private set
+        {
+            _materialGroupsID = value;
+        }
+    }
+    [SerializeField]
+    private int[] _materialGroupsID;
 
     [Tooltip("This is a list of settings for the correct operation of the internal functions for initializing an item.\nThese settings are used to determine how to process data from JSON.")]
     public List<SettingForFieldsInLoadedMaterial> settingFieldList;
@@ -83,7 +95,7 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
         }
     }
     [SerializeField]
-    private RemoteAssetBundle _remoteAssetBundleInstance;
+    private RemoteAssetBundle _remoteAssetBundleInstance;    
 
     #region public functions
 
@@ -105,7 +117,7 @@ public class LoadedMaterial : AbstractObjectConstructable<LoadedMaterialClassTyp
             SettingListFieldToRealFields();
         }
     }
-        
+
     /// <summary>
     /// The Initializing functions. Make the initialization by data from ComponentsDataList.
     /// </summary>

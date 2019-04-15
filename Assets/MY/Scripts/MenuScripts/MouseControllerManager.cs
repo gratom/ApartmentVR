@@ -40,7 +40,7 @@ public class MouseControllerManager : MonoBehaviour
     /// </summary>
     public void StopController()
     {
-        if(TrackingInputEventCoroutineInstance != null)
+        if (TrackingInputEventCoroutineInstance != null)
         {
             StopCoroutine(TrackingInputEventCoroutineInstance);
             TrackingInputEventCoroutineInstance = null;
@@ -52,14 +52,14 @@ public class MouseControllerManager : MonoBehaviour
     /// </summary>
     public void StartController()
     {
-        if(TrackingInputEventCoroutineInstance == null)
+        if (TrackingInputEventCoroutineInstance == null)
         {
             StartCoroutine(TrackingInputEventCoroutine());
         }
     }
 
     #endregion
-    
+
     #region private functions
 
     private void Initialize()
@@ -147,6 +147,15 @@ public class MouseControllerManager : MonoBehaviour
         }
     }
 
+    private void ExitToMenu()
+    {
+        if (ClickManager.Instance != null)
+        {
+            InputData.ControlEventType = ClickManager.ControlEvent.exitToMainMenu;
+            ClickManager.Instance.ControlEventHappend(InputData);
+        }
+    }
+
     #endregion
 
     #region coroutines
@@ -157,24 +166,30 @@ public class MouseControllerManager : MonoBehaviour
         {//Tracking the click...                 
             yield return null;
 
-                #region rotate menu
-                if (Input.mouseScrollDelta.y != 0 && LastPointedMenuItem != null)
-                {
-                    MenuRotate(LastPointedMenuItem); //TODO переделать
-                    continue;
-                }
-                #endregion
+            #region rotate menu
+            if (Input.mouseScrollDelta.y != 0 && LastPointedMenuItem != null)
+            {
+                MenuRotate(LastPointedMenuItem); //TODO переделать
+                continue;
+            }
+            #endregion
 
-                #region show debug
-                if (Input.GetMouseButtonDown(1))
-                {
-                    ShowDebug(LastPointedMenuItem);
-                    continue;
-                }
-                #endregion
-
-                //дописать еще другие клики, и события       
+            #region show debug
+            if (Input.GetMouseButtonDown(1))
+            {
+                ShowDebug(LastPointedMenuItem);
+                continue;
+            }
+            #endregion
             
+            #region exit to menu
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                ExitToMenu();
+            }
+            #endregion
+
+            //дописать еще другие клики, и события       
         }
     }
 

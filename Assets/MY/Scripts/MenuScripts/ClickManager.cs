@@ -34,11 +34,11 @@ public class ClickManager : MonoBehaviour
     {
         activeActionEvent,
         menuRotate,
-        menuAddRotatingImpuls,        
+        menuAddRotatingImpuls,
         menuClose,
         exitToMainMenu
     }
-    
+
     /// <summary>
     /// Singleton
     /// </summary>
@@ -48,6 +48,20 @@ public class ClickManager : MonoBehaviour
 
     private Dictionary<ControlEvent, ControlDelegate> EventDelegateDictionary;
 
+    public string SceneMainMenuName
+    {
+        get
+        {
+            return _SceneMainMenuName;
+        }
+        private set
+        {
+            _SceneMainMenuName = value;
+        }
+    }
+    [SerializeField]
+    private string _SceneMainMenuName;
+
     #region Unity functions
 
     void Awake()
@@ -56,7 +70,7 @@ public class ClickManager : MonoBehaviour
         {
             Instance = this;
         }
-        Initialize();        
+        Initialize();
     }
 
     #endregion
@@ -75,7 +89,14 @@ public class ClickManager : MonoBehaviour
 
     public void ControlEventHappend(ControlInputData controlData)
     {
-        EventDelegateDictionary[controlData.ControlEventType](controlData);
+        if (controlData != null)
+        {
+            EventDelegateDictionary[controlData.ControlEventType](controlData);
+        }
+        else
+        {
+            Debug.Log("ERROR occured, ControlInputData is null - совсем ниче нет");
+        }
     }
 
     #endregion
@@ -102,7 +123,7 @@ public class ClickManager : MonoBehaviour
                 }
                 controlData.interactiveObject.OnActiveAction();
             }
-        }        
+        }
     }
 
     private void MenuRotateDelegate(ControlInputData controlData)
@@ -136,7 +157,25 @@ public class ClickManager : MonoBehaviour
 
     private void ExitToMainMenuDelegate(ControlInputData controlData)
     {
-
+        if (SceneMainMenuName != "")
+        {
+            if (SceneMainMenuName != UnityEngine.SceneManagement.SceneManager.GetActiveScene().name)
+            {
+                MyVRMenu.MenuManager.Instance.HideMenu();
+                UnityEngine.XR.XRSettings.enabled = false;
+                GameObject.FindGameObjectWithTag("SceneManagers").SetActive(false);
+                MyPlayerControllers.PlayerManager.Instance.DestroyCurrentController();
+                UnityEngine.SceneManagement.SceneManager.LoadScene(SceneMainMenuName);
+            }
+            else
+            {
+                Debug.Log("You try to reload SceneMainMenu. Its non-supported function.");
+            }
+        }
+        else
+        {
+            Debug.Log("There is not specified scene name, please set a scene name to Scene To Exit Text");
+        }
     }
 
     private void Initialize()
@@ -150,5 +189,5 @@ public class ClickManager : MonoBehaviour
     }
 
     #endregion
-    
+
 }

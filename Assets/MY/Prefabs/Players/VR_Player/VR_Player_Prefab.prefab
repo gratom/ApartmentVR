@@ -882,6 +882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImpulsMultiplier: 4.5
+  SceneToExitText: stanr scene
   hand: {fileID: 114353824897263402}
   ExitConfirmation: {fileID: 1357252151320328, guid: 35d7aef60d0cfdd4091b7e0fe0555e94,
     type: 2}

@@ -64,7 +64,7 @@ public class VRControllerManager : MonoBehaviour
     private SteamVR_ActionSet MainMenuButtonGroupAction;
 
     private MyVRMenu.MenuItem LastPointedMenuItem;
-    
+
     private int LastCountOfControllers = -1;
 
     private Coroutine TrackingInputEventCoroutineInstance;
@@ -187,7 +187,7 @@ public class VRControllerManager : MonoBehaviour
                 CurrentImpuls = (LastTouchPosition.x - CurrentTouchPosition.x) * ImpulsMultiplier;
                 InputData.Param = CurrentImpuls;
             }
-            InputData.interactiveObject = menuItem;            
+            InputData.interactiveObject = menuItem;
             ClickManager.Instance.ControlEventHappend(InputData);
         }
     }
@@ -232,10 +232,30 @@ public class VRControllerManager : MonoBehaviour
             #endregion
 
             #region toMainMenuClick
-            
-            if (MainMenuButton.GetStateDown(SteamVR_Input_Sources.Any) && MyVRMenu.MenuManager.Instance != null && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "TestMenuScene")
+
+            /*
+             * ладно, вот варианты
+             * 1 - просто переименовать  UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "TestMenuScene" на нужную сцену
+             * 2 - как-то брать с ClickManagera имя сцены. Поставить ее типа {get; private set;}
+             * 
+             * я подумал, что второй вариант лучше, и запилил его, но на самом деле это не решает проблему а просто скрывает ее, 
+             * по хорошему нужно вобще запретить переходить в стартовую сцену из нее самой.
+             * В самом ClickManagere нужно сделать проверку
+             * 
+             * сделал проверку
+             * 
+             * по хорошему, теперь еще нужно сделать вызов такого же события выхода в меню от обычного компьютерного игрока, в MouseControllerManager
+             * 
+             * ладно, я пойду, мне тут по делам надо, возможно что часов в 4-5 я еще подсяду))
+             * удачи с MouseControllerManager
+             * 
+             * 
+             */
+
+
+            if (MainMenuButton.GetStateDown(SteamVR_Input_Sources.Any) && MyVRMenu.MenuManager.Instance != null && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != ClickManager.Instance.SceneMainMenuName) // 
             {
-                MyVRMenu.MenuManager.Instance.HideMenu();                
+                MyVRMenu.MenuManager.Instance.HideMenu();
                 if (CurrentConfirmationInstance != null)
                 {
                     CurrentConfirmationInstance.transform.position = transform.position;
@@ -261,11 +281,11 @@ public class VRControllerManager : MonoBehaviour
                     };
                     ExtInt0.OnActiveAction = () =>
                     {
-                        MyVRMenu.MenuManager.Instance.HideMenu();
-                        UnityEngine.XR.XRSettings.enabled = false;
-                        GameObject.FindGameObjectWithTag("SceneManagers").SetActive(false);
-                        MyPlayerControllers.PlayerManager.Instance.DestroyCurrentController();
-                        UnityEngine.SceneManagement.SceneManager.LoadScene("TestMenuScene");
+                        if (ClickManager.Instance != null)
+                        {
+                            InputData.ControlEventType = ClickManager.ControlEvent.exitToMainMenu;
+                            ClickManager.Instance.ControlEventHappend(InputData);
+                        }
                     };
 
                     ExtendedInteractive ExtInt1 = CurrentConfirmationInstance.transform.GetChild(1).GetComponent<ExtendedInteractive>();
@@ -339,7 +359,7 @@ public class VRControllerManager : MonoBehaviour
                         hand.handType = hand.trackedObject.inputSource;
                     }
                 }
-            }         
+            }
 
             if (SteamVR_Input._default.inActions.GrabGrip.GetStateDown(SteamVR_Input_Sources.Any))
             {

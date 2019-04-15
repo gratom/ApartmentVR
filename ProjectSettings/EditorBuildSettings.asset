@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestMenuScene.unity
     guid: 04afc618c0f054042bf04c4e58d9db96
+  - enabled: 1
+    path: Assets/start scene/stanr scene.unity
+    guid: 3731a6491837f7a488e8ddebaae9d159
